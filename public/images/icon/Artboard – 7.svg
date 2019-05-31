@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="405" height="237" viewBox="0 0 405 237">
+  <defs>
+    <clipPath id="clip-Artboard_7">
+      <rect width="405" height="237"/>
+    </clipPath>
+    <clipPath id="clip">
+      <use xlink:href="#fill"/>
+    </clipPath>
+  </defs>
+  <g id="Artboard_7" data-name="Artboard – 7" clip-path="url(#clip-Artboard_7)">
+    <rect id="Rectangle_822" data-name="Rectangle 822" width="407.623" height="213.661" transform="translate(0 27.489)"/>
+    <text id="X" transform="translate(365.193 66.946)" fill="#c3ccd3" font-size="20" font-family="Play"><tspan x="0" y="0">X</tspan></text>
+    <path id="Path_106" data-name="Path 106" d="M17432-3648.449l15.7-20.163,13.863,20.163Z" transform="translate(-17056.543 3676)"/>
+    <text id="PRATIKO" transform="translate(22.342 109.345)" fill="#fff" font-size="24" font-family="ProximaNova-Bold, Proxima Nova" font-weight="700"><tspan x="0" y="0">PRATIKO</tspan></text>
+    <text id="Halo_" data-name="Halo," transform="translate(22.73 81.373)" fill="#fff" font-size="17" font-family="ProximaNova-Regular, Proxima Nova"><tspan x="0" y="0">Halo,</tspan></text>
+    <text id="LOGOUT" transform="translate(71.73 196.295)" fill="#fff" font-size="15" font-family="ProximaNova-Bold, Proxima Nova" font-weight="700"><tspan x="0" y="0">LOGOUT</tspan></text>
+    <text id="SETTING" transform="translate(262.73 193.295)" fill="#fff" font-size="15" font-family="ProximaNova-Bold, Proxima Nova" font-weight="700"><tspan x="0" y="0">SETTING</tspan></text>
+    <g id="Rectangle_827" data-name="Rectangle 827" transform="translate(21.972 148.716)" fill="#fff" stroke="#707070" stroke-width="1">
+      <rect id="fill" width="349.283" height="0.758" stroke="none"/>
+      <path d="M0,0.257663369178772h349.28253173828125M348.78253173828125,0v0.757663369178772M349.28253173828125,0.5h-349.28253173828125M0.5,0.757663369178772v-0.757663369178772" fill="none" clip-path="url(#clip)"/>
+    </g>
+    <g id="logout-2" data-name="logout" transform="translate(142.95 184.295)">
+      <g id="Group_191" data-name="Group 191" transform="translate(0 0)">
+        <path id="Path_107" data-name="Path 107" d="M8.415,12.977H1.563V3.224H8.415a.275.275,0,0,0,.275-.275V1.935a.275.275,0,0,0-.275-.275H.275A.275.275,0,0,0,0,1.935v12.33a.275.275,0,0,0,.275.275h8.14a.275.275,0,0,0,.275-.275V13.252A.275.275,0,0,0,8.415,12.977Z" transform="translate(0 -1.66)" fill="#fff"/>
+        <path id="Path_108" data-name="Path 108" d="M28.553,23.356l-3.7-3.7a.283.283,0,0,0-.389,0l-.879.879a.275.275,0,0,0,0,.389l1.673,1.673H18.012a.275.275,0,0,0-.275.275v1.364a.275.275,0,0,0,.275.275h7.243l-1.673,1.673a.275.275,0,0,0,0,.389l.879.879a.275.275,0,0,0,.389,0l3.7-3.7a.275.275,0,0,0,0-.389Z" transform="translate(-15.297 -17.11)" fill="#fff"/>
+      </g>
+    </g>
+    <line id="Line_119" data-name="Line 119" y2="59" transform="translate(202.5 149.5)" fill="none" stroke="#707070" stroke-width="1"/>
+  </g>
+</svg>
