@@ -588,7 +588,7 @@ a.custom-card:hover {
 .cart:after{
   left: 261px;
 }
-#emailInput{
+.login_inputs, #emailInput{
   color: #000;
   font-family: 'proxima-nova', sans-serif;
   font-size: 15px!important;
@@ -1045,7 +1045,7 @@ padding: 20px 0px 20px 0px;
 /* ======================================================================================================================== */
 /* ======================================================================================================================== */
 
-li.forgot label.error { color: #fff; }
+/* li.forgot label.error { color: #fff; } */
 p.nomore-products { margin-top: 25px;
   margin-left: 15px;}
 span.empty_cart { display: block; margin-top: 10px; }
@@ -1057,6 +1057,10 @@ div.card-badge {
   padding: 105px 60px 15px 60px;
   transform: rotate(46deg);
   color: #fff;
+}
+label.error {
+  font-family: 'proxima-nova', sans-serif;
+  font-size: 14px!important;
 }
 
 /* end of additional from aqn */
