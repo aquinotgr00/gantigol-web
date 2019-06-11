@@ -54,26 +54,35 @@
                         <a href="#" class="search-btn"><img class="btn input" src="{{ asset('images\gantigol\search.svg') }}"></a>
                     </div>
                 </li>
-                <li class="nav-item forgot">
-                    <a data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><img class="btn" src="{{ asset('images\gantigol\user.svg') }}"></a>
+                <li class="nav-item dropdown forgot login-parent">
+                    <a href="#" role="button" aria-haspopup="true" aria-expanded="false"><img class="btn" src="{{ asset('images\gantigol\user.svg') }}"></a>
                     @if (!Session::has('token'))
                         <div class="dropdown-menu login">
-                            <form class="form" id="login-form" method="POST" action="/signin">@csrf
+                            @if (session('error'))
+                                <span class="text-white">{{ session('error') }}</span>
+                            @endif
+                            <form action="/signin" class="form" id="login-form" method="POST">@csrf
                                 <div class="form-group user-login">
-                                    <input name="username" id="emailInput" placeholder="Email" class="form-control form-control-sm" type="text" required="">
+                                    <input name="username" id="username" placeholder="Email" class="form-control form-control-sm login_inputs" type="text">
+                                    <label for="username" generated="true" class="error invalid-feedback"></label>
                                 </div>
                                 <div class="form-group user-login">
-                                    <input name="password" id="passwordInput" placeholder="Password" class="form-control form-control-sm" type="password" required="">
+                                    <input name="password" id="password" placeholder="Password" class="form-control form-control-sm login_inputs" type="password">
+                                    <label for="password" generated="true" class="error invalid-feedback"></label>
                                 </div>
                                 <div class="form-group user-login">
                                     <button type="submit" class="btn btn-primary btn-block mb-0">LOGIN</button>
                                     <br>
-                                    <a href="/register"><h6 class="text-light text-center font-weight-bold">REGISTER</h6></a>
+                                    <a href="/register">
+                                        <h6 class="text-light text-center font-weight-bold">
+                                            REGISTER
+                                        </h6>
+                                    </a>
                                 </div>
                                 <br>
                                 <br>
                                 <div class="form-group text-center">
-                                    <small><a  href="#" data-toggle="modal" data-target="#modalPassword"><h6>Forgot password?</h6></a></small>
+                                    <small><a href="/reset"><h6>Forgot password?</h6></a></small>
                                 </div>
                             </form>
                         </div>
@@ -82,13 +91,13 @@
                             <p class="text-light mb-1">Halo,</p>
                             <h5 class="text-light">{{ Session::get('username') }}</h5>
                             <hr class="hr-cart">
-                            <a href="#"><p class="text-light">setting</p></a>
+                            <a href="/user"><p class="text-light">setting</p></a>
                             <a href="/signout"><p class="text-light">Logout</p></a>
                         </div>
                     @endif
                 </li>
                 <li class="nav-item forgot dropdown dropdown-cart">
-                    <a data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><img class="btn chart item_image" src="{{ asset('images\gantigol\chart.svg') }}"></a>
+                    <a href="#" role="button" aria-haspopup="true" aria-expanded="false"><img class="btn chart item_image" src="{{ asset('images\gantigol\chart.svg') }}"></a>
                     @if (!Request::is('checkout'))
                         <div class="dropdown-menu dropdown-cart login cart">
                             <div class="form-group">
@@ -190,6 +199,41 @@
 
     <script>
         $(document).ready(function () {
+            
+            // dropdown mechanism
+            // First by handling the click on the link to open/close the dropdown
+            $('li.dropdown.forgot a[role=button]').on('click', function (event) {
+                event.preventDefault()
+                $(this).parent().toggleClass('show')
+                $(this).parent().children('div.dropdown-menu.login').toggleClass('show')
+            })
+            // and then listening the clicks outside of the dropdown to close it 
+            $('body').on('click', function (e) {
+                if (!$('li.dropdown.forgot').is(e.target) 
+                    && $('li.dropdown.forgot').has(e.target).length === 0 
+                    && $('.show').has(e.target).length === 0
+                ) {
+                    $('li.dropdown.forgot').removeClass('show')
+                    $('div.dropdown-menu.login').removeClass('show')
+                }
+            });
+
+            $('#login-form').validate({
+                highlight: function(element, errorClass) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function(element, errorClass) {
+                    $(element).removeClass('is-invalid');
+                },
+                rules: {
+                    username: {
+                        required: true,
+                        email: true
+                    },
+                    password: 'required'
+                }
+            });
+
             $('#cart-wrapper').on('click', '.simpleCart_remove', function(evt) {
                 evt.preventDefault()
                 const id = $(this).data('id')
@@ -216,13 +260,13 @@
 
             function loopSizes() {
                 let items = []
-                let session = ''
+                // let session = ''
+                let session = getBrowserSession()
                 let contained = false
                 $('.qty').map((key, inputt) => {
                     if (inputt.value != 0) {
                         contained = true;
-                        // session = getBrowserSession()
-                        session = Math.random().toString(36).substring(2, 20) + Math.random().toString(36).substring(2, 20)
+                        // session = Math.random().toString(36).substring(2, 20) + Math.random().toString(36).substring(2, 20)
                         let itemObj = {}
                         itemObj['size'] = inputt.name
                         itemObj['quantity'] = inputt.value
@@ -230,24 +274,22 @@
                     }
                 })
                 if (contained) {
-                    if (localStorage.getItem('cart_id') === null) {
+                    // if (localStorage.getItem('cart_id') === null) {
                         postItemToCart(items, session)
-                    } else if (localStorage.getItem('cart_id') !== null) {
-                        putItemToCart(items)
-                    }
+                    // } else if (localStorage.getItem('cart_id') !== null) {
+                    //     putItemToCart(items)
+                    // }
                 }
             }
 
-            /**
             function getBrowserSession() {
                 let currentSession = localStorage.getItem('session')
                 if (currentSession === null) {
-                    currentSession = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
+                    currentSession = Math.random().toString(36).substring(2, 20) + Math.random().toString(36).substring(2, 20)
                     localStorage.setItem('session', currentSession)
                 }
                 return currentSession
             }
-            **/
 
             function putItemToCart(items) {
                 const cartId = localStorage.getItem('cart_id')

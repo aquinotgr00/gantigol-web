@@ -444,3 +444,14 @@
     </div>
 </div>
 @endsection
+
+@section('script')
+    <script>
+        $(document).ready(function () {
+            @if(session()->has('error'))
+                $('li.dropdown.forgot.login-parent a[role=button]').parent().toggleClass('show')
+                $('li.dropdown.forgot.login-parent a[role=button]').parent().children('div.dropdown-menu.login').toggleClass('show')
+            @endif
+        })
+    </script>
+@endsection
