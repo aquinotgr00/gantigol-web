@@ -12,7 +12,7 @@ class CartController extends Controller
     public function __construct()
     {
         $this->client = new Client([
-            'base_uri' => 'http://gantigol-platform.test/',
+            'base_uri' => env('API_URL'),
             'timeout' => '5',
             'http_errors' => false,
         ]);
@@ -27,10 +27,25 @@ class CartController extends Controller
 
     public function checkout(Request $request)
     {
-        // return $request->all();
+        // return ;
+        $token = $request->session()->get('token');
+        $username = $request->session()->get('username');
+
         $cartItemsResponse = $this->client->get('api-ecommerce/cart/'. $request->cart_id);
         $cartItems = json_decode($cartItemsResponse->getBody());
         $cartItems = $cartItems->data->get_items;
+
+        if (!is_null($token) && !is_null($username)) {
+            // get user by token
+            $user = $this->client->get('api/user', [
+                'headers' => [
+                    'Authorization' => 'Bearer '.$token
+                ]
+            ]);
+
+            $user = json_decode($user->getBody());
+            return view('frontend.checkout', compact('cartItems', 'user'));
+        }
         return view('frontend.checkout', compact('cartItems'));
     }
 
@@ -123,6 +138,7 @@ class CartController extends Controller
                     'total' => $total
                 ]
             ]);
+            // dd($response);
             $data = json_decode($response->getBody());
         }
         return response()->json($data);

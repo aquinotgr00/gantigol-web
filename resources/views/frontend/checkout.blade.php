@@ -17,66 +17,92 @@
         <h4 class="section-header_title">DATA PENGIRIMAN</h4>
         <hr>
         <div class="bs-example">
-            <form id="checkout_login_form" action="/examples/actions/confirmation.php" method="post" style="display:none;">
-                <p><a href="#" class="checkout_register_btn"><u>Kembali</u></a></p>
-                <div class="form-group">
-                    <label for="inputEmail">EMAIL</label>
-                    <input type="email" class="form-control" id="inputEmail" placeholder="Email" required>
-                    {{-- <div class="valid-feedback">Good! Your email address looks valid.</div> --}}
-                </div>
-                <div class="form-group">
-                    <label for="inputPassword">PASSWORD</label>
-                    <input type="password" class="form-control" id="inputPassword" placeholder="Password" required>
-                    {{-- <div class="invalid-feedback">Opps! You have entered an invalid password.</div> --}}
-                </div>
-                <div class="form-group">
-                    <div class="card">
-                        <button class="btn btn-dark" href="">LOGIN</button>
+            @if (!Session::has('token') && !isset($user))
+                <form action="/signin" id="checkout-login-form" class="form d-none" method="POST">@csrf
+                    <p><a href="#" class="checkout_login_btn"><u>Kembali</u></a></p>
+                    <div class="form-group">
+                        <label for="username">EMAIL</label>
+                        <input type="email" name="username" class="form-control" id="username" placeholder="Email">
+                        <label for="username" generated="true" class="error invalid-feedback"></label>
                     </div>
-                </div>
+                    <div class="form-group">
+                        <label for="password">PASSWORD</label>
+                        <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+                        <label for="password" generated="true" class="error invalid-feedback"></label>
+                    </div>
+                    <div class="form-group">
+                        <div class="card">
+                            <button type="submit" class="btn btn-dark">LOGIN</button>
+                        </div>
+                    </div>
 
-                <a class="link-text" href="">
-                    <p>Lupa Password?</p>
-                </a>
-            </form>
+                    <a class="link-text" href="#">
+                        <p>Lupa Password?</p>
+                    </a>
+                </form>
+            @endif
 
             <div class="register_form_group">
+                @if (!Session::has('token') && !isset($user))
                 <p>
                     Sudah punya akun?<a href="#" class="checkout_login_btn"><u class="ml-2">LOGIN</u></a>
                 </p>
+                @endif
                 <div class="form-group">
-                    <label for="exampleInputPassword1">EMAIL</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="">
+                    <label for="email">EMAIL</label>
+                    <input  type="email" class="form-control" id="email" placeholder="Email"
+                            @if(isset($user))
+                                value="{{ $user->email }}"
+                                disabled
+                            @endif>
                 </div>
 
                 <div class="form-group">
                     <label for="exampleInputEmail1">NAMA</label>
-                    <input class="form-control" type="text" placeholder="Nama" >
+                    <input class="form-control" type="text" placeholder="Nama"
+                            @if(isset($user))
+                                value="{{ $user->name }}"
+                                disabled
+                            @endif>
                 </div>
 
                 <div class="form-group">
-                    <label for="exampleFormControlTextarea1">ALAMAT</label>
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    <label for="address">ALAMAT</label>
+                    <textarea class="form-control" id="address" rows="3">@if(isset($user)){{ $user->address }}@endif</textarea>
                 </div>
 
                 <div class="form-group">
-                    <label for="exampleInputEmail1">PROVINSI</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Provinsi">
+                    <label for="province">PROVINSI</label>
+                    <input type="text" class="form-control" id="province" placeholder="Provinsi"
+                            @if(isset($user))
+                                value="{{ $user->province }}"
+                                disabled
+                            @endif>
                 </div>
 
                 <div class="form-group">
-                    <label for="exampleInputEmail1">KOTA/KECAMATAN</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Kota/Kecamatan">
+                    <label for="city">KOTA/KECAMATAN</label>
+                    <input type="text" class="form-control" id="city" placeholder="Kota/Kecamatan"
+                            @if(isset($user))
+                                value="{{ $user->subdistrict }}"
+                                disabled
+                            @endif>
                 </div>
 
                 <div class="form-group">
-                    <label for="exampleInputEmail1">KODE POS</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Kode Pos">
+                    <label for="postal_code">KODE POS</label>
+                    <input type="number" class="form-control" id="postal_code" placeholder="Kode Pos"
+                            @if(isset($user))
+                                value="{{ $user->postal_code }}"
+                                disabled
+                            @endif>
                 </div>
 
+                @if (!Session::has('token') && !isset($user))
                 <div class="form-group">
                     <p class="form-check-label"><input type="checkbox" class="mr-2">Buat akun untuk keperluan selanjutnya</p>
                 </div>
+                @endif
             </div>
         </div>
     </div>
@@ -263,14 +289,25 @@
     $(document).ready(function () {
         $('.checkout_login_btn').click(evt => {
             evt.preventDefault()
-            $('#checkout_login_form').css('display', 'block')
-            $('.register_form_group').css('display', 'none')
+            $('#checkout-login-form').toggleClass('d-none')
+            $('.register_form_group').toggleClass('d-none')
         })
-        $('.checkout_register_btn').click(evt => {
-            evt.preventDefault()
-            $('#checkout_login_form').css('display', 'none')
-            $('.register_form_group').css('display', 'block')
-        })
+
+            $('#checkout-login-form').validate({
+                highlight: function(element, errorClass) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function(element, errorClass) {
+                    $(element).removeClass('is-invalid');
+                },
+                rules: {
+                    username: {
+                        required: true,
+                        email: true
+                    },
+                    password: 'required'
+                }
+            });
 
         $('.bayar').click(evt => {
             evt.preventDefault()
