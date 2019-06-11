@@ -3,6 +3,10 @@
     Route::get('/', 'HomeController@index')->name('homepage');
     Route::get('search', 'HomeController@search')->name('homepage.search');
     Route::get('thanks', 'HomeController@thanks')->name('homepage.thanks');
+    Route::get('reset', 'HomeController@reset')->name('homepage.reset');
+    Route::post('reset', 'HomeController@postReset')->name('homepage.post-reset');
+    Route::get('reset-password/{token}', 'HomeController@resetForm')->name('homepage.reset-form');
+    Route::post('reset-password', 'HomeController@postResetForm')->name('homepage.post-reset-form');
 
 
     // ===================================================================================================================================
@@ -10,7 +14,7 @@
     // ===================================================================================================================================
     Route::name('member.')->group(function () {
 
-        Route::middleware('custom.auth')->get('user', 'HomeController@user')->name('user');
+        Route::middleware('custom.auth')->get('user', 'MembershipController@user')->name('user');
         Route::post('signin', 'MembershipController@signin')->name('signin');
         Route::post('signup', 'MembershipController@signup')->name('signup');
         Route::get('signout', 'MembershipController@signout')->name('signout');

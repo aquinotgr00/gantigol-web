@@ -11,8 +11,8 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->client = new Client([
-            'base_uri' => 'http://gantigol-platform.test/',
-            'timeout' => '5',
+            'base_uri' => env('API_URL'),
+            // 'timeout' => '5',
             'http_errors' => false,
         ]);
     }
@@ -45,9 +45,53 @@ class HomeController extends Controller
         return view('frontend.product', compact('data'));
     }
 
-    public function user()
+    public function reset()
     {
-        return view('frontend.user');
+        return view('frontend.reset-password');
+    }
+    public function postReset(Request $request)
+    {
+        $response = $this->client->post('auth/password/reset', [
+            'form_params' => [
+                'email' => $request->email
+            ]
+        ]);
+        $data = json_decode($response->getBody());
+        
+        if (isset($data->data->message)) {
+            return back()->with('error', 'Email tidak ditemukan.');
+        }
+
+        $message = [
+            'heading' => '',
+            'body' => 'Kami telah mengirim link reset password ke email anda.'
+        ];
+
+        // session()->flash('message', 'flased');
+        return redirect('/thanks')->with([
+            'messages.heading' => '',
+            'messages.body' => 'Silahkan mengikuti instruksi selanjutnya melalui email.'
+        ]);
+    }
+    public function resetForm($token)
+    {
+        // $response = $this->client->post('auth/token/verification/', [
+        //     'form_params' => [
+        //         'token' => $token
+        //     ]
+        // ]);
+        // $data = json_decode($response->getBody());
+
+        return view('frontend.reset-password-form', compact('token'));
+    }
+    public function postResetForm(Request $request)
+    {
+        $response = $this->client->post('auth/password/change', [
+            'form_params' => $request->all()
+        ]);
+        $data = json_decode($response->getBody());
+        
+        return response()->json($data);
     }
 
     public function search()
@@ -62,6 +106,9 @@ class HomeController extends Controller
     
     public function thanks()
     {
-        return view('frontend.thanks');
+        return view('frontend.thanks')->with([
+            'messages.heading' => 'TELAH MELAKUKAN PEMESANAN!',
+            'messages.body' => 'this is body'
+        ]);
     }
 }
