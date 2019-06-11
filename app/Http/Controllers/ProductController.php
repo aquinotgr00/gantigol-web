@@ -10,7 +10,7 @@ class ProductController extends Controller
     public function __construct()
     {
         $this->client = new Client([
-            'base_uri' => 'http://gantigol-platform.test/',
+            'base_uri' => env('API_URL'),
             'timeout' => '5',
             'http_errors' => false,
         ]);
