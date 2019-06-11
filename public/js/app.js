@@ -49,23 +49,6 @@ String.prototype.getDecimals || (String.prototype.getDecimals = function() {
 
 $(document).ready(function () {
 
-    $('#login-form').validate({
-        rules: {
-            username: {
-                required: true,
-                email: true
-            },
-            password: 'required'
-        },
-        messages: {
-            username: {
-                required: 'Please insert your email.',
-                email: 'Please use the correct email format.'
-            },
-            password: 'Password cannot be empty.'
-        }
-    });
-
     // $('#login-form').submit(form => {
     //     form.preventDefault();
     //     let postUrl = form.currentTarget.action;
