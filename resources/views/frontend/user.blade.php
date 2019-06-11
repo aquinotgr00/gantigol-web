@@ -36,23 +36,21 @@
             <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                 <div class="row">
                     <div class="col-12">
-                        <form>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">NAMA</label>
-                                <input class="form-control" type="text" placeholder="PRATIKO" readonly>
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">NAMA PENGGUNA</label>
-                                <input class="form-control" type="text" placeholder="NATUOT999" readonly>
-                            </div>
-                        </form>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">NAMA</label>
+                            <input class="form-control" type="text" value="{{ $user->name }}" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">NAMA PENGGUNA</label>
+                            <input class="form-control" type="text" value="{{ $user->username }}" readonly>
+                        </div>
                     </div>
                 </div>
                 <div class="row mt-0">
                     <div class="col-6">
                         <div class="form-group">
                             <label for="exampleInputPassword1">EMAIL</label>
-                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="************">
+                            <input type="email" class="form-control" id="exampleInputPassword1" value="{{ $user->email }}">
                         </div>
                     </div>
                     <div class="col-6">
@@ -66,57 +64,43 @@
                     <div class="col-6">
                         <div class="form-group">
                             <label for="exampleInputPassword1">TANGGAL LAHIR</label>
-                            <form action="/action_page.php">
-                                <div class="form-group">
-                                    <select class="form-control" id="sel1" name="sellist1">
-                                        <option>16 agustus 1995</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                    </select>
-                                </div>
-                            </form>
+                            <div class="form-group">
+                                <input type="date" class="form-control" id="exampleInputPassword1" value="{{ $user->dob }}">
+                            </div>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
                             <label for="exampleInputPassword1">JENIS KELAMIN</label>
-                            <form action="/action_page.php">
-                                <div class="form-group">
-                                    <select class="form-control" id="sel1" name="sellist1">
-                                        <option>LAKI-LAKI</option>
-                                        <option>PEREMPUAN</option>
-                                    </select>
-                                </div>
-                            </form>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="exampleInputPassword1" value="{{ $user->gender }}">
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="row mt-0">
                     <div class="col-12">
-                        <form>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">ALAMAT</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Jl. empu garnering IV no 6">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">PROVINSI</label>
-                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="LAMPUNG">
-                            </div>
-                        </form>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">ALAMAT</label>
+                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{ $user->address }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">PROVINSI</label>
+                            <input type="text" class="form-control" id="exampleInputPassword1" value="{{ $user->province }}">
+                        </div>
                     </div>
                 </div>
                 <div class="row mt-0">
                     <div class="col-6">
                         <div class="form-group">
                             <label for="exampleInputPassword1">KOTA/KECAMATAN</label>
-                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Pandean Umbul Harjo">
+                            <input type="text" class="form-control" id="exampleInputPassword1" value="{{ $user->city }}">
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
                             <label for="exampleInputPassword1">POS</label>
-                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="345111">
+                            <input type="text" class="form-control" id="exampleInputPassword1" value="{{ $user->postal_code }}">
                         </div>
                     </div>
                 </div>

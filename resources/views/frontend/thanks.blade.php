@@ -13,14 +13,14 @@
 
 @section('content')
 <div>
-    <h2 class="text-center">TERIMAKASIH TELAH MELAKUKAN PEMESANAN!</h2>
+    <h2 class="text-center">TERIMAKASIH {{ session('messages.heading') ?? "TELAH MELAKUKAN PEMESANAN!" }}</h2>
     <br>
     <i class="fas fa-check fa-7x text-center w-100"></i>
     <br><br>
-    <p class="text-center">Kami mengirim konfirmasi pesanan dan detail pesanan ke email anda</p>
+    <p class="text-center">{{ session('messages.body') ?? "Kami mengirim konfirmasi pesanan dan detail pesanan ke email anda" }}</p>
     <br><br><br>
     <div class="text-center">
-        <button class="btn btn-dark col-3 bayar align-middle" href="/">HOME</button>
+        <a class="btn btn-dark col-3 bayar align-middle" href="/">HOME</a>
     </div>
 </div>
 @endsection
