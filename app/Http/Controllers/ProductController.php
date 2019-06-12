@@ -15,6 +15,24 @@ class ProductController extends Controller
             'http_errors' => false,
         ]);
     }
+    
+    public function products()
+    {
+        $response = $this->client->get('api-product/items');
+        $data = json_decode($response->getBody());
+
+        $banners = $this->client->get('api/banners/banner/shop/3');
+        $banners = json_decode($banners->getBody());
+
+        return view('frontend.products')->with(['data' => $data, 'banners' => $banners]);
+    }
+
+    public function product($id)
+    {
+        $response = $this->client->get('api-product/items/'. $id);
+        $data = json_decode($response->getBody());
+        return view('frontend.product', compact('data'));
+    }
 
     public function getNextPageProducts($page)
     {

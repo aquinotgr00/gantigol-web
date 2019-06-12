@@ -92,35 +92,36 @@ class CartController extends Controller
     public function deleteItem(Request $request, $id)
     {
         // delete the actual cart item
-        $response = $this->client->post('api-ecommerce/cart-item-delete/'.$id, []);
+        $response = $this->client->post('api-ecommerce/cart-delete-item/'.$id);
+        $response = json_decode($response->getBody());
         
         // if the cart item successfulyy deleted
-        if (200 == $response->getStatusCode()) {
-            // get the cart data
-            $getCartResponse = $this->client->get('api-ecommerce/cart/'.$request->id);
-            $getCartResponse = json_decode($getCartResponse->getBody());
-
-            // update the cart total
-            $putCartResponse = $this->client->put('api-ecommerce/cart/'.$request->id, [
-                'form_params' => [
-                    'amount_items' => $getCartResponse->data->amount_items - $request->qty,
-                    'total' => $getCartResponse->data->total - $request->subtotal
-                ]
-            ]);
-            $putCartResponse = json_decode($putCartResponse->getBody());
+        if ($response->message == 200) {
+            return response()->json($response->data);
         }
-        // $response = json_decode($response->getBody());
-        
-        return response()->json($putCartResponse);
+        return response()->json('failed');
     }
 
     public function store(Request $request)
     {
         // return $request->all();
         $product = $this->getProduct($request->id);
-        // return response()->json($product->product->price);
         $quantity = 0;
         $total = 0;
+
+        $userId = null;
+        if ($request->user_token != null) {
+            // get user by token
+            $user = $this->client->get('api/user', [
+                'headers' => [
+                    'Authorization' => 'Bearer '.$request->user_token
+                ]
+            ]);
+
+            $user = json_decode($user->getBody());
+            $userId = $user->id;
+        }
+
         foreach ($request->items as $value) {
             $quantity += $value['quantity'];
             $total += $product->product->price * $value['quantity'];
@@ -134,11 +135,12 @@ class CartController extends Controller
                     'items[$key][price]' => $product->product->price,
                     'items[$key][subtotal]' => $product->product->price * $item['quantity'],
                     'items[$key][wishlist]' => false,
+                    'items[$key][size_code]' => $item['size_code'],
                     'amount_items' => $quantity,
+                    'user_id' => $userId,
                     'total' => $total
                 ]
             ]);
-            // dd($response);
             $data = json_decode($response->getBody());
         }
         return response()->json($data);

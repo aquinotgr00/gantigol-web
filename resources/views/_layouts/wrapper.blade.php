@@ -16,6 +16,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.0/dist/jquery.validate.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.min.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="{{ asset('js/app.js') }}"></script>
 </head>
 
@@ -27,16 +29,16 @@
                 <li class="nav-item wiki">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">WIKI BOLA</a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">FORMASI</a>
-                        <a class="dropdown-item" href="#">SATISTIK</a>
-                        <a class="dropdown-item" href="#">TAKTIK</a>
+                        <a class="dropdown-item" href="{{route('blog.post', 46)}}">FORMASI</a>
+                        <a class="dropdown-item" href="{{route('blog.post', 47)}}">SATISTIK</a>
+                        <a class="dropdown-item" href="{{route('blog.post', 48)}}">TAKTIK</a>
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('blog.category') }}">GAME</a>
+                    <a class="nav-link" href="{{ route('blog.category', 'game') }}">GAME</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('blog.category') }}">TOKOH</a>
+                    <a class="nav-link" href="{{ route('blog.category', 'tokoh') }}">TOKOH</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('products.index') }}">LAPAK</a>
@@ -50,8 +52,12 @@
             <ul class="nav navbar-nav pull-sm-right">
                 <li class="nav-item search">
                     <div class="search">
-                        <input type="text" class="form-control input-sm" maxlength="64" placeholder="Search" />
-                        <a href="#" class="search-btn"><img class="btn input" src="{{ asset('images\gantigol\search.svg') }}"></a>
+                        <form action="{{ route('homepage.search') }}" method="post" id="searchForm">@csrf
+                            <input type="text" id="searchInput" name="term" class="form-control input-sm" maxlength="64" placeholder="Search" />
+                        </form>
+                        <a href="#" class="search-btn">
+                            <img class="btn input" id="searchImgBtn" src="{{ asset('images\gantigol\search.svg') }}">
+                        </a>
                     </div>
                 </li>
                 <li class="nav-item dropdown forgot login-parent">
@@ -62,6 +68,7 @@
                                 <span class="text-white">{{ session('error') }}</span>
                             @endif
                             <form action="/signin" class="form" id="login-form" method="POST">@csrf
+                                <input type="text" name="cart_session" id="cartSession" class="d-none" value="valuee">
                                 <div class="form-group user-login">
                                     <input name="username" id="username" placeholder="Email" class="form-control form-control-sm login_inputs" type="text">
                                     <label for="username" generated="true" class="error invalid-feedback"></label>
@@ -92,7 +99,7 @@
                             <h5 class="text-light">{{ Session::get('username') }}</h5>
                             <hr class="hr-cart">
                             <a href="/user"><p class="text-light">setting</p></a>
-                            <a href="/signout"><p class="text-light">Logout</p></a>
+                            <a href="/signout" id="signout-link"><p class="text-light">Logout</p></a>
                         </div>
                     @endif
                 </li>
@@ -234,6 +241,18 @@
                 }
             });
 
+            // search behavior
+            $('#searchImgBtn').click(evt => {
+                evt.preventDefault()
+                $('#searchForm').submit()
+            })
+
+            // when the signout button is clicked then clear all the cart
+            $('#signout-link').on('click', function () {
+                localStorage.removeItem('cart_id')
+                localStorage.removeItem('session')
+            })
+
             $('#cart-wrapper').on('click', '.simpleCart_remove', function(evt) {
                 evt.preventDefault()
                 const id = $(this).data('id')
@@ -248,12 +267,11 @@
                         subtotal: subtotal
                     },
                     success: res => {
-                        updateTotal(res.data.total)
-                        if (res.data.amount_items == 0) {
+                        updateTotal(res.total)
+                        if (res.amount_items == 0) {
                             hideEmptyEle(false)
                         }
                         $(this).closest('#main_cart_items').remove()
-                        window.location.reload()
                     }
                 })
             })
@@ -261,20 +279,20 @@
             function loopSizes() {
                 let items = []
                 // let session = ''
-                let session = getBrowserSession()
                 let contained = false
                 $('.qty').map((key, inputt) => {
                     if (inputt.value != 0) {
                         contained = true;
                         // session = Math.random().toString(36).substring(2, 20) + Math.random().toString(36).substring(2, 20)
                         let itemObj = {}
-                        itemObj['size'] = inputt.name
+                        itemObj['size_code'] = inputt.name
                         itemObj['quantity'] = inputt.value
                         items.push(itemObj)
                     }
                 })
                 if (contained) {
                     // if (localStorage.getItem('cart_id') === null) {
+                        let session = getBrowserSession()
                         postItemToCart(items, session)
                     // } else if (localStorage.getItem('cart_id') !== null) {
                     //     putItemToCart(items)
@@ -291,6 +309,7 @@
                 return currentSession
             }
 
+            /**
             function putItemToCart(items) {
                 const cartId = localStorage.getItem('cart_id')
                 $.ajax({
@@ -306,6 +325,7 @@
                     }
                 })
             }
+            **/
 
             function postItemToCart(items, session) {
                 $.ajax({
@@ -314,6 +334,7 @@
                     data: {
                         id: '{{ \Request::segment(3) }}',
                         items: items,
+                        user_token: localStorage.getItem('user_token'),
                         session: session
                     },
                     success: function (res) {
@@ -322,6 +343,7 @@
                             $('#cart_id').val(localStorage.getItem('cart_id'))
                         }
                         $('.dropdown-cart').toggleClass('show')
+                        putSessionWithLogin()
                         getCartItems(res.data.id)
                     }
                 })
@@ -341,11 +363,26 @@
             **/
 
             function init() {
-                // $session = getBrowserSession()
+                @if (session('cart_id'))
+                    localStorage.setItem("cart_id", "{{ session('cart_id') }}")
+                @endif
                 const cartId = localStorage.getItem('cart_id')
                 if (cartId !== null) {
                     getCartItems(cartId)
                     $('#cart_id').val(cartId)
+                }
+                localStorage.removeItem('user_token')
+                putSessionWithLogin()
+                @if (session('token'))
+                    localStorage.setItem("user_token", "{{ session('token') }}")
+                @endif
+            }
+
+            function putSessionWithLogin() {
+                $('body').find('[name="cart_session"]').val('');
+                const session = localStorage.getItem('session')
+                if (session !== null) {
+                    $('body').find('[name="cart_session"]').val(session);
                 }
             }
 
@@ -378,7 +415,7 @@
                             `<img src="{{ asset('images/produk/1a.jpg') }}" />` +
                             '<div class="detil">' +
                                 '<div class="col">' +
-                                    `<span class="item-name">${item.product_id}</span>` +
+                                    `<span class="item-name">${item.product_variant.product.name}</span>` +
                                 '</div>' +
                                 '<div class="item-price">' +
                                     '<span>HARGA  </span>' +
@@ -386,7 +423,7 @@
                                 '</div>' +
                                 '<div class="item-price">' +
                                     '<span class="size-cart">SIZE </span>' +
-                                    `<span class="input-data"> XL</span>` +
+                                    `<span class="input-data"> ${item.size_code}</span>` +
                                 '</div>' +
                                 '<div class="item-price">' +
                                     '<span class="qty-cart">QTY  </span>' +
@@ -407,11 +444,11 @@
                     url: '/api/carts/items/' + id,
                     type: 'GET',
                     success: function (res) {
-                        console.log(res)
                         if (res.data.get_items.length !== 0) {
                             placeCartItems(res)
                         } else if (res.data.get_items.length === 0) {
                             localStorage.removeItem('cart_id')
+                            localStorage.removeItem('session')
                         }
                     }
                 })

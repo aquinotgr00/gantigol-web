@@ -1,9 +1,6 @@
-<div class="card-deck list">
+<div class="card-deck">
     @foreach ($products->data as $key => $product)
-        @if (0 === $key || 0 === ($key%3))
-            </div>
-            <div class="card-deck">
-        @endif
+        @php $key++ @endphp
         <div class="col-md-4 px-0">
             <div class="card overflow-hidden">
                 <div class="card-badge">Pre Order</div>
@@ -18,5 +15,9 @@
                 </div>
             </div>
         </div>
+        @if (0 === ($key%3))
+            </div>
+            <div class="card-deck">
+        @endif
     @endforeach
 </div>

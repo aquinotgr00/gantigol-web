@@ -1,6 +1,7 @@
 <?php
 
 // Route::post('signin', 'MembershipController@signin')->name('member.api.signin');
+Route::get('subdistrict', 'MembershipController@apiSubdistrict')->name('member.api-subdistrict');
 
 // CART ROUTES
 Route::name('carts.')->prefix('carts')->group(function () {

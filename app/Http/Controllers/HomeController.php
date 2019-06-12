@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use GuzzleHttp\Client;
+use function GuzzleHttp\json_decode;
 
 class HomeController extends Controller
 {
@@ -12,37 +13,29 @@ class HomeController extends Controller
     {
         $this->client = new Client([
             'base_uri' => env('API_URL'),
-            // 'timeout' => '5',
+            'timeout' => '5',
             'http_errors' => false,
         ]);
     }
 
     public function index()
     {
-        return view('frontend.index');
-    }
-    
-    public function post()
-    {
-        return view('frontend.single-post');
-    }
-    
-    public function category()
-    {
-        return view('frontend.category');
-    }
-    
-    public function products()
-    {
-        $response = $this->client->get('api-product/items');
-        $data = json_decode($response->getBody());
-        return view('frontend.products')->with(['data' => $data]);
-    }
-    public function product($id)
-    {
-        $response = $this->client->get('api-product/items/'. $id);
-        $data = json_decode($response->getBody());
-        return view('frontend.product', compact('data'));
+        $bola = $this->client->get('api/blogs/post/category/bola/3');
+        $bola = json_decode($bola->getBody());
+
+        $klub = $this->client->get('api/blogs/post/category/klub/3');
+        $klub = json_decode($klub->getBody());
+
+        $man = $this->client->get('api/blogs/post/category/man/3');
+        $man = json_decode($man->getBody());
+
+        $banners = $this->client->get('api/banners/banner/home/3');
+        $banners = json_decode($banners->getBody());
+
+        $popularPosts = $this->client->get('api/blogs/post/category/bola/5');
+        $popularPosts = json_decode($popularPosts->getBody())->post->data;
+
+        return view('frontend.index', compact('bola', 'klub', 'man', 'banners', 'popularPosts'));
     }
 
     public function reset()
@@ -53,7 +46,8 @@ class HomeController extends Controller
     {
         $response = $this->client->post('auth/password/reset', [
             'form_params' => [
-                'email' => $request->email
+                'email' => $request->email,
+                'url_act' => 'gantigoal.test/reset-password',
             ]
         ]);
         $data = json_decode($response->getBody());
@@ -75,13 +69,6 @@ class HomeController extends Controller
     }
     public function resetForm($token)
     {
-        // $response = $this->client->post('auth/token/verification/', [
-        //     'form_params' => [
-        //         'token' => $token
-        //     ]
-        // ]);
-        // $data = json_decode($response->getBody());
-
         return view('frontend.reset-password-form', compact('token'));
     }
     public function postResetForm(Request $request)
@@ -90,18 +77,52 @@ class HomeController extends Controller
             'form_params' => $request->all()
         ]);
         $data = json_decode($response->getBody());
+
+        if ("Email / token not valid" == $data->data->message) {
+            return redirect('/reset')->with('error', $data->data->message);
+        }
+
+        ;
+        if ($data->data->access_token) {
+            $signin = $this->client->post('auth/token/signin', [
+                'form_params' => [
+                    'token' => $data->data->access_token
+                ]
+            ]);
+
+            $statuscode = $signin->getStatusCode();
+
+            $signinBody = json_decode($signin->getBody(), true);
+
+            if (422 === $statuscode && isset($signinBody['message'])) {
+                return redirect('/')->with('error', $signinBody['message']);
+            }
+
+            // get user by token
+            $user = $this->client->get('api/user', [
+                'headers' => [
+                    'Authorization' => 'Bearer '.$signinBody['access_token']
+                ]
+            ]);
+
+            $user = json_decode($user->getBody(), true);
+            
+            $request->session()->put('token', $signinBody['access_token']);
+            $request->session()->put('username', $user['username']);
+
+            return redirect()->intended('/');
+        }
         
         return response()->json($data);
     }
 
-    public function search()
+    public function search(Request $request)
     {
-        return view('frontend.search');
-    }
-    
-    public function tags()
-    {
-        return view('frontend.tags');
+        $term = $request->term;
+        $response = $this->client->get('api/blogs/search/'.$term);
+        $data = json_decode($response->getBody());
+        // return response()->json($data);
+        return view('frontend.search', compact('term', 'data'));
     }
     
     public function thanks()

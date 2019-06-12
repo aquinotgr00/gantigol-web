@@ -1,7 +1,7 @@
 <?php
 
     Route::get('/', 'HomeController@index')->name('homepage');
-    Route::get('search', 'HomeController@search')->name('homepage.search');
+    Route::post('search', 'HomeController@search')->name('homepage.search');
     Route::get('thanks', 'HomeController@thanks')->name('homepage.thanks');
     Route::get('reset', 'HomeController@reset')->name('homepage.reset');
     Route::post('reset', 'HomeController@postReset')->name('homepage.post-reset');
@@ -29,9 +29,10 @@
     // ===================================================================================================================================
     Route::name('blog.')->prefix('blog')->group(function () {
         
-        Route::get('post', 'HomeController@post')->name('post');
-        Route::get('category', 'HomeController@category')->name('category');
-        Route::get('tags', 'HomeController@tags')->name('tags');
+        Route::get('post/{id}', 'BlogController@post')->name('post');
+        Route::get('category/{name}', 'BlogController@category')->name('category');
+        Route::get('post-on-page/{category}/{page}', 'BlogController@getNextPagePosts')->name('post-next-page');
+        Route::get('tags', 'BlogController@tags')->name('tags');
 
     });
 
@@ -41,9 +42,9 @@
     // ===================================================================================================================================
     Route::name('products.')->prefix('products')->group(function () {
         
-        Route::get('/', 'HomeController@products')->name('index');
+        Route::get('/', 'ProductController@products')->name('index');
         Route::get('page/{page}', 'ProductController@getNextPageProducts')->name('next-page');
-        Route::get('item/{id}', 'HomeController@product')->name('single-product');
+        Route::get('item/{id}', 'ProductController@product')->name('single-product');
 
     });
 

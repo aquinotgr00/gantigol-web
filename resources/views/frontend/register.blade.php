@@ -27,6 +27,15 @@
                     <label for="exampleInputPassword1">NAMA PENGGUNA</label>
                     <input name="username" class="form-control" type="text" placeholder="Masukan Nama Pengguna" >
                     <label for="username" generated="true" class="error invalid-feedback"></label>
+                    @if (session('errors'))
+                        @foreach(session('errors') as $errorName => $value)
+                            @if ($errorName == 'username')
+                                <label class="error invalid-feedback d-block">
+                                    {{ $value[0] }}
+                                </label>
+                            @endif
+                        @endforeach
+                    @endif
                 </div>
             </div>
         </div>
@@ -36,6 +45,15 @@
                     <label for="exampleInputPassword1">EMAIL</label>
                     <input name="email" type="email" class="form-control" placeholder="Masukan Email">
                     <label for="email" generated="true" class="error invalid-feedback"></label>
+                    @if (session('errors'))
+                        @foreach(session('errors') as $errorName => $value)
+                            @if ($errorName == 'email')
+                                <label class="error invalid-feedback d-block">
+                                    {{ $value[0] }}
+                                </label>
+                            @endif
+                        @endforeach
+                    @endif
                 </div>
             </div>
             <div class="col-6">
@@ -43,6 +61,15 @@
                     <label for="exampleInputPassword1">TELEPON</label>
                     <input name="phone" type="number" class="form-control" placeholder="Masukan No Telepon">
                     <label for="phone" generated="true" class="error invalid-feedback"></label>
+                    @if (session('errors'))
+                        @foreach(session('errors') as $errorName => $value)
+                            @if ($errorName == 'phone')
+                                <label class="error invalid-feedback d-block">
+                                    {{ $value[0] }}
+                                </label>
+                            @endif
+                        @endforeach
+                    @endif
                 </div>
             </div>
         </div>
@@ -96,14 +123,15 @@
             <div class="col-6">
                 <div class="form-group">
                     <label for="subdistrict">KECAMATAN</label>
-                    <input type="text" class="form-control" name="subdistrict" id="subdistrict" aria-describedby="helpId" placeholder="Subdistrict">
+                    <input type="text" class="form-control" id="subdistrict_text" aria-describedby="helpId" placeholder="Subdistrict">
+                    <input type="text" class="d-none" name="subdistrict" id="subdistrict_value">
                     <label for="subdistrict" generated="true" class="error invalid-feedback"></label>
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
                     <label for="exampleInputPassword1">KOTA</label>
-                    <input name="city" type="text" class="form-control" placeholder="Pandean Umbul Harjo">
+                    <input name="city" type="text" class="form-control" id="city" placeholder="Pandean Umbul Harjo">
                     <label for="city" generated="true" class="error invalid-feedback"></label>
                 </div>
             </div>
@@ -112,14 +140,14 @@
             <div class="col-6">
                 <div class="form-group">
                     <label for="exampleInputPassword1">PROVINSI</label>
-                    <input name="province" type="text" class="form-control" placeholder="Provinsi">
+                    <input name="province" type="text" id="province" class="form-control" placeholder="Provinsi">
                     <label for="province" generated="true" class="error invalid-feedback"></label>
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
                     <label for="exampleInputPassword1">POS</label>
-                    <input name="postal_code" type="text" class="form-control" placeholder="Kode Pos">
+                    <input name="postal_code" type="text" id="postal_code" class="form-control" placeholder="Kode Pos">
                     <label for="postal_code" generated="true" class="error invalid-feedback"></label>
                 </div>
             </div>
@@ -133,6 +161,7 @@
 
 @section('script')
 <script>
+    
      // add the custom rule here
     $.validator.addMethod("valueNotEquals", function(value, element, arg){
         return arg !== value;
@@ -144,6 +173,17 @@
         return this.optional(element) || /^\w+$/i.test(value);
     }, "Letters, numbers, spaces or underscores only please");
     $(document).ready(function () {
+        $( "#subdistrict_text" ).autocomplete({
+            source: "/api/subdistrict",
+            minLength: 3,
+            select: function( event, ui ) {
+                $('#subdistrict_value').val(ui.item.value)
+                $('#city').val(ui.item.city)
+                $('#province').val(ui.item.province)
+                $('#postal_code').val(ui.item.postal_code)
+            }
+        });
+
         $('#signup-form').validate({
             highlight: function(element, errorClass) {
                 $(element).addClass('is-invalid');

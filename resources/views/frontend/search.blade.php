@@ -17,7 +17,7 @@
     </div>
     <div>
         <br>
-        <p>HASIL PENCARIAN KATA "<b>Ibnu Masukin</b>"</p>
+        <p>HASIL PENCARIAN KATA "<b>{{$term}}</b>"</p>
     </div>
 </div>
 @endsection
@@ -28,54 +28,24 @@
         <div class="tab-content " id="nav-tabContent">
             <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                 <div class="card-deck">
-                    <div class="card">
-                        <a href="">
-                            <img class="card-img-top" src="{{ asset('images\content\2.png') }}" alt="Card image cap">
-                        </a>
-                        <div class="card-body">
-                            <h5 class="card-title">AUBAMEYANG UNGKAP RAHASIA MEMPERDAYAI DAVID DE GEA LEWAT EKSEKUSI PENALTI</h5>
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. </p>
+                    @foreach ($data as $key => $item)
+                        @if (0 === ($key%4))
+                            </div>
+                            <div class="card-deck">
+                        @endif
+                        <div class="card col-md-3 px-0">
+                            <a href="{{ route('blog.post', $item->searchable->id) }}">
+                                <img class="card-img-top" src="{{ asset('images\content\2.png') }}" alt="Card image cap">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">{{$item->title}}</h5>
+                                <p class="card-text">{{strip_tags($item->searchable->body)}}</p>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted">Last updated 3 mins ago</small>
+                            </div>
                         </div>
-                        <div class="card-footer">
-                            <small class="text-muted">Last updated 3 mins ago</small>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <a href="">
-                            <img class="card-img-top" src="{{ asset('images\content\3.png') }}" alt="Card image cap">
-                        </a>
-                        <div class="card-body">
-                            <h5 class="card-title">LEGENDA MAN UNITED SEBUT SOLSKJAER BUKAN MANAJER YANG PINTAR</h5>
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">Last updated 3 mins ago</small>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <a href="">
-                            <img class="card-img-top" src="{{ asset('images\content\4.png') }}" alt="Card image cap">
-                        </a>
-                        <div class="card-body">
-                            <h5 class="card-title">GAGAL BERSINAR, LIVERPOOL SIAP JUAL RUGI NABY KEITA</h5>
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. </p>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">Last updated 3 mins ago</small>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <a href="">
-                            <img class="card-img-top" src="{{ asset('images\content\4.png') }}" alt="Card image cap">
-                        </a>
-                        <div class="card-body">
-                            <h5 class="card-title">GAGAL BERSINAR, LIVERPOOL SIAP JUAL RUGI NABY KEITA</h5>
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. </p>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">Last updated 3 mins ago</small>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         
@@ -134,6 +104,6 @@
         </div>
     </div>
     <br>
-    <img class="mx-auto d-block mt-5 " style="height: 100px;" src="{{ asset('images\loading\1.gif') }}">
+    {{-- <img class="mx-auto d-block mt-5 " style="height: 100px;" src="{{ asset('images\loading\1.gif') }}"> --}}
 </div>
 @endsection

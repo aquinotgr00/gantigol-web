@@ -4,28 +4,15 @@
 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 
         <div class="carousel-inner" role="listbox">
-            <!-- Slide One - Set the background image for this slide in the line below -->
-            <div class="carousel-item active" style="background-image: url('https://www.engineered-life.com/wp-content/uploads/2018/03/banner-BE.jpg')">>
-    
-                <div class="carousel-caption d-none d-md-block">
-                    <h3 class="display-4">SOSOK CRISTIANO RONALDO BIKIN JUVENTUS BELAJAR SETIAP HARI</h3>
-                    <button type="button" class="btn btn-primary">SELENGKAPNYA</button>
+            @foreach ($banners as $key => $banner)
+                <!-- Slide One - Set the background image for this slide in the line below -->
+                <div class="carousel-item {{ $key == 0 ? 'active':'' }}" style="background-image: url('https://www.engineered-life.com/wp-content/uploads/2018/03/banner-BE.jpg')">>
+                    <div class="carousel-caption d-none d-md-block">
+                        <h3 class="display-4">{{$banner->title}}</h3>
+                        <a class="btn btn-primary" href="{{ route('blog.post', $banner->url) }}">SELENGKAPNYA</a>
+                    </div>
                 </div>
-            </div>
-            <!-- Slide Two - Set the background image for this slide in the line below -->
-            <div class="carousel-item" style="background-image: url('https://www.engineered-life.com/wp-content/uploads/2018/03/banner-BE.jpg')">
-                <div class="carousel-caption d-none d-md-block">
-                    <h3 class="display-4">SOSOK CRISTIANO RONALDO BIKIN JUVENTUS BELAJAR SETIAP HARI</h3>
-                    <button type="button" class="btn btn-primary">SELENGKAPNYA</button>
-                </div>
-            </div>
-            <!-- Slide Three - Set the background image for this slide in the line below -->
-            <div class="carousel-item" style="background-image: url('https://www.engineered-life.com/wp-content/uploads/2018/03/banner-BE.jpg')">
-                <div class="carousel-caption d-none d-md-block">
-                    <h3 class="display-4">SOSOK CRISTIANO RONALDO BIKIN JUVENTUS BELAJAR SETIAP HARI</h3>
-                    <button type="button" class="btn btn-primary">SELENGKAPNYA</button>
-                </div>
-            </div>
+            @endforeach
         </div>
         <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -134,11 +121,7 @@
                 
                 <div class="card-deck list">
                     @foreach ($data->data as $key => $product)
-                        {{-- @if (0 === $key || 0 === ($key%3)) --}}
-                        @if (0 === ($key%3))
-                            </div>
-                            <div class="card-deck">
-                        @endif
+                        @php $key++ @endphp
                         <div class="col-md-4 px-0">
                             <div class="card overflow-hidden">
                                 <div class="card-badge">Pre Order</div>
@@ -153,6 +136,10 @@
                                 </div>
                             </div>
                         </div>
+                        @if (0 === ($key%3))
+                            </div>
+                            <div class="card-deck">
+                        @endif
                     @endforeach
                 </div>
 
@@ -203,7 +190,6 @@
                 })
                 .done(function(data)
                 {
-                    console.log(data)
                     if(data.html == " "){
                         $('.ajax-load').html("<p class='text-center nomore-products'>No more products found.</p>");
                         return;

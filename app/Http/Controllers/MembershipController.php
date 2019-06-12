@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Session;
+use function GuzzleHttp\json_decode;
 
 class MembershipController extends Controller
 {
@@ -33,9 +34,10 @@ class MembershipController extends Controller
     public function signin(Request $request)
     {
         $request->request->add(['verification' => 'unverified']);
+        // return $request->all();
 
         $response = $this->client->post('auth/signin', [
-            'form_params' => $request->except('_token')
+            'form_params' => $request->except(['_token', 'cart_session'])
         ]);
 
         $statuscode = $response->getStatusCode();
@@ -55,10 +57,25 @@ class MembershipController extends Controller
 
         $user = json_decode($user->getBody(), true);
         
+        // get user cart
+        $userCart = $this->client->get('api-ecommerce/cart-by-user/'.$user['id']);
+        $userCart = json_decode($userCart->getBody());
+        // dd($userCart);
+
+        if ($request->cart_session != null) {
+            // merge the user cart with current cart items
+            $userCart = $this->client->get('api-ecommerce/cart-merge/'.$user['id'].'?session='.$request->cart_session);
+            $userCart = json_decode($userCart->getBody());
+            // dd($userCart);
+        }
+        
+        if ($userCart->data != null) {
+            $request->session()->put('cart_id', $userCart->data->id);
+        }
         $request->session()->put('token', $body['access_token']);
         $request->session()->put('username', $user['username']);
 
-        return redirect()->intended('/user');
+        return redirect()->intended('/');
     }
 
     public function user(Request $request)
@@ -84,7 +101,13 @@ class MembershipController extends Controller
 
     public function signup(Request $request)
     {
+        $request->request->add(['url_act' => '/user']);
+
         $response = $this->client->post('auth/signup', [
+            'headers' => [
+                'Accept' => 'application/json',
+                // 'Content-Type' => 'application/json'
+            ],
             'form_params' => $request->all()
         ]);
 
@@ -118,9 +141,24 @@ class MembershipController extends Controller
             $request->session()->put('token', $signinBody['access_token']);
             $request->session()->put('username', $user['username']);
 
-            return redirect()->intended('/user');
+            return redirect()->intended('/');
         }
 
-        return redirect()->route('homepage')->with('errors', ['Error.']);
+        return redirect()->back()->with('errors', $body['errors']);
+    }
+
+    public function apiSubdistrict(Request $request)
+    {
+        // return $request->all();
+        $response = $this->client->get('shipment/subdistrict?q='.$request->term);
+        $response = json_decode($response->getBody());
+        foreach ($response->data as $key => $value) {
+            $data[$key]['id'] = $value->id;
+            $data[$key]['value'] = $value->name;
+            $data[$key]['city'] = $value->city->name;
+            $data[$key]['province'] = $value->city->province->name;
+            $data[$key]['postal_code'] = $value->city->postal_code;
+        }
+        return response()->json($data);
     }
 }

@@ -1,37 +1,34 @@
 @extends('_layouts.wrapper')
 
 @section('heading')
-<div class="container">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">HOME</a></li>
-            <li class="breadcrumb-item active" aria-current="page">KLUB</li>
-        </ol>
-    </nav>
-</div>
+@include('_layouts.breadcrumb')
 @endsection
 
 @section('content')
 <div class="row">
     <div class="col-9"> 
         <!-- Title -->
-        <h4 class="title">BARCELONA AKAN MELAKUKAN PEMBELIAN NEGARA YANG MENJADI KANDANGNYA SEKARANG</h4>
+        <h4 class="title">{{ $data->title }}</h4>
         <!-- Author -->
         <hr>
 
         <!-- Date/Time -->
-        <p><img class="mr-2 mt-1" src="{{ asset('images\icon\pen.svg') }}">Amalia on January 1, 2019 at 12:00 PM</p>
+        {{-- <p><img class="mr-2 mt-1" src="{{ asset('images\icon\pen.svg') }}">Amalia on January 1, 2019 at 12:00 PM</p> --}}
+        <p><img class="mr-2 mt-1" src="{{ asset('images\icon\pen.svg') }}">Amalia on {{$data->publish_date ?? "Some day"}} at 12:00 PM</p>
         <hr>
 
         <!-- Preview Image -->
         <div class="card">
-            <img class="images-post" src="{{ asset('images\post\1.jpg') }}" alt="">
+            {{-- <img class="images-post" src="{{ $data->image ?? asset('images\post\1.jpg') }}" alt=""> --}}
+            <img class="images-post" src="{{ $data->image ?? 'https://imgplaceholder.com/928x469' }}" alt="">
             <p class="source">stockimage.com</p>
         </div>
         <br>
 
+
         <!-- Post Content -->
-        <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus, vero, obcaecati, aut, error quam sapiente nemo saepe quibusdam sit excepturi nam quia corporis eligendi eos magni recusandae laborum minus inventore?</p>
+        {!!$data->body!!}
+        {{-- <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus, vero, obcaecati, aut, error quam sapiente nemo saepe quibusdam sit excepturi nam quia corporis eligendi eos magni recusandae laborum minus inventore?</p>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, tenetur natus doloremque laborum quos iste ipsum rerum obcaecati impedit odit illo dolorum ab tempora nihil dicta earum fugiat. Temporibus, voluptatibus.</p>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, doloribus, dolorem iusto blanditiis unde eius illum consequuntur neque dicta incidunt ullam ea hic porro optio ratione repellat perspiciatis. Enim, iure!</p>
 
@@ -44,6 +41,7 @@
 
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error, nostrum, aliquid, animi, ut quas placeat totam sunt tempora commodi nihil ullam alias modi dicta saepe minima ab quo voluptatem obcaecati?</p>
 
+        <!-- related post -->
         <div class="link-related">
             <div class="related-article">
                 <div class="link">
@@ -53,9 +51,16 @@
             </div>
         </div>
 
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum, dolor quis. Sunt, ut, explicabo, aliquam tenetur ratione tempore quidem voluptates cupiditate voluptas illo saepe quaerat numquam recusandae? Qui, necessitatibus, est!</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum, dolor quis. Sunt, ut, explicabo, aliquam tenetur ratione tempore quidem voluptates cupiditate voluptas illo saepe quaerat numquam recusandae? Qui, necessitatibus, est!</p> --}}
+        <!-- end Post Content -->
+
+
         <br>
-        <p>TAG: <span class="tag">liverpool</span></p> 
+        <p>TAG:
+            @foreach ($data->tagged as $key => $tag)
+                <span class="tag">{{$tag->tag_name}}</span>
+            @endforeach
+        </p> 
         <br>
 
         {{-- Share button --}}
@@ -96,130 +101,28 @@
                 <!--First slide-->
                 <div class="carousel-item product active">
                     <div class="card-deck">
-                        <div class="card">
-                            <a href="">
-                                <img class="card-img-top" src="{{ asset('images\content\2.png') }}" alt="Card image cap">
-                            </a>
-                            <div class="card-body">
-                                <h5 class="card-title">AUBAMEYANG UNGKAP RAHASIA MEMPERDAYAI DAVID DE GEA LEWAT EKSEKUSI PENALTI</h5>
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. </p>
+                        @foreach ($tagPosts as $key => $post)
+                            @if (0 != $key && 0 === ($key%3))
+                                </div></div>
+                                <div class="carousel-item product">
+                                <div class="card-deck">
+                            @endif
+                            <div class="card">
+                                <a href="">
+                                    <img class="card-img-top" src="{{ asset('images\content\2.png') }}" alt="Card image cap">
+                                </a>
+                                <div class="card-body">
+                                    <h5 class="card-title">{{$post->title}}</h5>
+                                    <p class="card-text">{{strip_tags($post->body)}}</p>
+                                </div>
+                                <div class="card-footer">
+                                    <small class="text-muted">Last updated 3 mins ago</small>
+                                </div>
                             </div>
-                            <div class="card-footer">
-                                <small class="text-muted">Last updated 3 mins ago</small>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <a href="">
-                                <img class="card-img-top" src="{{ asset('images\content\3.png') }}" alt="Card image cap">
-                            </a>
-                            <div class="card-body">
-                                <h5 class="card-title">LEGENDA MAN UNITED SEBUT SOLSKJAER BUKAN MANAJER YANG PINTAR</h5>
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
-                            </div>
-                            <div class="card-footer">
-                                <small class="text-muted">Last updated 3 mins ago</small>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <a href="">
-                                <img class="card-img-top" src="{{ asset('images\content\4.png') }}" alt="Card image cap">
-                            </a>
-                            <div class="card-body">
-                                <h5 class="card-title">GAGAL BERSINAR, LIVERPOOL SIAP JUAL RUGI NABY KEITA</h5>
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. </p>
-                            </div>
-                            <div class="card-footer">
-                                <small class="text-muted">Last updated 3 mins ago</small>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
                 <!--/.First slide-->
-
-                <!--Second slide-->
-                <div class="carousel-item product">
-                    <div class="card-deck">
-                        <div class="card">
-                            <a href="">
-                                <img class="card-img-top" src="{{ asset('images\content\2.png') }}" alt="Card image cap">
-                            </a>
-                            <div class="card-body">
-                                <h5 class="card-title">AUBAMEYANG UNGKAP RAHASIA MEMPERDAYAI DAVID DE GEA LEWAT EKSEKUSI PENALTI</h5>
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. </p>
-                            </div>
-                            <div class="card-footer">
-                                <small class="text-muted">Last updated 3 mins ago</small>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <a href="">
-                                <img class="card-img-top" src="{{ asset('images\content\3.png') }}" alt="Card image cap">
-                            </a>
-                            <div class="card-body">
-                                <h5 class="card-title">LEGENDA MAN UNITED SEBUT SOLSKJAER BUKAN MANAJER YANG PINTAR</h5>
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
-                            </div>
-                            <div class="card-footer">
-                                <small class="text-muted">Last updated 3 mins ago</small>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <a href="">
-                                <img class="card-img-top" src="{{ asset('images\content\4.png') }}" alt="Card image cap">
-                            </a>
-                            <div class="card-body">
-                                <h5 class="card-title">GAGAL BERSINAR, LIVERPOOL SIAP JUAL RUGI NABY KEITA</h5>
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. </p>
-                            </div>
-                            <div class="card-footer">
-                                <small class="text-muted">Last updated 3 mins ago</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!--Third slide-->
-                <div class="carousel-item product">
-                    <div class="card-deck">
-                        <div class="card">
-                            <a href="">
-                                <img class="card-img-top" src="{{ asset('images\content\2.png') }}" alt="Card image cap">
-                            </a>
-                            <div class="card-body">
-                                <h5 class="card-title">AUBAMEYANG UNGKAP RAHASIA MEMPERDAYAI DAVID DE GEA LEWAT EKSEKUSI PENALTI</h5>
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. </p>
-                            </div>
-                            <div class="card-footer">
-                                <small class="text-muted">Last updated 3 mins ago</small>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <a href="">
-                                <img class="card-img-top" src="{{ asset('images\content\3.png') }}" alt="Card image cap">
-                            </a>
-                            <div class="card-body">
-                                <h5 class="card-title">LEGENDA MAN UNITED SEBUT SOLSKJAER BUKAN MANAJER YANG PINTAR</h5>
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
-                            </div>
-                            <div class="card-footer">
-                                <small class="text-muted">Last updated 3 mins ago</small>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <a href="">
-                                <img class="card-img-top" src="{{ asset('images\content\4.png') }}" alt="Card image cap">
-                            </a>
-                            <div class="card-body">
-                                <h5 class="card-title">GAGAL BERSINAR, LIVERPOOL SIAP JUAL RUGI NABY KEITA</h5>
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. </p>
-                            </div>
-                            <div class="card-footer">
-                                <small class="text-muted">Last updated 3 mins ago</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--/.Third slide-->
 
             </div>
             <!--/.Slides-->
@@ -227,22 +130,24 @@
         </div>
         <!--/.Carousel Wrapper-->
 
-        <div class="controls-top control">
-            <div class="card-deck">
-                <div class="card line">
-                    <hr class="card-img-top ">
-                </div>
-                <div class="card post-next">
-                    <a class="left" href="#multi-item-example" data-slide="prev"><i class="fas fa-chevron-left"></i></a>
-                </div>
-                <div class="card post-next">
-                    <a class="left" href="#multi-item-example" data-slide="next"><i class="fas fa-chevron-right"></i></a>
-                </div>
-                <div class="card line">
-                    <hr class="card-img-top">
+        @if (count($tagPosts) > 3)
+            <div class="controls-top control">
+                <div class="card-deck">
+                    <div class="card line">
+                        <hr class="card-img-top ">
+                    </div>
+                    <div class="card post-next">
+                        <a class="left" href="#multi-item-example" data-slide="prev"><i class="fas fa-chevron-left"></i></a>
+                    </div>
+                    <div class="card post-next">
+                        <a class="left" href="#multi-item-example" data-slide="next"><i class="fas fa-chevron-right"></i></a>
+                    </div>
+                    <div class="card line">
+                        <hr class="card-img-top">
+                    </div>
                 </div>
             </div>
-        </div>
+        @endif
 
         <!-- baju -->
         <h4 class="section-header_title">PRODUK TERKAIT</h4>
@@ -284,120 +189,6 @@
         </div>
     </div>
 
-    <div class="col-3">
-    
-        <div class="col">
-            <h4 class="section-header_title">BERITA POPULER</h4>
-            <hr>
-    
-            <div class="side_post">
-                <a href="#">
-                    <div class="d-flex flex-row align-items-xl-center align-items-start justify-content-start">
-                        <div class="event_date d-flex flex-column align-items-center justify-content-center">
-                            <div class="event_day"><h3>1<h3></div>
-                            <div class="event_month"></div>
-                        </div>
-                        <div class="side_post_content">
-                            <div class="side_post_title">AUBAMEYANG UNGKAP RAHASIA MEMPERDAYAI DAVID DE GEA LEWAT EKSEKUSI PENALTI</div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="side_post">
-                <a href="#">
-                    <div class="d-flex flex-row align-items-xl-center align-items-start justify-content-start">
-                        <div class="event_date d-flex flex-column align-items-center justify-content-center">
-                            <div class="event_day"><h3>2<h3></div>
-                            <div class="event_month"></div>
-                        </div>
-                        <div class="side_post_content">
-                            <div class="side_post_title">Gol Indah Salah Bantu Liverpool Bekuk Chelsea</div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="side_post">
-                <a href="#">
-                    <div class="d-flex flex-row align-items-xl-center align-items-start justify-content-start">
-                        <div class="event_date d-flex flex-column align-items-center justify-content-center">
-                            <div class="event_day"><h3>3<h3></div>
-                            <div class="event_month"></div>
-                        </div>
-                        <div class="side_post_content">
-                            <div class="side_post_title">Striker Burnley Dapat Kartu Kuning Setelah Mencium Pemain Cardiff City</div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="side_post">
-                <a href="#">
-                    <div class="d-flex flex-row align-items-xl-center align-items-start justify-content-start">
-                        <div class="event_date d-flex flex-column align-items-center justify-content-center ">
-                            <div class="event_day"><h3>4<h3></div>
-                            <div class="event_month"></div>
-                        </div>
-                        <div class="side_post_content ">
-                            <div class="side_post_title align-middle">Jadi Incaran Banyak Klub Elite Eropa, Jurgen Klopp Setia Bertahan di Liverpool</div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="side_post">
-                <a href="#">
-                    <div class="d-flex flex-row align-items-xl-center align-items-start justify-content-start">
-                        <div class="event_date d-flex flex-column align-items-center justify-content-center">
-                            <div class="event_day"><h3>5<h3></div>
-                            <div class="event_month"></div>
-                        </div>
-                        <div class="side_post_content">
-                            <div class="side_post_title">AUBAMEYANG UNGKAP RAHASIA MEMPERDAYAI DAVID DE GEA LEWAT EKSEKUSI PENALTI</div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <br>
-            
-
-            <div class="col">
-                <h4 class="section-header_title">LEGENDA HARI INI</h4>
-                <hr>
-                <div class="card">
-                    <img class="card-img-top" src="{{ asset('images\content\2.png') }}" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">29 FEBUARI</h5>
-                        <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.  </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <br>
-
-        <div class="col">
-            <h4 class="section-header_title">IKUTI KAMI</h4>
-            <hr>
-            <div class="controls-top">
-
-                <div class="card-deck ikuti">
-                    <div class="card line">
-                        <a href="#">
-                            <img border="0" alt="W3Schools" src="{{ asset('images\ikuti\1.svg') }}">
-                        </a>
-                    </div>
-                    <div class="card line">
-                        <a href="#">
-                            <img border="0" alt="W3Schools" src="{{ asset('images\ikuti\2.svg') }}" >
-                        </a>
-                    </div>
-                    <div class="card line">
-                        <a href="#">
-                            <img border="0" alt="W3Schools" src="{{ asset('images\ikuti\3.svg') }}">
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
+    @include('_layouts.sidebar')
 </div>
 @endsection
