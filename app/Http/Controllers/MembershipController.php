@@ -16,6 +16,7 @@ class MembershipController extends Controller
     public function __construct()
     {
         $this->client = new Client([
+            'debug' => true,
             'base_uri' => env('API_URL'),
             'timeout' => '5',
             // 'http_errors' => false,
