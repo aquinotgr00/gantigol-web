@@ -35,7 +35,6 @@ class MembershipController extends Controller
     public function signin(Request $request)
     {
         $request->request->add(['verification' => 'unverified']);
-        return $request->all();
 
         $response = $this->client->post('auth/signin', [
             'form_params' => $request->except(['_token', 'cart_session'])
@@ -44,6 +43,7 @@ class MembershipController extends Controller
         $statuscode = $response->getStatusCode();
 
         $body = json_decode($response->getBody(), true);
+        return response()->json($body);
 
         if (422 === $statuscode && isset($body['message'])) {
             return redirect()->back()->with('error', $body['message']);
