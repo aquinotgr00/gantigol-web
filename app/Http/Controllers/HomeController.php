@@ -31,6 +31,7 @@ class HomeController extends Controller
 
         $banners = $this->client->get('api/banners/banner/home/3');
         $banners = json_decode($banners->getBody(), true);
+        dd($banners);
 
         $popularPosts = $this->client->get('api/blogs/post/category/bola/5');
         $popularPosts = json_decode($popularPosts->getBody());
