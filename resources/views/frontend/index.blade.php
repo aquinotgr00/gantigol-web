@@ -3,6 +3,7 @@
 @section('heading')
 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
     <div class="carousel-inner" role="listbox">
+        @if (count($banners) >= 1)
         @foreach ($banners as $key => $banner)
             <!-- Slide One - Set the background image for this slide in the line below -->
             <div class="carousel-item {{ $key == 0 ? 'active':'' }}" style="background-image: url('http://fcwallpaper.com/wp-content/uploads/2018/07/Wallpaper-Desktop-CR7-Juventus-HD.jpg')">>
@@ -12,6 +13,7 @@
                 </div>
             </div>
         @endforeach
+        @endif
     </div>
     <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
