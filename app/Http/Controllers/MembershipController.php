@@ -18,7 +18,7 @@ class MembershipController extends Controller
         $this->client = new Client([
             'base_uri' => env('API_URL'),
             'timeout' => '5',
-            'http_errors' => false,
+            // 'http_errors' => false,
         ]);
     }
 
