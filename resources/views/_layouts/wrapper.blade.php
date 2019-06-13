@@ -105,35 +105,30 @@
                 </li>
                 <li class="nav-item forgot dropdown dropdown-cart">
                     <a href="#" role="button" aria-haspopup="true" aria-expanded="false"><img class="btn chart item_image" src="{{ asset('images\gantigol\chart.svg') }}"></a>
-                    @if (!Request::is('checkout'))
-                        <div class="dropdown-menu dropdown-cart login cart">
-                            <div class="form-group">
+                    <div class="dropdown-menu dropdown-cart login cart">
+                        <div class="form-group">
 
-                                <div class="shopping-cart">
-                                    <span class="empty_card_wrapper text-white empty_cart">Keranjang Anda Kosong</span>
-                                    <div class="shopping-cart-header">
-                                        <div class="shopping-cart-total">
-                                            <span class="lighter-text"><h6>Total:</h6></span>
-                                            <span class="main-color-text"><h6 class="simpleCart_total">Rp. 0</h6></span>
-                                            <hr class="hr-cart">
-                                        </div>
+                            <div class="shopping-cart">
+                                <span class="empty_card_wrapper text-white empty_cart">Keranjang Anda Kosong</span>
+                                <div class="shopping-cart-header">
+                                    <div class="shopping-cart-total">
+                                        <span class="lighter-text"><h6>Total:</h6></span>
+                                        <span class="main-color-text"><h6 class="simpleCart_total">Rp. 0</h6></span>
+                                        <hr class="hr-cart">
                                     </div>
-                                    <!--end shopping-cart-header -->
-
-                                    <ul id="cart-wrapper" class="shopping-cart-items mb-0">
-                                        {{-- <li id="main_cart_items" class="clearfix simpleCart_items"></li> --}}
-                                    </ul>
-
-                                    <form action="/checkout" method="post" class="simpleCart_checkout" style="display:none;">@csrf
-                                        <input type="text" name="cart_id" id="cart_id" style="display:none;">
-                                        <button type="submit" class="btn btn-primary btn-block bayar">BAYAR</button>
-                                    </form>
                                 </div>
-                                <!--end shopping-cart -->
+                                <!--end shopping-cart-header -->
 
+                                <ul id="cart-wrapper" class="shopping-cart-items mb-0">
+                                    {{-- <li id="main_cart_items" class="clearfix simpleCart_items"></li> --}}
+                                </ul>
+
+                                    <a href="/checkout" class="btn btn-primary btn-block bayar">BAYAR</a>
                             </div>
+                            <!--end shopping-cart -->
+
                         </div>
-                    @endif
+                    </div>
                 </li>
             </ul>
         </div>
@@ -340,7 +335,6 @@
                     success: function (res) {
                         if (localStorage.getItem('cart_id') === null) {
                             localStorage.setItem('cart_id', res.data.id)
-                            $('#cart_id').val(localStorage.getItem('cart_id'))
                         }
                         $('.dropdown-cart').toggleClass('show')
                         putSessionWithLogin()
@@ -365,11 +359,11 @@
             function init() {
                 @if (session('cart_id'))
                     localStorage.setItem("cart_id", "{{ session('cart_id') }}")
+                    localStorage.setItem("session", "{{ session('cart_session') }}")
                 @endif
                 const cartId = localStorage.getItem('cart_id')
                 if (cartId !== null) {
                     getCartItems(cartId)
-                    $('#cart_id').val(cartId)
                 }
                 localStorage.removeItem('user_token')
                 putSessionWithLogin()
@@ -406,6 +400,57 @@
                 }
             }
 
+            @if (Request::is('checkout'))
+                function placeCartItemsOnCheckout(data) {
+                    data.map(item => {
+                        console.log(item)
+                        $(
+                            '<hr class="hr-light top-line">' +
+                            '<div class="row barang">' +
+                                '<div class="col-7">' +
+                                    '<div>' +
+                                        '<div>' +
+                                            `<img class="outline" src="{{ asset('images/produk/p1.png') }}" />` +
+                                        '</div>' +
+                                        '<div class="detil-barang">' +
+                                            '<div>' +
+                                                `<span class="judul-barang">${item.product_variant.product.name}</span>` +
+                                            '</div>' +
+                                            '<div>' +
+                                                '<span class="judul-barang">HARGA  </span>' +
+                                                `<span> Rp ${item.price}</span>` +
+                                            '</div>' +
+                                            '<div>' +
+                                                '<span class="judul-barang size-cart">SIZE </span>' +
+                                                `<span> ${item.size_code}</span>` +
+                                            '</div>' +
+                                            '<div>' +
+                                                '<span class="judul-barang qty-cart">QTY  </span>' +
+                                                `<span>  ${item.qty}</span>` +
+                                            '</div>' +
+                                            '<div class="quantity buttons_added">' +
+                                                `<input type="button" value="-" class="minus"><input type="number" step="1" min="1" max="" name="quantity" value="${item.qty}" title="Qty" class="input-text qty text" size="4" pattern="" inputmode=""><input type="button" value="+" class="plus">` +
+                                            '</div>' +
+                                        '</div>' +
+                                    '</div>' +
+                                '</div>' +
+                                '<div class="col-1">' +
+                                    '<div>' +
+                                        '<div class="diskon">0%</div>' +
+                                    '</div>' +
+                                '</div>' +
+                                '<div class=" col-3">' +
+                                    `<div class="harga">Rp. ${item.qty*item.price}</div>` +
+                                '</div>' +
+                                '<div class="col-1">' +
+                                    '<a href="" class="far fa-trash-alt fa-sm barang"> </a>' +
+                                '</div>' +
+                            '</div>'
+                        ).appendTo('#checkout-item-list')
+                    })
+                }
+            @endif
+
             function placeCartItems(data) {
                 clearCartDisplay()
                 updateTotal(data.data.total)
@@ -437,18 +482,27 @@
                     ).appendTo('#cart-wrapper')
                 })
                 hideEmptyEle(true)
+                @if (Request::is('checkout'))
+                    placeCartItemsOnCheckout(data.data.get_items)
+                @endif
             }
-
+            
             function getCartItems(id) {
+                let url = '/api/carts/items/' + id
+                @if (Request::is('checkout'))
+                    url = '/api/carts/items/' + id + '/true'
+                @endif
                 $.ajax({
-                    url: '/api/carts/items/' + id,
+                    url: url,
                     type: 'GET',
                     success: function (res) {
                         if (res.data.get_items.length !== 0) {
                             placeCartItems(res)
                         } else if (res.data.get_items.length === 0) {
-                            localStorage.removeItem('cart_id')
-                            localStorage.removeItem('session')
+                            if (localStorage.getItem('user_token') === null) {
+                                localStorage.removeItem('cart_id')
+                                localStorage.removeItem('session')
+                            }
                         }
                     }
                 })

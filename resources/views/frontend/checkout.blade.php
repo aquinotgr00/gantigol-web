@@ -19,6 +19,7 @@
         <div class="bs-example">
             @if (!Session::has('token') && !isset($user))
                 <form action="/signin" id="checkout-login-form" class="form d-none" method="POST">@csrf
+                    <input type="text" name="cart_session" id="cartSession" class="d-none" value="valuee">
                     <p><a href="#" class="checkout_login_btn"><u>Kembali</u></a></p>
                     <div class="form-group">
                         <label for="username">EMAIL</label>
@@ -116,12 +117,12 @@
             <div class="col-1 ">
                 <label>DISKON</label>
             </div>
-            <div class=" col-3">
+            <div class="col-3">
                 <label>SUB-TOTAL</label>
             </div>
         </div>
 
-        @foreach ($cartItems as $item)
+        {{-- @foreach ($cartItems as $item)
             <hr class="hr-light top-line">
             <div class="row barang">
                 <div class="col-7">
@@ -169,51 +170,10 @@
                 <div>
                 </div>
             </div>
-        @endforeach
-        {{-- <hr class="hr-light top-line">
-        <div class="row barang">
-            <div class="col-7">
-                <div>
-                    <div>
-                        <img class="outline" src="{{ asset('images\produk\p1.png') }}" />
-                    </div>
-                    <div class="detil-barang">
-                        <div>
-                            <span class="judul-barang">KAOS NIKE WALKING IN THE AIR</span>
-                        </div>
-                        <div>
-                            <span class="judul-barang">HARGA  </span>
-                            <span> Rp 1.111.849</span>
-                        </div>
-                        <div>
-                            <span class="judul-barang size-cart">SIZE </span>
-                            <span> XL</span>
-                        </div>
-                        <div>
-                            <span class="judul-barang qty-cart">QTY  </span>
-                            <span>  1</span>
-                        </div>
-                        <div class="quantity buttons_added">
-                            <input type="button" value="-" class="minus"><input type="number" step="1" min="1" max="" name="quantity" value="1" title="Qty" class="input-text qty text" size="4" pattern="" inputmode=""><input type="button" value="+" class="plus">
-                        </div>
+        @endforeach --}}
+        <div id="checkout-item-list">
+        </div>
 
-                    </div>
-                </div>
-            </div>
-            <div class="col-1">
-                <div>
-                    <div class="diskon">
-                        80%
-                    </div>
-                </div>
-            </div>
-            <div class=" col-3">
-                <div class="harga">Rp. 10.000.000</div>
-            </div>
-            <div class="col-1">
-                <a href="" class="far fa-trash-alt fa-sm barang"> </a>
-            </div>
-        </div> --}}
         <hr class="hr-light top-line">
 
         <div class="row">
@@ -293,21 +253,21 @@
             $('.register_form_group').toggleClass('d-none')
         })
 
-            $('#checkout-login-form').validate({
-                highlight: function(element, errorClass) {
-                    $(element).addClass('is-invalid');
+        $('#checkout-login-form').validate({
+            highlight: function(element, errorClass) {
+                $(element).addClass('is-invalid')
+            },
+            unhighlight: function(element, errorClass) {
+                $(element).removeClass('is-invalid')
+            },
+            rules: {
+                username: {
+                    required: true,
+                    email: true
                 },
-                unhighlight: function(element, errorClass) {
-                    $(element).removeClass('is-invalid');
-                },
-                rules: {
-                    username: {
-                        required: true,
-                        email: true
-                    },
-                    password: 'required'
-                }
-            });
+                password: 'required'
+            }
+        });
 
         $('.bayar').click(evt => {
             evt.preventDefault()

@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use function GuzzleHttp\json_decode;
 
+use Illuminate\Support\Facades\URL;
+
 class CartController extends Controller
 {
     public function __construct()
@@ -27,13 +29,32 @@ class CartController extends Controller
 
     public function checkout(Request $request)
     {
-        // return ;
+        $prevUrl = env('APP_URL').'/checkout';
         $token = $request->session()->get('token');
         $username = $request->session()->get('username');
+        $cartId = $request->session()->get('cart_id');
 
-        $cartItemsResponse = $this->client->get('api-ecommerce/cart/'. $request->cart_id);
-        $cartItems = json_decode($cartItemsResponse->getBody());
-        $cartItems = $cartItems->data->get_items;
+        if ($cartId != null && URL::previous() === $prevUrl) {
+            $cartItemsResponse = $this->client->get('api-ecommerce/cart/'. $cartId);
+            $cartItems = json_decode($cartItemsResponse->getBody());
+            $cartItems = $cartItems->data;
+        
+            // update the user cart items to checked false
+            foreach ($cartItems->get_items as $key => $item) {
+                $response = $this->client->post('api-ecommerce/cart', [
+                    'form_params' => [
+                        'session' => $cartItems->session,
+                        'items[$key][product_id]' => $item->product_id,
+                        'items[$key][qty]' => 0,
+                        'items[$key][price]' => $item->price,
+                        'items[$key][size_code]' => $item->size_code,
+                        'items[$key][subtotal]' => 0,
+                        'items[$key][checked]' => 'true',
+                        'total' => 0
+                    ]
+                ]);
+            }
+        }
 
         if (!is_null($token) && !is_null($username)) {
             // get user by token
@@ -44,14 +65,18 @@ class CartController extends Controller
             ]);
 
             $user = json_decode($user->getBody());
-            return view('frontend.checkout', compact('cartItems', 'user'));
+            return view('frontend.checkout', compact('user'));
         }
-        return view('frontend.checkout', compact('cartItems'));
+        return view('frontend.checkout');
     }
 
-    public function getItems($id)
+    public function getItems($id, $checked = false)
     {
-        $response = $this->client->get('api-ecommerce/cart/'. $id);
+        $url = 'api-ecommerce/cart/'. $id;
+        if ($checked) {
+            $url = 'api-ecommerce/cart-checked/'. $id;
+        }
+        $response = $this->client->get($url);
         $data = json_decode($response->getBody());
         return response()->json($data);
     }
@@ -134,7 +159,8 @@ class CartController extends Controller
                     'items[$key][qty]' => $item['quantity'],
                     'items[$key][price]' => $product->product->price,
                     'items[$key][subtotal]' => $product->product->price * $item['quantity'],
-                    'items[$key][wishlist]' => false,
+                    'items[$key][wishlist]' => 'false',
+                    'items[$key][checked]' => 'true',
                     'items[$key][size_code]' => $item['size_code'],
                     'amount_items' => $quantity,
                     'user_id' => $userId,

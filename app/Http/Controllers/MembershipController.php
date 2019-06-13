@@ -26,6 +26,7 @@ class MembershipController extends Controller
     {
         return view('frontend.login');
     }
+
     public function register()
     {
         return view('frontend.register');
@@ -45,7 +46,7 @@ class MembershipController extends Controller
         $body = json_decode($response->getBody(), true);
 
         if (422 === $statuscode && isset($body['message'])) {
-            return redirect('/')->with('error', $body['message']);
+            return redirect()->back()->with('error', $body['message']);
         }
 
         // get user by token
@@ -60,22 +61,21 @@ class MembershipController extends Controller
         // get user cart
         $userCart = $this->client->get('api-ecommerce/cart-by-user/'.$user['id']);
         $userCart = json_decode($userCart->getBody());
-        // dd($userCart);
 
         if ($request->cart_session != null) {
             // merge the user cart with current cart items
             $userCart = $this->client->get('api-ecommerce/cart-merge/'.$user['id'].'?session='.$request->cart_session);
             $userCart = json_decode($userCart->getBody());
-            // dd($userCart);
         }
-        
+
         if ($userCart->data != null) {
             $request->session()->put('cart_id', $userCart->data->id);
+            $request->session()->put('cart_session', $userCart->data->session);
         }
         $request->session()->put('token', $body['access_token']);
         $request->session()->put('username', $user['username']);
 
-        return redirect()->intended('/');
+        return redirect()->back();
     }
 
     public function user(Request $request)
@@ -94,6 +94,34 @@ class MembershipController extends Controller
 
     public function signout(Request $request)
     {
+        // get user by token
+        $user = $this->client->get('api/user', [
+            'headers' => [
+                'Authorization' => 'Bearer '.$request->session()->get('token')
+            ]
+        ]);
+
+        $user = json_decode($user->getBody(), true);
+        
+        // get user cart
+        $userCart = $this->client->get('api-ecommerce/cart-by-user/'.$user['id']);
+        $userCart = json_decode($userCart->getBody())->data;
+
+        // update the user cart items to checked false
+        foreach ($userCart->get_items as $key => $item) {
+            $response = $this->client->post('api-ecommerce/cart', [
+                'form_params' => [
+                    'session' => $userCart->session,
+                    'items[$key][product_id]' => $item->product_id,
+                    'items[$key][qty]' => 0,
+                    'items[$key][price]' => $item->price,
+                    'items[$key][size_code]' => $item->size_code,
+                    'items[$key][subtotal]' => 0,
+                    'items[$key][checked]' => 'false',
+                    'total' => 0
+                ]
+            ]);
+        }
         $request->session()->flush();
 
         return redirect()->intended('/');

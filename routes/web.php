@@ -49,4 +49,4 @@
     });
 
 
-    Route::post('checkout', 'CartController@checkout')->name('carts.checkout');
+    Route::get('checkout', 'CartController@checkout')->name('carts.checkout');
