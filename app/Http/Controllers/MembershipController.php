@@ -35,10 +35,12 @@ class MembershipController extends Controller
     public function signin(Request $request)
     {
         $request->request->add(['verification' => 'unverified']);
+        return $request->all();
 
         $response = $this->client->post('auth/signin', [
             'form_params' => $request->except(['_token', 'cart_session'])
         ]);
+        dd($response->getBody()->getContents());
 
         $statuscode = $response->getStatusCode();
 
