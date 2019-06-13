@@ -33,9 +33,12 @@ class HomeController extends Controller
         $banners = json_decode($banners->getBody());
 
         $popularPosts = $this->client->get('api/blogs/post/category/bola/5');
-        $popularPosts = json_decode($popularPosts->getBody())->post->data;
-
-        return view('frontend.index', compact('bola', 'klub', 'man', 'banners', 'popularPosts'));
+        $popularPosts = json_decode($popularPosts->getBody());
+        if (isset($popularPosts->post)) {
+            $popularPosts = $popularPosts->post->data;
+            return view('frontend.index', compact('bola', 'klub', 'man', 'banners', 'popularPosts'));
+        }
+        return view('frontend.index', compact('bola', 'klub', 'man', 'banners'));
     }
 
     public function reset()

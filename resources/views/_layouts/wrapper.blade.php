@@ -357,6 +357,7 @@
             **/
 
             function init() {
+                console.log(`{{env('API_URL')}}`)
                 @if (session('cart_id'))
                     localStorage.setItem("cart_id", "{{ session('cart_id') }}")
                     localStorage.setItem("session", "{{ session('cart_session') }}")
