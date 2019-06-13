@@ -32,6 +32,7 @@
         <hr>
 
         {{-- highlight POST --}}
+        @if ($klub->highlight !== null)
         <div>
             <a href="{{ route('blog.post', $klub->highlight->id) }}" class="custom-card">
                 <div class="card bg-dark text-white">
@@ -42,6 +43,7 @@
                 </div>
             </a>
         </div>
+        @endif
         {{-- NEWS ROW --}}
         <div class="card-deck">
             @foreach ($klub->post->data as $value)
@@ -79,6 +81,7 @@
         <hr>
 
         {{-- highlight POST --}}
+        @if ($bola->highlight !== null)
         <div>
             <a href="{{ route('blog.post', $bola->highlight->id) }}" class="custom-card">
                 <div class="card bg-dark text-white">
@@ -89,6 +92,7 @@
                 </div>
             </a>
         </div>
+        @endif
         {{-- NEWS ROW --}}
         <div class="card-deck">
             @foreach ($bola->post->data as $value)
@@ -127,6 +131,7 @@
         <hr>
 
         {{-- highlight POST --}}
+        @if ($man->highlight !== null)
         <div>
             <a href="{{ route('blog.post', $man->highlight->id) }}" class="custom-card">
                 <div class="card bg-dark text-white">
@@ -137,6 +142,7 @@
                 </div>
             </a>
         </div>
+        @endif
         {{-- NEWS ROW --}}
         <div class="card-deck">
             @foreach ($man->post->data as $value)
