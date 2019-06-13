@@ -36,6 +36,7 @@ class MembershipController extends Controller
     public function signin(Request $request)
     {
         $request->request->add(['verification' => 'unverified']);
+        dd(env('API_URL'));
 
         $response = $this->client->post('auth/signin', [
             'debug' => true,
