@@ -38,6 +38,8 @@ class MembershipController extends Controller
         $request->request->add(['verification' => 'unverified']);
 
         $response = $this->client->post('auth/signin', [
+            'debug' => true,
+            'http_errors' => true,
             'form_params' => $request->except(['_token', 'cart_session'])
         ]);
         dd($response->getBody()->getContents());
