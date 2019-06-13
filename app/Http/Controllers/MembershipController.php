@@ -19,7 +19,7 @@ class MembershipController extends Controller
             'debug' => true,
             'base_uri' => env('API_URL'),
             'timeout' => '5',
-            // 'http_errors' => false,
+            'http_errors' => true,
         ]);
     }
 
@@ -40,11 +40,11 @@ class MembershipController extends Controller
         $response = $this->client->post('auth/signin', [
             'form_params' => $request->except(['_token', 'cart_session'])
         ]);
+        dd($response->getBody()->getContents());
 
         $statuscode = $response->getStatusCode();
 
         $body = json_decode($response->getBody(), true);
-        return response()->json($body);
 
         if (422 === $statuscode && isset($body['message'])) {
             return redirect()->back()->with('error', $body['message']);
