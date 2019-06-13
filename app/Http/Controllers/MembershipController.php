@@ -18,7 +18,7 @@ class MembershipController extends Controller
         $this->client = new Client([
             'base_uri' => env('API_URL'),
             'timeout' => '5',
-            // 'http_errors' => false,
+            'http_errors' => false,
         ]);
     }
 
@@ -35,7 +35,7 @@ class MembershipController extends Controller
     public function signin(Request $request)
     {
         $request->request->add(['verification' => 'unverified']);
-        // return $request->all();
+        return $request->all();
 
         $response = $this->client->post('auth/signin', [
             'form_params' => $request->except(['_token', 'cart_session'])
