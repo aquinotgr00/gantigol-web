@@ -9,11 +9,11 @@ class ProductController extends Controller
 {
     public function __construct()
     {
-        $this->client = new Client([
-            'base_uri' => env('API_URL'),
-            'timeout' => '5',
-            'http_errors' => false,
-        ]);
+            $this->client = new Client([
+                'base_uri' => env('API_URL'),
+                'connect_timeout' => '5',
+                'http_errors' => false,
+            ]);
     }
     
     public function products()

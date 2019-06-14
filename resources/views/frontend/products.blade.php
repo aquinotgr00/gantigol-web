@@ -1,28 +1,26 @@
 @extends('_layouts.wrapper')
 
 @section('heading')
-<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-
-        <div class="carousel-inner" role="listbox">
-            @foreach ($banners as $key => $banner)
-                <!-- Slide One - Set the background image for this slide in the line below -->
-                <div class="carousel-item {{ $key == 0 ? 'active':'' }}" style="background-image: url('https://www.engineered-life.com/wp-content/uploads/2018/03/banner-BE.jpg')">>
-                    <div class="carousel-caption d-none d-md-block">
-                        <h3 class="display-4">{{$banner->title}}</h3>
-                        <a class="btn btn-primary" href="{{ route('blog.post', $banner->url) }}">SELENGKAPNYA</a>
-                    </div>
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="min-height: 55px;">
+    <div class="carousel-inner" role="listbox">
+        @foreach ($banners as $key => $banner)
+            <!-- Slide One - Set the background image for this slide in the line below -->
+            <div class="carousel-item {{ $key == 0 ? 'active':'' }}" style="background-image: url('https://www.engineered-life.com/wp-content/uploads/2018/03/banner-BE.jpg')">>
+                <div class="carousel-caption d-none d-md-block">
+                    <h3 class="display-4">{{$banner->title}}</h3>
+                    <a class="btn btn-primary" href="{{ route('blog.post', $banner->url) }}">SELENGKAPNYA</a>
                 </div>
-            @endforeach
-        </div>
-        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
-
+            </div>
+        @endforeach
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
 </div>
 <br>
 @endsection

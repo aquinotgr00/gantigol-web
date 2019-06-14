@@ -91,9 +91,7 @@
         <div class="col">
             <h4 class="section-header_title">BERITA POPULER</h4>
             <hr>
-
-            @if (isset($popularPosts))
-                @foreach ($popularPosts as $key => $post)
+                @foreach ($sidePost['post'] as $key => $post)
                     @php $key++ @endphp
                     <div class="side_post">
                         <a href="{{ route('blog.post', $post->id) }}">
@@ -109,10 +107,6 @@
                         </a>
                     </div>
                 @endforeach
-            @else
-                No popular posts.
-            @endif
-
             <br>
 
             <!-- Today's Legend -->
@@ -120,11 +114,13 @@
                 <h4 class="section-header_title">LEGENDA HARI INI</h4>
                 <hr>
                 <div class="card">
+                    @foreach ($sidePost['legends'] as $key => $value)
                     <img class="card-img-top" src="{{ asset('images\content\2.png') }}" alt="Card image cap">
                     <div class="card-body">
-                        <h5 class="card-title">29 FEBUARI</h5>
-                        <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.  </p>
+                        <h5 class="card-title">{!! date_format(new DateTime($value->publish_date),'d M')!!}</h5>
+                        <p class="card-text">{{ substr(strip_tags(html_entity_decode($value->body)), 0, 300) }}</p>
                     </div>
+                    @endforeach
                 </div>
             </div>
         </div>

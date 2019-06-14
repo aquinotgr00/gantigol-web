@@ -357,7 +357,6 @@
             **/
 
             function init() {
-                console.log(`{{env('API_URL')}}`)
                 @if (session('cart_id'))
                     localStorage.setItem("cart_id", "{{ session('cart_id') }}")
                     localStorage.setItem("session", "{{ session('cart_session') }}")
@@ -404,7 +403,6 @@
             @if (Request::is('checkout'))
                 function placeCartItemsOnCheckout(data) {
                     data.map(item => {
-                        console.log(item)
                         $(
                             '<hr class="hr-light top-line">' +
                             '<div class="row barang">' +
@@ -415,7 +413,7 @@
                                         '</div>' +
                                         '<div class="detil-barang">' +
                                             '<div>' +
-                                                `<span class="judul-barang">${item.product_variant.product.name}</span>` +
+                                                `<span class="judul-barang">${item.id}</span>` +
                                             '</div>' +
                                             '<div>' +
                                                 '<span class="judul-barang">HARGA  </span>' +
@@ -461,7 +459,7 @@
                             `<img src="{{ asset('images/produk/1a.jpg') }}" />` +
                             '<div class="detil">' +
                                 '<div class="col">' +
-                                    `<span class="item-name">${item.product_variant.product.name}</span>` +
+                                    `<span class="item-name">${item.id}</span>` +
                                 '</div>' +
                                 '<div class="item-price">' +
                                     '<span>HARGA  </span>' +

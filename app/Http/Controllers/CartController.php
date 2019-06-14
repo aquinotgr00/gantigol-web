@@ -129,7 +129,6 @@ class CartController extends Controller
 
     public function store(Request $request)
     {
-        // return $request->all();
         $product = $this->getProduct($request->id);
         $quantity = 0;
         $total = 0;
@@ -139,17 +138,20 @@ class CartController extends Controller
             // get user by token
             $user = $this->client->get('api/user', [
                 'headers' => [
+                    'Content-Type' => 'application/json',
+                    'X-Requested-With' => 'XMLHttpRequest',
                     'Authorization' => 'Bearer '.$request->user_token
                 ]
             ]);
 
             $user = json_decode($user->getBody());
+            dd($user);
             $userId = $user->id;
         }
 
         foreach ($request->items as $value) {
             $quantity += $value['quantity'];
-            $total += $product->product->price * $value['quantity'];
+            $total += $product->data->price * $value['quantity'];
         }
         foreach ($request->items as $key => $item) {
             $response = $this->client->post('api-ecommerce/cart', [
@@ -157,8 +159,8 @@ class CartController extends Controller
                     'session' => $request->session,
                     'items[$key][product_id]' => $request->id,
                     'items[$key][qty]' => $item['quantity'],
-                    'items[$key][price]' => $product->product->price,
-                    'items[$key][subtotal]' => $product->product->price * $item['quantity'],
+                    'items[$key][price]' => $product->data->price,
+                    'items[$key][subtotal]' => $product->data->price * $item['quantity'],
                     'items[$key][wishlist]' => 'false',
                     'items[$key][checked]' => 'true',
                     'items[$key][size_code]' => $item['size_code'],
