@@ -123,9 +123,9 @@
             <div class="col-6">
                 <div class="form-group">
                     <label for="subdistrict">KECAMATAN</label>
-                    <input type="text" class="form-control" id="subdistrict_text" aria-describedby="helpId" placeholder="Subdistrict">
+                    <input type="text" class="form-control" name="subdistrict_text" id="subdistrict_text" aria-describedby="helpId" placeholder="Subdistrict">
                     <input type="text" class="d-none" name="subdistrict" id="subdistrict_value">
-                    <label for="subdistrict" generated="true" class="error invalid-feedback"></label>
+                    <label for="subdistrict_text" generated="true" class="error invalid-feedback"></label>
                 </div>
             </div>
             <div class="col-6">
@@ -172,6 +172,10 @@
     jQuery.validator.addMethod("alphanumeric", function(value, element) {
         return this.optional(element) || /^\w+$/i.test(value);
     }, "Letters, numbers, spaces or underscores only please");
+    $.validator.addMethod( "phoneID", function( value, element ) {
+        // return this.optional( element ) || /^\+?([ -]?\d+)+|\(\d+\)([ -]\d+)$/.test( value );
+        return this.optional( element ) || /^(\+62 ((\d{3}([ -]\d{3,})([- ]\d{4,})?)|(\d+)))|(\(\d+\) \d+)|\d{3}( \d+)+|(\d+[ -]\d+)|\d+$/i.test( value );
+    }, "Please specify a valid phone number." );
     $(document).ready(function () {
         $( "#subdistrict_text" ).autocomplete({
             source: "/api/subdistrict",
@@ -202,13 +206,17 @@
                     required: true,
                     email: true
                 },
-                phone: 'required',
+                phone: {
+                    required: true,
+                    minlength: 11,
+                    phoneID: true
+                },
                 gender: {
                     valueNotEquals: 'null'
                 },
                 dob: 'required',
                 address: 'required',
-                subdistrict: 'required',
+                subdistrict_text: 'required',
                 city: 'required',
                 province: 'required',
                 postal_code: 'required',

@@ -9,11 +9,11 @@ class ProductController extends Controller
 {
     public function __construct()
     {
-            $this->client = new Client([
-                'base_uri' => env('API_URL'),
-                'connect_timeout' => '5',
-                'http_errors' => false,
-            ]);
+        $this->client = new Client([
+            'base_uri' => env('API_URL'),
+            'connect_timeout' => '5',
+            'http_errors' => false,
+        ]);
     }
     
     public function products()
@@ -38,8 +38,7 @@ class ProductController extends Controller
     {
         $response = $this->client->get('api-product/items?page='.$page);
         $products = json_decode($response->getBody());
-        // dd($products);
-        // return $response->getBody();
+
         if ($page <= $products->last_page) {
             $view = view('frontend.product-ajax',compact('products'))->render();
             return response()->json(['html'=>$view]);
