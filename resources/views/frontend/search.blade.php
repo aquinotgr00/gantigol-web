@@ -63,7 +63,7 @@
                             @endif
                             <div class="col-md-3 px-0">
                                 <div class="card">
-                                    <a href="#">
+                                    <a href="{{route('products.single-product', $item->id)}}">
                                         <img class="card-img-top gambar"
                                             src="{{ asset('images\produk\2.png') }}">
                                     </a>

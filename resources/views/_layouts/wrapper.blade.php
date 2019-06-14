@@ -123,7 +123,7 @@
                                     {{-- <li id="main_cart_items" class="clearfix simpleCart_items"></li> --}}
                                 </ul>
 
-                                    <a href="/checkout" class="btn btn-primary btn-block bayar">BAYAR</a>
+                                <a href="/checkout" class="btn btn-primary btn-block simpleCart_checkout bayar" style="display:none;">BAYAR</a>
                             </div>
                             <!--end shopping-cart -->
 

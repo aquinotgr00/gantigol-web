@@ -45,16 +45,17 @@
 
             <div class="register_form_group">
                 @if (!Session::has('token') && !isset($user))
-                <p>
-                    Sudah punya akun?<a href="#" class="checkout_login_btn"><u class="ml-2">LOGIN</u></a>
-                </p>
+                    <p>
+                        Sudah punya akun?<a href="#" class="checkout_login_btn"><u class="ml-2">LOGIN</u></a>
+                    </p>
+                @elseif (Session::has('token') && isset($user))
+                    <div class="form-check">
+                    <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input" name="differentAddress" id="differentAddress" value="checkedValue">
+                        <p>Gunakan alamat pengiriman beda.</p>
+                    </label>
+                    </div>
                 @endif
-                <div class="form-check">
-                  <label class="form-check-label">
-                    <input type="checkbox" class="form-check-input" name="differentAddress" id="differentAddress" value="checkedValue">
-                    <p>Gunakan alamat pengiriman beda.</p>
-                  </label>
-                </div>
 
                 <div class="form-group">
                     <label for="exampleInputEmail1">NAMA</label>
@@ -80,19 +81,29 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="province">PROVINSI</label>
-                    <input type="text" class="form-control" name="province" id="province" placeholder="Provinsi"
+                    <label for="city">KECAMATAN</label>
+                    <input type="text" class="d-none" name="subdistrict" id="subdistrict_value">
+                    <input type="text" class="form-control" name="subdistrict" id="subdistrict_text" placeholder="Kecamatan"
                             @if(isset($user))
-                                value="{{ $user->province }}"
+                                value="{{ $user->subdistrict }}"
                                 disabled
                             @endif>
                 </div>
 
                 <div class="form-group">
-                    <label for="city">KOTA/KECAMATAN</label>
-                    <input type="text" class="form-control" name="city" id="city" placeholder="Kota/Kecamatan"
+                    <label for="city">KOTA</label>
+                    <input type="text" class="form-control" name="city" id="city" placeholder="Kota"
                             @if(isset($user))
-                                value="{{ $user->subdistrict }}"
+                                value="{{ $user->city }}"
+                                disabled
+                            @endif>
+                </div>
+
+                <div class="form-group">
+                    <label for="province">PROVINSI</label>
+                    <input type="text" class="form-control" name="province" id="province" placeholder="Provinsi"
+                            @if(isset($user))
+                                value="{{ $user->province }}"
                                 disabled
                             @endif>
                 </div>
@@ -226,7 +237,7 @@
                                 </div>
                             </div>
                             <div class="col-4">
-                                <button type="button" class="btn btn-outline-dark col-12">TAMBAHKAN</button>
+                                <button type="button" class="btn btn-outline-dark col-12">TERAPKAN</button>
                             </div>
                         </div>     
                     </div>
@@ -275,17 +286,26 @@
                 password: 'required'
             }
         });
+        
+        $("#subdistrict_text").autocomplete({
+            source: "/api/subdistrict",
+            minLength: 3,
+            select: function( event, ui ) {
+                $('#subdistrict_value').val(ui.item.value)
+                $('#city').val(ui.item.city)
+                $('#province').val(ui.item.province)
+                $('#postal_code').val(ui.item.postal_code)
+            }
+        });
 
         $('#differentAddress').on('change', function() {
-            if(this.checked) {
-                console.log('checked')
-                $('input[name=name]').prop('disabled', false)
-                $('input[name=phone]').prop('disabled', false)
-                $('input[name=address]').prop('disabled', false)
-                $('input[name=province]').prop('disabled', false)
-                $('input[name=city]').prop('disabled', false)
-                $('input[name=postal_code]').prop('disabled', false)
-            }
+            $('input[name=name]').prop('disabled', function(i, v) { return !v; })
+            $('input[name=phone]').prop('disabled', function(i, v) { return !v; })
+            $('textarea[name=address]').prop('disabled', function(i, v) { return !v; })
+            $('input[name=province]').prop('disabled', function(i, v) { return !v; })
+            $('input[name=city]').prop('disabled', function(i, v) { return !v; })
+            $('input[name=subdistrict]').prop('disabled', function(i, v) { return !v; })
+            $('input[name=postal_code]').prop('disabled', function(i, v) { return !v; })
         })
 
         $('.bayar').click(evt => {

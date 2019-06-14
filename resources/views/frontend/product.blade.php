@@ -25,75 +25,107 @@
 
         <div class="col">
 
-            <hr class="hr-produk">
+            @if (null != $data->data->pre_order)
+                <hr class="hr-produk">
+            @endif
 
             <div class="row">
                 <div class="col-9 simpleCart_shelfItem">
                     <img style="display:none;" class="item_image" src="{{ asset('images\produk\i-1.jpg') }}">
                     <h2 class="headline-detail item_name">{{ $data->data->name }}</h2>
                     <h4>Rp. <span class="item_price">{{ $data->data->price }}</span></h4>
-                    <h5>
-                        Tanggal Berakhir
-                    </h5>
-                    <p>22 Januari 2020</p>
+
+                    @if (null != $data->data->pre_order)
+                        <h5>
+                            Tanggal Berakhir
+                        </h5>
+                        <p>22 Januari 2020</p>
+                    @endif
+
                     <br>
+
                     <h5>
                         DESKRIPSI
                     </h5>
-                    <div class="text item_desc">
-                        <p>{{ $data->data->description }}</p>
+                    <div class="text" style="line-height:1.5;">
+                        <p>{!! $data->data->description !!}</p>
                     </div>
+
                     <br>
-                    <h5>
-                        PILIH UKURAN
-                    </h5>
 
-                    <div class="row col-9 size">
-                        <div class="quantity buttons_added kiri">
-                            <span class="ukuran"> S</span>
-                            <input type="button" value="-" class="minus"><input type="number" step="1" min="0" name="s" value="0" title="Quantity" class="input-text qty text" size="4"><input type="button" value="+" class="plus">
+                    @if (null != $data->data->pre_order)
+                        <h5>
+                            PILIH UKURAN
+                        </h5>
+                        <div class="row col-9 size">
+                            <div class="quantity buttons_added kiri">
+                                <span class="ukuran"> S</span>
+                                <input type="button" value="-" class="minus"><input type="number" step="1" min="0" name="s" value="0" title="Quantity" class="input-text qty text" size="4"><input type="button" value="+" class="plus">
+                            </div>
+                            <div class="quantity buttons_added">
+                                <span class="ukuran"> M</span>
+                                <input type="button" value="-" class="minus"><input type="number" step="1" min="0" name="m" value="0" title="Quantity" class="input-text qty text" size="4"><input type="button" value="+" class="plus">
+                            </div>
                         </div>
-                        <div class="quantity buttons_added">
-                            <span class="ukuran"> M</span>
-                            <input type="button" value="-" class="minus"><input type="number" step="1" min="0" name="m" value="0" title="Quantity" class="input-text qty text" size="4"><input type="button" value="+" class="plus">
+                        <div class="row col-9 size">
+                            <div class="quantity buttons_added kiri">
+                                <span class="ukuran"> L</span>
+                                <input type="button" value="-" class="minus"><input type="number" step="1" min="0" name="l" value="0" title="Quantity" class="input-text qty text" size="4"><input type="button" value="+" class="plus">
+                            </div>
+                            <div class="quantity buttons_added">
+                                <span class="ukuran"> XL</span>
+                                <input type="button" value="-" class="minus"><input type="number" step="1" min="0" name="xl" value="0" title="Quantity" class="input-text qty text" size="4"><input type="button" value="+" class="plus">
+                            </div>
                         </div>
-                    </div>
+                        <div class="row col-9 size">
+                            <div class="quantity buttons_added kiri">
+                                <span class="ukuran"> XXL</span>
+                                <input type="button" value="-" class="minus"><input type="number" step="1" min="0" name="xxl" value="0" title="Quantity" class="input-text qty text" size="4"><input type="button" value="+" class="plus">
+                            </div>
+                            <div class="quantity buttons_added">
+                                <span class="ukuran"> XXXL</span>
+                                <input type="button" value="-" class="minus"><input type="number" step="1" min="0" name="xxxl" value="0" title="Quantity" class="input-text qty text" size="4"><input type="button" value="+" class="plus">
+                            </div>
+                        </div>
+                    @elseif (null == $data->data->pre_order)
+                        <h5>
+                            PILIHAN PRODUK 
+                        </h5>
+                        <form action="/action_page.php">
+                            <div class="form-group">
+                            <select class="form-control col-8" id="sel1" name="sellist1">
+                                <option>Pilih Produk</option>
+                                <option>Hitam, XL, Cotton, DTG</option>
+                                <option>Putih, L, Cotton, Karet</option>
+                            </select>
+                            </div>
+                        </form>
+                        <div class="row col-9 size">
+                            <div class="quantity buttons_added">
+                                <span class="ukuran">QTY</span>
+                                <input type="button" value="-" class="minus"><input type="number" step="1" min="1" max="" name="quantity" value="1" title="Qty" class="input-text qty text" size="4" pattern="" inputmode=""><input type="button" value="+" class="plus">
+                            </div>
+                        </div>
+                    @endif
 
-                    <div class="row col-9 size">
-                        <div class="quantity buttons_added kiri">
-                            <span class="ukuran"> L</span>
-                            <input type="button" value="-" class="minus"><input type="number" step="1" min="0" name="l" value="0" title="Quantity" class="input-text qty text" size="4"><input type="button" value="+" class="plus">
-                        </div>
-                        <div class="quantity buttons_added">
-                            <span class="ukuran"> XL</span>
-                            <input type="button" value="-" class="minus"><input type="number" step="1" min="0" name="xl" value="0" title="Quantity" class="input-text qty text" size="4"><input type="button" value="+" class="plus">
-                        </div>
-                    </div>
-
-                    <div class="row col-9 size">
-                        <div class="quantity buttons_added kiri">
-                            <span class="ukuran"> XXL</span>
-                            <input type="button" value="-" class="minus"><input type="number" step="1" min="0" name="xxl" value="0" title="Quantity" class="input-text qty text" size="4"><input type="button" value="+" class="plus">
-                        </div>
-                        <div class="quantity buttons_added">
-                            <span class="ukuran"> XXXL</span>
-                            <input type="button" value="-" class="minus"><input type="number" step="1" min="0" name="xxxl" value="0" title="Quantity" class="input-text qty text" size="4"><input type="button" value="+" class="plus">
-                        </div>
-                    </div>
                     <br>
                     <button type="button" class="btn btn-outline-dark col-8">LIHAT TABEL UKURAN</button>
+
                     <br>
                     <br>
+
                     <button class="btn btn-dark col-8 bayar item_add" id="addToCart" href="">BAYAR</button>
                     <br>
                     <br>
                     <br>
                 </div>
+                @if (null != $data->data->pre_order)
                 <div class=" col-3 ">
                     <h2 class="badge-text ">
                         PRE-ORDER
                     </h2>
                 </div>
+                @endif
             </div>
 
         </div>

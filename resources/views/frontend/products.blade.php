@@ -123,7 +123,9 @@
                             @php $key++ @endphp
                             <div class="col-md-4 px-0">
                                 <div class="card overflow-hidden">
-                                    <div class="card-badge">Pre Order</div>
+                                    @if ($product->pre_order != null)
+                                        <div class="card-badge">Pre Order</div>
+                                    @endif
                                     <a href="products/item/{{$product->id}}">
                                         <img class="card-img-top gambar" src="{{ asset('images\produk\2.png') }}">
                                     </a>

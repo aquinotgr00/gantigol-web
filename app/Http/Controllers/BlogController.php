@@ -25,9 +25,6 @@ class BlogController extends Controller
 
         $sameCategoryPosts = $this->client->get('api/blogs/post/category/'.$data->category_name.'/9');
         $sameCategoryPosts = json_decode($sameCategoryPosts->getBody())->post->data;
-        
-        $popularPosts = $this->client->get('api/blogs/post/category/bola/5');
-        $popularPosts = json_decode($popularPosts->getBody())->post->data;
 
         $categoryName = $data->category_name;
 
@@ -48,18 +45,15 @@ class BlogController extends Controller
             $tagPosts = json_decode($tagPosts->getBody());
         }
 
-        return view('frontend.single-post', compact('data', 'sameCategoryPosts', 'popularPosts', 'categoryName', 'tagPosts'));
+        return view('frontend.single-post', compact('data', 'sameCategoryPosts', 'categoryName', 'tagPosts'));
     }
 
     public function category($categoryName)
     {
         $data = $this->client->get('api/blogs/post/category/'.$categoryName.'/3');
         $data = json_decode($data->getBody());
-        
-        $popularPosts = $this->client->get('api/blogs/post/category/bola/5');
-        $popularPosts = json_decode($popularPosts->getBody())->post->data;
 
-        return view('frontend.category', compact('categoryName', 'data', 'popularPosts'));
+        return view('frontend.category', compact('categoryName', 'data'));
     }
 
     public function getNextPagePosts($category, $page)
