@@ -1,6 +1,6 @@
 <?php
 
-    Route::get('/', 'HomeController@index')->name('homepage');
+    Route::get('/', 'HomeController@index')->middleware('sidebar')->name('homepage');
     Route::post('search', 'HomeController@search')->name('homepage.search');
     Route::get('thanks', 'HomeController@thanks')->name('homepage.thanks');
     Route::get('reset', 'HomeController@reset')->name('homepage.reset');
@@ -28,12 +28,12 @@
     // ======================================================================================================   BLOG ROUTES
     // ===================================================================================================================================
     Route::name('blog.')->prefix('blog')->group(function () {
-        
-        Route::get('post/{id}', 'BlogController@post')->name('post');
-        Route::get('category/{name}', 'BlogController@category')->name('category');
-        Route::get('post-on-page/{category}/{page}', 'BlogController@getNextPagePosts')->name('post-next-page');
-        Route::get('tags', 'BlogController@tags')->name('tags');
-
+        Route::middleware(['sidebar'])->group(function () {
+            Route::get('post/{id}', 'BlogController@post')->name('post');
+            Route::get('category/{name}', 'BlogController@category')->name('category');
+            Route::get('post-on-page/{category}/{page}', 'BlogController@getNextPagePosts')->name('post-next-page');
+            Route::get('tags', 'BlogController@tags')->name('tags');
+        });
     });
 
 
