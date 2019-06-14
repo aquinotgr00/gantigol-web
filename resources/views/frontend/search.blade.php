@@ -17,7 +17,7 @@
     </div>
     <div>
         <br>
-        <p>HASIL PENCARIAN KATA "<b>{{$term}}</b>"</p>
+        <p>HASIL PENCARIAN KATA "<b>{{$term ?? ""}}</b>"</p>
     </div>
 </div>
 @endsection
@@ -28,77 +28,55 @@
         <div class="tab-content " id="nav-tabContent">
             <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                 <div class="card-deck">
-                    @foreach ($data as $key => $item)
-                        @if (0 === ($key%4))
+                    @if (isset($data))
+                        @foreach ($data as $key => $item)
+                            @if (0 === ($key%4))
+                                </div>
+                                <div class="card-deck">
+                            @endif
+                            <div class="col-md-3 px-0">
+                                <div class="card">
+                                    <a href="{{ route('blog.post', $item->searchable->id) }}">
+                                        <img class="card-img-top" src="{{ asset('images\content\2.png') }}" alt="Card image cap">
+                                    </a>
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{$item->title}}</h5>
+                                        <p class="card-text">{{substr(strip_tags($item->searchable->body), 0, 140)}}</p>
+                                    </div>
+                                    <div class="card-footer">
+                                        <small class="text-muted">Last updated 3 mins ago</small>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="card-deck">
-                        @endif
-                        <div class="card col-md-3 px-0">
-                            <a href="{{ route('blog.post', $item->searchable->id) }}">
-                                <img class="card-img-top" src="{{ asset('images\content\2.png') }}" alt="Card image cap">
-                            </a>
-                            <div class="card-body">
-                                <h5 class="card-title">{{$item->title}}</h5>
-                                <p class="card-text">{{substr(strip_tags($item->searchable->body), 0, 140)}}</p>
-                            </div>
-                            <div class="card-footer">
-                                <small class="text-muted">Last updated 3 mins ago</small>
-                            </div>
-                        </div>
-                    @endforeach
+                        @endforeach
+                    @endif
                 </div>
             </div>
         
             <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                 <div class="card-deck">
-                    <div class="card">
-                        <a href="#">
-                            <img class="card-img-top gambar"
-                                src="{{ asset('images\produk\2.png') }}">
-                        </a>
-                        <div class="card-body produk">
-                            <a href="#">
-                                <h5 class="card-title">KAOS AIR NIKE STELL</h5>
-                            </a>
-                            <p class="card-text">Rp. 150.000</p>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <a href="#">
-                            <img class="card-img-top gambar"
-                                src="{{ asset('images\produk\1.png') }}">
-                        </a>
-                        <div class="card-body produk">
-                            <a href="#">
-                                <h5 class="card-title">KAOS AIR NIKE STELL</h5>
-                            </a>
-                            <p class="card-text">Rp. 150.000</p>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <a href="#">
-                            <img class="card-img-top gambar"
-                                src="{{ asset('images\produk\3.png') }}">
-                        </a>
-                        <div class="card-body produk">
-                            <a href="#">
-                                <h5 class="card-title">KAOS AIR NIKE STELL</h5>
-                            </a>
-                            <p class="card-text">Rp. 150.000</p>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <a href="#">
-                            <img class="card-img-top gambar"
-                                src="{{ asset('images\produk\3.png') }}">
-                        </a>
-                        <div class="card-body produk">
-                            <a href="#">
-                                <h5 class="card-title">KAOS AIR NIKE STELL</h5>
-                            </a>
-                            <p class="card-text">Rp. 150.000</p>
-                        </div>
-                    </div>
+                    @if (isset($product))
+                        @foreach ($product->data as $key => $item)
+                            @if (0 === ($key%4))
+                                </div>
+                                <div class="card-deck">
+                            @endif
+                            <div class="col-md-3 px-0">
+                                <div class="card">
+                                    <a href="#">
+                                        <img class="card-img-top gambar"
+                                            src="{{ asset('images\produk\2.png') }}">
+                                    </a>
+                                    <div class="card-body produk">
+                                        <a href="#">
+                                            <h5 class="card-title">{{$item->name}}</h5>
+                                        </a>
+                                        <p class="card-text">Rp. {{$item->price}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    @endif
                 </div>
             </div>
         </div>

@@ -101,25 +101,51 @@
                 <!--First slide-->
                 <div class="carousel-item product active">
                     <div class="card-deck">
-                        @foreach ($tagPosts as $key => $post)
-                            @if (0 != $key && 0 === ($key%3))
-                                </div></div>
-                                <div class="carousel-item product">
-                                <div class="card-deck">
-                            @endif
-                            <div class="card">
-                                <a href="">
-                                    <img class="card-img-top" src="{{ asset('images\content\2.png') }}" alt="Card image cap">
-                                </a>
-                                <div class="card-body">
-                                    <h5 class="card-title">{{$post->title}}</h5>
-                                    <p class="card-text">{{strip_tags($post->body)}}</p>
+                        @if ($tagPosts != null)
+                            @foreach ($tagPosts as $key => $post)
+                                @if (0 != $key && 0 === ($key%3))
+                                    </div></div>
+                                    <div class="carousel-item product">
+                                    <div class="card-deck">
+                                @endif
+                                <div class="col-md-4 px-0">
+                                    <div class="card">
+                                        <a href="">
+                                            <img class="card-img-top" src="{{ asset('images\content\2.png') }}" alt="Card image cap">
+                                        </a>
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{$post->title}}</h5>
+                                            <p class="card-text">{{substr(strip_tags($post->body), 0, 140)}}</p>
+                                        </div>
+                                        <div class="card-footer">
+                                            <small class="text-muted">Last updated 3 mins ago</small>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="card-footer">
-                                    <small class="text-muted">Last updated 3 mins ago</small>
+                            @endforeach
+                        @elseif (count($sameCategoryPosts) > 0)
+                            @foreach ($sameCategoryPosts as $key => $post)
+                                @if (0 != $key && 0 === ($key%3))
+                                    </div></div>
+                                    <div class="carousel-item product">
+                                    <div class="card-deck">
+                                @endif
+                                <div class="col-md-4 px-0">
+                                    <div class="card">
+                                        <a href="">
+                                            <img class="card-img-top" src="{{ asset('images\content\3.png') }}" alt="Card image cap">
+                                        </a>
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{$post->title}}</h5>
+                                            <p class="card-text">{{substr(strip_tags($post->body), 0, 140)}}</p>
+                                        </div>
+                                        <div class="card-footer">
+                                            <small class="text-muted">Last updated 3 mins ago</small>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        @endif
                     </div>
                 </div>
                 <!--/.First slide-->
@@ -130,7 +156,7 @@
         </div>
         <!--/.Carousel Wrapper-->
 
-        @if (count($tagPosts) > 3)
+        {{-- @if ($tagPosts != null && count($tagPosts) > 3) --}}
             <div class="controls-top control">
                 <div class="card-deck">
                     <div class="card line">
@@ -147,7 +173,7 @@
                     </div>
                 </div>
             </div>
-        @endif
+        {{-- @endif --}}
 
         <!-- baju -->
         <h4 class="section-header_title">PRODUK TERKAIT</h4>

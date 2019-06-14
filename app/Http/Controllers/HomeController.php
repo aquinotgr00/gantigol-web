@@ -122,10 +122,16 @@ class HomeController extends Controller
     public function search(Request $request)
     {
         $term = $request->term;
-        $response = $this->client->get('api/blogs/search/'.$term);
-        $data = json_decode($response->getBody());
-        // return response()->json($data);
-        return view('frontend.search', compact('term', 'data'));
+        if ($term !== null) {
+            $response = $this->client->get('api/blogs/search/'.$term);
+            $data = json_decode($response->getBody());
+
+            $product = $this->client->get('api-product/items?keyword='.$term);
+            $product = json_decode($product->getBody());
+
+            return view('frontend.search', compact('term', 'data', 'product'));
+        }
+        return view('frontend.search');
     }
     
     public function thanks()

@@ -32,18 +32,21 @@ class BlogController extends Controller
         $categoryName = $data->category_name;
 
         $tags = [];
+        $tagPosts = null;
         foreach ($data->tagged as $tag) {
             array_push($tags, $tag->tag_name);
         }
-        $tagPosts = $this->client->get('api/blogs/post/tag/limit/9', [
-            'headers' => [
-                'Accept' => 'application/json'
-            ],
-            'query' => [
-                'tag' => $tags[0]
-            ]
-        ]);
-        $tagPosts = json_decode($tagPosts->getBody());
+        if (isset($tags[0])) {
+            $tagPosts = $this->client->get('api/blogs/post/tag/limit/9', [
+                'headers' => [
+                    'Accept' => 'application/json'
+                ],
+                'query' => [
+                    'tag' => $tags[0]
+                ]
+            ]);
+            $tagPosts = json_decode($tagPosts->getBody());
+        }
 
         return view('frontend.single-post', compact('data', 'sameCategoryPosts', 'popularPosts', 'categoryName', 'tagPosts'));
     }

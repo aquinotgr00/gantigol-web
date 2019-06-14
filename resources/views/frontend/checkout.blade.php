@@ -49,18 +49,16 @@
                     Sudah punya akun?<a href="#" class="checkout_login_btn"><u class="ml-2">LOGIN</u></a>
                 </p>
                 @endif
-                <div class="form-group">
-                    <label for="email">EMAIL</label>
-                    <input  type="email" class="form-control" id="email" placeholder="Email"
-                            @if(isset($user))
-                                value="{{ $user->email }}"
-                                disabled
-                            @endif>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" name="differentAddress" id="differentAddress" value="checkedValue">
+                    <p>Gunakan alamat pengiriman beda.</p>
+                  </label>
                 </div>
 
                 <div class="form-group">
                     <label for="exampleInputEmail1">NAMA</label>
-                    <input class="form-control" type="text" placeholder="Nama"
+                    <input class="form-control" type="text" name="name" placeholder="Nama"
                             @if(isset($user))
                                 value="{{ $user->name }}"
                                 disabled
@@ -68,13 +66,22 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="phone">PHONE</label>
+                    <input type="phone" class="form-control" name="phone" id="phone" placeholder="phone"
+                            @if(isset($user))
+                                value="{{ $user->phone }}"
+                                disabled
+                            @endif>
+                </div>
+
+                <div class="form-group">
                     <label for="address">ALAMAT</label>
-                    <textarea class="form-control" id="address" rows="3">@if(isset($user)){{ $user->address }}@endif</textarea>
+                    <textarea class="form-control" name="address" id="address" rows="3"@if(isset($user)) disabled @endif>@if(isset($user)){{ $user->address }}@endif</textarea>
                 </div>
 
                 <div class="form-group">
                     <label for="province">PROVINSI</label>
-                    <input type="text" class="form-control" id="province" placeholder="Provinsi"
+                    <input type="text" class="form-control" name="province" id="province" placeholder="Provinsi"
                             @if(isset($user))
                                 value="{{ $user->province }}"
                                 disabled
@@ -83,7 +90,7 @@
 
                 <div class="form-group">
                     <label for="city">KOTA/KECAMATAN</label>
-                    <input type="text" class="form-control" id="city" placeholder="Kota/Kecamatan"
+                    <input type="text" class="form-control" name="city" id="city" placeholder="Kota/Kecamatan"
                             @if(isset($user))
                                 value="{{ $user->subdistrict }}"
                                 disabled
@@ -92,7 +99,7 @@
 
                 <div class="form-group">
                     <label for="postal_code">KODE POS</label>
-                    <input type="number" class="form-control" id="postal_code" placeholder="Kode Pos"
+                    <input type="number" class="form-control" name="postal_code" id="postal_code" placeholder="Kode Pos"
                             @if(isset($user))
                                 value="{{ $user->postal_code }}"
                                 disabled
@@ -268,6 +275,18 @@
                 password: 'required'
             }
         });
+
+        $('#differentAddress').on('change', function() {
+            if(this.checked) {
+                console.log('checked')
+                $('input[name=name]').prop('disabled', false)
+                $('input[name=phone]').prop('disabled', false)
+                $('input[name=address]').prop('disabled', false)
+                $('input[name=province]').prop('disabled', false)
+                $('input[name=city]').prop('disabled', false)
+                $('input[name=postal_code]').prop('disabled', false)
+            }
+        })
 
         $('.bayar').click(evt => {
             evt.preventDefault()
