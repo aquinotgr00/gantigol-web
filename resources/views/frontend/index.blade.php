@@ -51,16 +51,18 @@
             {{-- NEWS ROW --}}
             <div class="card-deck">
                 @foreach ($klub->post->data as $value)
-                    <div class="card">
-                        <a href="{{ route('blog.post', $value->id) }}">
-                            <img class="card-img-top" src="{{ asset('images\content\2.png') }}" alt="Card image cap">
-                        </a>
-                        <div class="card-body">
-                            <h5 class="card-title">{{$value->title}}</h5>
-                            <p class="card-text">{{ substr(strip_tags(html_entity_decode($value->body)), 0, 140) }}</p>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">{!! date_format(new DateTime($value->publish_date),'d M')!!}</small>
+                    <div class="col-md-4 px-0">
+                        <div class="card">
+                            <a href="{{ route('blog.post', $value->id) }}">
+                                <img class="card-img-top" src="{{ asset('images\content\2.png') }}" alt="Card image cap">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">{{$value->title}}</h5>
+                                <p class="card-text">{{ substr(strip_tags(html_entity_decode($value->body)), 0, 140) }}</p>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted">{!! date_format(new DateTime($value->publish_date),'d M')!!}</small>
+                            </div>
                         </div>
                     </div>
                 @endforeach
@@ -103,16 +105,18 @@
             {{-- NEWS ROW --}}
             <div class="card-deck">
                 @foreach ($bola->post->data as $value)
-                    <div class="card">
-                        <a href="{{ route('blog.post', $value->id) }}">
-                            <img class="card-img-top" src="{{ asset('images\content\2.png') }}" alt="Card image cap">
-                        </a>
-                        <div class="card-body">
-                            <h5 class="card-title">{{$value->title}}</h5>
-                            <p class="card-text">{{ substr(strip_tags(html_entity_decode($value->body)), 0, 140) }}</p>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">{!! date_format(new DateTime($value->publish_date),'d M')!!}</small>
+                    <div class="col-md-4 px-0">
+                        <div class="card">
+                            <a href="{{ route('blog.post', $value->id) }}">
+                                <img class="card-img-top" src="{{ asset('images\content\2.png') }}" alt="Card image cap">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">{{$value->title}}</h5>
+                                <p class="card-text">{{ substr(strip_tags(html_entity_decode($value->body)), 0, 140) }}</p>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted">{!! date_format(new DateTime($value->publish_date),'d M')!!}</small>
+                            </div>
                         </div>
                     </div>
                 @endforeach
@@ -154,16 +158,18 @@
             {{-- NEWS ROW --}}
             <div class="card-deck">
                 @foreach ($man->post->data as $value)
-                    <div class="card">
-                        <a href="{{ route('blog.post', $value->id) }}">
-                            <img class="card-img-top" src="{{ asset('images\content\2.png') }}" alt="Card image cap">
-                        </a>
-                        <div class="card-body">
-                            <h5 class="card-title">{{$value->title}}</h5>
-                            <p class="card-text">{{ substr(strip_tags(html_entity_decode($value->body)), 0, 140) }}</p>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">{!! date_format(new DateTime($value->publish_date),'d M')!!}</small>
+                    <div class="col-md-4 px-0">
+                        <div class="card">
+                            <a href="{{ route('blog.post', $value->id) }}">
+                                <img class="card-img-top" src="{{ asset('images\content\2.png') }}" alt="Card image cap">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">{{$value->title}}</h5>
+                                <p class="card-text">{{ substr(strip_tags(html_entity_decode($value->body)), 0, 140) }}</p>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted">{!! date_format(new DateTime($value->publish_date),'d M')!!}</small>
+                            </div>
                         </div>
                     </div>
                 @endforeach

@@ -60,10 +60,10 @@
                         </a>
                     </div>
                 </li>
-                <li class="nav-item dropdown forgot login-parent">
+                <li class="nav-item forgot dropdown login-parent">
                     <a href="#" role="button" aria-haspopup="true" aria-expanded="false"><img class="btn" src="{{ asset('images\gantigol\user.svg') }}"></a>
                     @if (!Session::has('token'))
-                        <div class="dropdown-menu login">
+                        <div class="dropdown-menu login-child login">
                             @if (session('error'))
                                 <span class="text-white">{{ session('error') }}</span>
                             @endif
@@ -94,7 +94,7 @@
                             </form>
                         </div>
                     @elseif(Session::has('token'))
-                        <div class="dropdown-menu login">
+                        <div class="dropdown-menu login-child login">
                             <p class="text-light mb-1">Halo,</p>
                             <h5 class="text-light">{{ Session::get('username') }}</h5>
                             <hr class="hr-cart">
@@ -208,6 +208,11 @@
                 event.preventDefault()
                 $(this).parent().toggleClass('show')
                 $(this).parent().children('div.dropdown-menu.login').toggleClass('show')
+                if ($(this).parent().hasClass('login-parent')) {
+                    $('div.dropdown-menu.dropdown-cart').removeClass('show')
+                } else if ($(this).parent().hasClass('dropdown-cart')) {
+                    $('div.dropdown-menu.login-child').removeClass('show')
+                }
             })
             // and then listening the clicks outside of the dropdown to close it 
             $('body').on('click', function (e) {
