@@ -35,12 +35,10 @@ class MembershipController extends Controller
     public function signin(Request $request)
     {
         $request->request->add(['verification' => 'unverified']);
-        return $request->all();
 
         $response = $this->client->post('auth/signin', [
             'form_params' => $request->except(['_token', 'cart_session'])
         ]);
-        dd($response->getBody()->getContents());
 
         $statuscode = $response->getStatusCode();
 
@@ -85,6 +83,8 @@ class MembershipController extends Controller
         // get user by token
         $user = $this->client->get('api/user', [
             'headers' => [
+                'Content-Type' => 'application/json',
+                'X-Requested-With' => 'XMLHttpRequest',
                 'Authorization' => 'Bearer '.$token
             ]
         ]);
@@ -98,6 +98,8 @@ class MembershipController extends Controller
         // get user by token
         $user = $this->client->get('api/user', [
             'headers' => [
+                'Content-Type' => 'application/json',
+                'X-Requested-With' => 'XMLHttpRequest',
                 'Authorization' => 'Bearer '.$request->session()->get('token')
             ]
         ]);
@@ -108,20 +110,22 @@ class MembershipController extends Controller
         $userCart = $this->client->get('api-ecommerce/cart-by-user/'.$user['id']);
         $userCart = json_decode($userCart->getBody())->data;
 
-        // update the user cart items to checked false
-        foreach ($userCart->get_items as $key => $item) {
-            $response = $this->client->post('api-ecommerce/cart', [
-                'form_params' => [
-                    'session' => $userCart->session,
-                    'items[$key][product_id]' => $item->product_id,
-                    'items[$key][qty]' => 0,
-                    'items[$key][price]' => $item->price,
-                    'items[$key][size_code]' => $item->size_code,
-                    'items[$key][subtotal]' => 0,
-                    'items[$key][checked]' => 'false',
-                    'total' => 0
-                ]
-            ]);
+        if (isset($userCart->get_items)) {
+            // update the user cart items to checked false
+            foreach ($userCart->get_items as $key => $item) {
+                $response = $this->client->post('api-ecommerce/cart', [
+                    'form_params' => [
+                        'session' => $userCart->session,
+                        'items[$key][product_id]' => $item->product_id,
+                        'items[$key][qty]' => 0,
+                        'items[$key][price]' => $item->price,
+                        'items[$key][size_code]' => $item->size_code,
+                        'items[$key][subtotal]' => 0,
+                        'items[$key][checked]' => 'false',
+                        'total' => 0
+                    ]
+                ]);
+            }
         }
         $request->session()->flush();
 

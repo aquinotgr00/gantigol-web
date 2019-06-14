@@ -39,7 +39,7 @@
                             </a>
                             <div class="card-body">
                                 <h5 class="card-title">{{$item->title}}</h5>
-                                <p class="card-text">{{strip_tags($item->searchable->body)}}</p>
+                                <p class="card-text">{{substr(strip_tags($item->searchable->body), 0, 140)}}</p>
                             </div>
                             <div class="card-footer">
                                 <small class="text-muted">Last updated 3 mins ago</small>

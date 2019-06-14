@@ -30,8 +30,8 @@
             <div class="row">
                 <div class="col-9 simpleCart_shelfItem">
                     <img style="display:none;" class="item_image" src="{{ asset('images\produk\i-1.jpg') }}">
-                    <h2 class="headline-detail item_name">{{ $data->product->name }}</h2>
-                    <h4>Rp. <span class="item_price">{{ $data->product->price }}</span></h4>
+                    <h2 class="headline-detail item_name">{{ $data->data->name }}</h2>
+                    <h4>Rp. <span class="item_price">{{ $data->data->price }}</span></h4>
                     <h5>
                         Tanggal Berakhir
                     </h5>
@@ -41,7 +41,7 @@
                         DESKRIPSI
                     </h5>
                     <div class="text item_desc">
-                        <p>{{ $data->product->description }}</p>
+                        <p>{{ $data->data->description }}</p>
                     </div>
                     <br>
                     <h5>
