@@ -95,7 +95,7 @@
             </div>
 
             <div class="col-9" id="product-list">
-                
+
                 <div class="card-deck list">
                     @if ($data !== null)
                         @foreach ($data->data as $key => $product)
