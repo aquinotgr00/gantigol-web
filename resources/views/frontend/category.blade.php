@@ -11,7 +11,7 @@
             <div>
                 <a href="{{ route('blog.post', $data->highlight->id) }}" class="custom-card">
                     <div class="card bg-dark text-white">
-                        <img class="card-img" src="{{ asset('images\content\1.png') }}" alt="Card image">
+                        <img class="card-img" src="{{ $data->highlight->image }}" alt="Card image">
                         <div class="card-img-overlay" href="#">
                             <h3 class="card-title judul">{{$data->highlight->title}}</h3>
                         </div>
@@ -31,7 +31,7 @@
                     <div class="col-md-4 px-0">
                         <div class="card">
                             <a href="{{ route('blog.post', $post->id) }}">
-                                <img class="card-img-top" src="{{ asset('images\content\2.png') }}" alt="Card image cap">
+                                <img class="card-img-top" src="{{ $post->id }}" alt="Card image cap">
                             </a>
                             <div class="card-body">
                                 <h5 class="card-title">{{$post->title}}</h5>

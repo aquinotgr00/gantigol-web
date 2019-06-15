@@ -6,7 +6,9 @@
                 <div class="carousel-item {{ $key == 0 ? 'active':'' }}" style="background-image: url('{{$banner['image']}}')">>
                     <div class="carousel-caption d-none d-md-block">
                         <h3 class="display-4">{{$banner['title']}}</h3>
-                        <a class="btn btn-primary" href="{{ route('blog.post', $banner['url']) }}">SELENGKAPNYA</a>
+                        @if(!empty($banner['url']))
+                        <a class="btn btn-primary" href="{{ $banner['url'] }}">SELENGKAPNYA</a>
+                        @endif
                     </div>
                 </div>
             @endforeach

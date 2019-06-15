@@ -115,7 +115,7 @@
                 <hr>
                 <div class="card">
                     @foreach ($sidePost['legends'] as $key => $value)
-                    <img class="card-img-top" src="{{ asset('images\content\2.png') }}" alt="Card image cap">
+                    <img class="card-img-top" src="{{ $value->image }}" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title">{!! date_format(new DateTime($value->publish_date),'d F')!!}</h5>
                         <p class="card-text">{{ substr(strip_tags(html_entity_decode($value->body)), 0, 300) }}</p>
