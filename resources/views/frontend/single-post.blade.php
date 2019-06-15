@@ -133,7 +133,7 @@
                                 <div class="col-md-4 px-0">
                                     <div class="card">
                                         <a href="">
-                                            <img class="card-img-top" src="{{ asset('images\content\3.png') }}" alt="Card image cap">
+                                            <img class="card-img-top" src="{{ $post->title }}" alt="Card image cap">
                                         </a>
                                         <div class="card-body">
                                             <h5 class="card-title">{{$post->title}}</h5>
