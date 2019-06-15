@@ -52,11 +52,16 @@
                                 PILIH UKURAN
                             </h5>
                             <div class="row col-9 size">
-                                @foreach ($data->data->variants as $item)
-                                    <div class="quantity buttons_added kiri">
-                                        <span class="ukuran"> {{$item->size_code}}</span>
+                                @foreach ($data->data->variants as $key => $item)
+                                    @php $key++ @endphp
+                                    <div class="quantity buttons_added @if ($key%2 != 0) kiri @endif">
+                                        <span class="ukuran"> {{$item->variant}}</span>
                                         <input type="button" value="-" class="minus"><input type="number" step="1" min="0" name="s" value="0" title="Quantity" class="input-text qty text" size="4"><input type="button" value="+" class="plus">
                                     </div>
+                                    @if ($key%2 == 0 && $key != count($data->data->variants))
+                                        </div>
+                                        <div class="row col-9 size">
+                                    @endif
                                 @endforeach
                             </div>
                         @endif
@@ -78,8 +83,9 @@
                             <div class="form-group">
                                 <select class="form-control col-8" id="sel1" name="sellist1">
                                     <option>Pilih Produk</option>
-                                    <option>Hitam, XL, Cotton, DTG</option>
-                                    <option>Putih, L, Cotton, Karet</option>
+                                    @foreach($data->data->variants as $item)
+                                        <option>{{$item->variant}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         @endif

@@ -202,7 +202,7 @@
     <script>
         $(document).ready(function () {
             
-            // dropdown mechanism
+            // Dropdown mechanism
             // First by handling the click on the link to open/close the dropdown
             $('li.dropdown.forgot a[role=button]').on('click', function (event) {
                 event.preventDefault()
@@ -253,6 +253,7 @@
                 localStorage.removeItem('session')
             })
 
+            // remove cart item
             $('#cart-wrapper').on('click', '.simpleCart_remove', function(evt) {
                 evt.preventDefault()
                 const id = $(this).data('id')
@@ -513,7 +514,7 @@
             }
 
             $('#addToCart').click(() => {
-                loopSizes()
+                // loopSizes()
             })
         })
     </script>
