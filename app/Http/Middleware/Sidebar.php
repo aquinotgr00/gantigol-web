@@ -24,7 +24,7 @@ class Sidebar
     {
         $this->client = new Client([
             'base_uri' => env('API_URL'),
-            'timeout' => '10',
+            'timeout' => env('timeout','500'),
             'http_errors' => false,
         ]);
     }
