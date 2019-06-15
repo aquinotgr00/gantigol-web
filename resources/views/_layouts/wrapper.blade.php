@@ -291,8 +291,8 @@
                 })
                 if (contained) {
                     // if (localStorage.getItem('cart_id') === null) {
-                        let session = getBrowserSession()
-                        postItemToCart(items, session)
+                        // let session = getBrowserSession()
+                        // postItemToCart(items, session)
                     // } else if (localStorage.getItem('cart_id') !== null) {
                     //     putItemToCart(items)
                     // }
@@ -324,8 +324,6 @@
                     }
                 })
             }
-            **/
-
             function postItemToCart(items, session) {
                 $.ajax({
                     url: '/api/carts/store',
@@ -346,8 +344,6 @@
                     }
                 })
             }
-
-            /**
             function getCartIdBySession(session) {
                 $.ajax({
                     url: '/api/carts/get-cart-id',
@@ -359,6 +355,27 @@
                 })
             }
             **/
+
+            function storeItem(qty, session) {
+                $.ajax({
+                    url: '/api/carts/store',
+                    type: 'POST',
+                    data: {
+                        id: '{{ \Request::segment(3) }}',
+                        qty: qty,
+                        user_token: localStorage.getItem('user_token'),
+                        session: session
+                    },
+                    success: function (res) {
+                        if (localStorage.getItem('cart_id') === null) {
+                            localStorage.setItem('cart_id', res.data.id)
+                        }
+                        $('.dropdown-cart').toggleClass('show')
+                        putSessionWithLogin()
+                        getCartItems(res.data.id)
+                    }
+                })
+            }
 
             function init() {
                 @if (session('cart_id'))
@@ -405,53 +422,53 @@
             }
 
             @if (Request::is('checkout'))
-                function placeCartItemsOnCheckout(data) {
-                    data.map(item => {
-                        $(
-                            '<hr class="hr-light top-line">' +
-                            '<div class="row barang">' +
-                                '<div class="col-7">' +
+            function placeCartItemsOnCheckout(data) {
+                data.map(item => {
+                    $(
+                        '<hr class="hr-light top-line">' +
+                        '<div class="row barang">' +
+                            '<div class="col-7">' +
+                                '<div>' +
                                     '<div>' +
+                                        `<img class="outline" src="{{ asset('images/produk/p1.png') }}" />` +
+                                    '</div>' +
+                                    '<div class="detil-barang">' +
                                         '<div>' +
-                                            `<img class="outline" src="{{ asset('images/produk/p1.png') }}" />` +
+                                            `<span class="judul-barang">${item.id}</span>` +
                                         '</div>' +
-                                        '<div class="detil-barang">' +
-                                            '<div>' +
-                                                `<span class="judul-barang">${item.id}</span>` +
-                                            '</div>' +
-                                            '<div>' +
-                                                '<span class="judul-barang">HARGA  </span>' +
-                                                `<span> Rp ${item.price}</span>` +
-                                            '</div>' +
-                                            '<div>' +
-                                                '<span class="judul-barang size-cart">SIZE </span>' +
-                                                `<span> ${item.size_code}</span>` +
-                                            '</div>' +
-                                            '<div>' +
-                                                '<span class="judul-barang qty-cart">QTY  </span>' +
-                                                `<span>  ${item.qty}</span>` +
-                                            '</div>' +
-                                            '<div class="quantity buttons_added">' +
-                                                `<input type="button" value="-" class="minus"><input type="number" step="1" min="1" max="" name="quantity" value="${item.qty}" title="Qty" class="input-text qty text" size="4" pattern="" inputmode=""><input type="button" value="+" class="plus">` +
-                                            '</div>' +
+                                        '<div>' +
+                                            '<span class="judul-barang">HARGA  </span>' +
+                                            `<span> Rp ${item.price}</span>` +
+                                        '</div>' +
+                                        '<div>' +
+                                            '<span class="judul-barang size-cart">SIZE </span>' +
+                                            `<span> ${item.size_code}</span>` +
+                                        '</div>' +
+                                        '<div>' +
+                                            '<span class="judul-barang qty-cart">QTY  </span>' +
+                                            `<span>  ${item.qty}</span>` +
+                                        '</div>' +
+                                        '<div class="quantity buttons_added">' +
+                                            `<input type="button" value="-" class="minus"><input type="number" step="1" min="1" max="" name="quantity" value="${item.qty}" title="Qty" class="input-text qty text" size="4" pattern="" inputmode=""><input type="button" value="+" class="plus">` +
                                         '</div>' +
                                     '</div>' +
                                 '</div>' +
-                                '<div class="col-1">' +
-                                    '<div>' +
-                                        '<div class="diskon">0%</div>' +
-                                    '</div>' +
+                            '</div>' +
+                            '<div class="col-1">' +
+                                '<div>' +
+                                    '<div class="diskon">0%</div>' +
                                 '</div>' +
-                                '<div class=" col-3">' +
-                                    `<div class="harga">Rp. ${item.qty*item.price}</div>` +
-                                '</div>' +
-                                '<div class="col-1">' +
-                                    '<a href="" class="far fa-trash-alt fa-sm barang"> </a>' +
-                                '</div>' +
-                            '</div>'
-                        ).appendTo('#checkout-item-list')
-                    })
-                }
+                            '</div>' +
+                            '<div class=" col-3">' +
+                                `<div class="harga">Rp. ${item.qty*item.price}</div>` +
+                            '</div>' +
+                            '<div class="col-1">' +
+                                '<a href="" class="far fa-trash-alt fa-sm barang"> </a>' +
+                            '</div>' +
+                        '</div>'
+                    ).appendTo('#checkout-item-list')
+                })
+            }
             @endif
 
             function appendToCart(item) {
@@ -468,7 +485,7 @@
                             '</div>' +
                             '<div class="item-price">' +
                                 '<span class="size-cart">SIZE </span>' +
-                                `<span class="input-data"> ${item.size_code}</span>` +
+                                `<span class="input-data"> ${item.size_code && 'no size'}</span>` +
                             '</div>' +
                             '<div class="item-price">' +
                                 '<span class="qty-cart">QTY  </span>' +
@@ -496,9 +513,10 @@
             
             function getCartItems(id) {
                 let url = '/api/carts/items/' + id
-                @if (Request::is('checkout'))
-                    url = '/api/carts/items/' + id + '/true'
-                @endif
+                // @if (Request::is('checkout'))
+                //     url = '/api/carts/items/' + id + '/true'
+                // @endif
+
                 $.ajax({
                     url: url,
                     type: 'GET',
@@ -516,7 +534,9 @@
             }
 
             $('#addToCart').click(() => {
-                console.log($('input[name=quantity]').val())
+                let qty = $('input[name=quantity]').val()
+                let session = getBrowserSession()
+                storeItem(qty, session)
                 // loopSizes()
             })
         })

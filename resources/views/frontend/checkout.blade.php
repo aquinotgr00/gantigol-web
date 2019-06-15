@@ -201,29 +201,27 @@
                 <div class="row">
                     <div class="col-4 kurir">
                         <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle list-product kurir" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <div>
-                                    <p class="mb-0 sort-by">
-                                        Pilih Kurir
-                                    </p>
-                                    <span class="category card-category"><i class="fas fa-angle-down rotate-icon"></i></span>
-                                </div>
-                            </button>
+                            <div class="form-group">
+                                <select class="gantigoal-select" name="courier" id="courier">
+                                    <option>Pilih Kurir</option>
+                                    <option>JNE</option>
+                                    <option>TIKI</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div class="col-4 kurir">
                         <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle list-product kurir" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <div>
-                                    <p class="mb-0 sort-by">
-                                        Jenis pengiriman
-                                    </p>
-                                    <span class="category card-category"><i class="fas fa-angle-down rotate-icon"></i></span>
-                                </div>
-                            </button>
+                            <div class="form-group">
+                                <select class="gantigoal-select" name="courier-type" id="courier-type">
+                                    <option>Jenis pengiriman</option>
+                                    <option>YES</option>
+                                    <option>OKE</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-4">
+                    <div class="col-4 courier_fee">
                         Rp. 0
                     </div>
                     <div class="col-12">
@@ -233,26 +231,30 @@
                             </div>
                             <div class=" col-4">
                                 <div class="form-group">
-                                <input class="form-control" type="text" placeholder="Masukkan Kode Kupon" >
+                                    <input class="form-control" id="promo-code" name="promo-code" type="text" placeholder="Masukkan Kode Kupon" >
                                 </div>
                             </div>
                             <div class="col-4">
-                                <button type="button" class="btn btn-outline-dark col-12">TERAPKAN</button>
+                                <button type="button" id="promo-code-btn" class="btn btn-outline-dark col-12">TERAPKAN</button>
                             </div>
                         </div>     
                     </div>
                 </div>
                 <hr class="hr-light bottom-line">
-                <div class="col-8">
+                <div class="col-10 pr-5 text-right">
                     <div>
-                        <label class="float-sm-right">DISKON</label>
+                        <label class="pr-4">DISKON
+                        </label>
+                        <span class="discount">Rp. 80.000</span>
                     </div>
                 </div>
             </div>
             <div class="col-12">
-                <div class="col-8">
+                <div class="col-10 pr-5 text-right">
                     <div>
-                        <label class="float-sm-right">TOTAL</label>
+                        <label class="pr-4">TOTAL
+                        </label>
+                        <span class="total_price">Rp. 100.000</span>
                     </div>
                 </div>
                 <button class="btn btn-dark col-12 bayar">BAYAR</button>
@@ -311,6 +313,20 @@
         $('.bayar').click(evt => {
             evt.preventDefault()
             window.location = '/thanks'
+        })
+
+        $('#promo-code-btn').click(() => {
+            let promo = $('input[name=promo-code]').val()
+            $.ajax({
+                url: '/api/carts/apply-promo',
+                type: 'POST',
+                data: {
+                    promo: promo
+                },
+                success: res => {
+                    console.log(res)
+                }
+            })
         })
     })
 </script>

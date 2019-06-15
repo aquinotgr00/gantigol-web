@@ -1062,6 +1062,19 @@ label.error {
   font-family: 'proxima-nova', sans-serif;
   font-size: 14px!important;
 }
+.gantigoal-select {
+  background: url(https://image.flaticon.com/icons/svg/25/25629.svg) 96% / 4% no-repeat #eee;
+  -webkit-appearance: none;
+  border-radius: 0;
+  background-color: #fff;
+  width: 100%;
+  padding-left: 10px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  font-weight: 300;
+  color: #000;
+  border: 1px solid #888;
+}
 
 /* end of additional from aqn */
 /* ======================================================================================================================== */

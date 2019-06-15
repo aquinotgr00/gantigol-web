@@ -127,7 +127,53 @@ class CartController extends Controller
         return response()->json('failed');
     }
 
+    public function applyPromo(Request $request)
+    {
+        $response = $this->client->get('api/promos/promo/'.$request->promo);
+        $response = json_decode($response->getBody());
+        return response()->json($response);
+    }
+
     public function store(Request $request)
+    {
+        $product = $this->getProduct($request->id);
+        
+        $userId = null;
+        if ($request->user_token != null) {
+            // get user by token
+            $user = $this->client->get('api/user', [
+                'headers' => [
+                    'Content-Type' => 'application/json',
+                    'X-Requested-With' => 'XMLHttpRequest',
+                    'Authorization' => 'Bearer '.$request->user_token
+                ]
+            ]);
+
+            $user = json_decode($user->getBody());
+            $userId = $user->id;
+        }
+
+        $total = $product->data->price * $request->qty;
+        
+        $response = $this->client->post('api-ecommerce/cart', [
+            'form_params' => [
+                'session' => $request->session,
+                'items[$key][product_id]' => $request->id,
+                'items[$key][qty]' => $request->qty,
+                'items[$key][price]' => $product->data->price,
+                'items[$key][subtotal]' => $total,
+                'items[$key][wishlist]' => 'false',
+                'items[$key][checked]' => 'true',
+                'amount_items' => $request->qty,
+                'user_id' => $userId,
+                'total' => $total
+            ]
+        ]);
+        $data = json_decode($response->getBody());
+        return response()->json($data);
+    }
+
+    public function storeItems(Request $request)
     {
         $product = $this->getProduct($request->id);
         $quantity = 0;

@@ -11,24 +11,12 @@
         <div class="col-3 ">
             <div class="dropdown">
                 <div class="form-group">
-                  <select name="sortBy" id="sortBy" style="
-                        background: url(https://image.flaticon.com/icons/svg/25/25629.svg) 96% / 4% no-repeat #eee;
-                        -webkit-appearance: none;
-                        border-radius: 0;
-                        background-color: #fff;
-                        width: 100%;
-                        padding-left: 10px;
-                        padding-top: 7px;
-                        padding-bottom: 7px;
-                        font-weight: 300;
-                        color: #000;
-                        border: 1px solid #888;
-                  ">
-                    <option>Sort By</option>
-                    <option>Latest</option>
-                    <option>Lowest Price First</option>
-                    <option>Highest Price First</option>
-                  </select>
+                    <select name="sortBy" id="sortBy" class="gantigoal-select">
+                        <option>Sort By</option>
+                        <option>Latest</option>
+                        <option>Lowest Price First</option>
+                        <option>Highest Price First</option>
+                    </select>
                 </div>
             </div>
         </div>
