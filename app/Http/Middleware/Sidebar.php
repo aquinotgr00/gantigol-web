@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use Closure;
 use GuzzleHttp\Client;
-use function GuzzleHttp\json_decode;
 
 class Sidebar
 {
@@ -25,7 +24,7 @@ class Sidebar
     {
         $this->client = new Client([
             'base_uri' => env('API_URL'),
-            'timeout' => '5',
+            'timeout' => '10',
             'http_errors' => false,
         ]);
     }

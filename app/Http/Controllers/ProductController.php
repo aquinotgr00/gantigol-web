@@ -11,7 +11,7 @@ class ProductController extends Controller
     {
         $this->client = new Client([
             'base_uri' => env('API_URL'),
-            'connect_timeout' => '5',
+            'connect_timeout' => '10',
             'http_errors' => false,
         ]);
     }
