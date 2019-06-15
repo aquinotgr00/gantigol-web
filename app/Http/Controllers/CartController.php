@@ -127,6 +127,26 @@ class CartController extends Controller
         return response()->json('failed');
     }
 
+    public function postCheckout(Request $request)
+    {
+        $shipping = [];
+        parse_str($request->shipping, $shipping);
+        $response = $this->client->post('api-ecommerce/cart-checkout', [
+            'form_params' => [
+                'session' => $request->session,
+                'shipping_name' => $shipping['name'],
+                'shipping_phone' => $shipping['phone'],
+                'shipping_address' => $shipping['address'],
+                'shipping_cost' => $shipping['cost'],
+                'billing_name' => $shipping['name'],
+                'shipment_name' => $shipping['shipment_name'],
+                'shipping_email' => 'dummy_email@mail.com',
+            ]
+        ]);
+        $response = json_decode($response->getBody());
+        return response()->json($response);
+    }
+
     public function applyPromo(Request $request)
     {
         $response = $this->client->get('api/promos/promo/'.$request->promo);
