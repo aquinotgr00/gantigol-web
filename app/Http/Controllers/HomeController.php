@@ -13,7 +13,7 @@ class HomeController extends Controller
     {
         $this->client = new Client([
             'base_uri' => env('API_URL'),
-            'timeout' => '10',
+            'timeout' => env('CURL_TIMEOUT','50'),
             'http_errors' => false,
         ]);
     }
