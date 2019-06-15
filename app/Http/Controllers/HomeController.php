@@ -127,6 +127,12 @@ class HomeController extends Controller
         }
         return view('frontend.search');
     }
+
+    public function infoPage(Request $request)
+    {
+        $categoryName = $request->segment(1);
+        return view('frontend.info', compact('categoryName'));
+    }
     
     public function thanks()
     {

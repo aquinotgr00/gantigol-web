@@ -279,12 +279,10 @@
 
             function loopSizes() {
                 let items = []
-                // let session = ''
                 let contained = false
                 $('.qty').map((key, inputt) => {
                     if (inputt.value != 0) {
                         contained = true;
-                        // session = Math.random().toString(36).substring(2, 20) + Math.random().toString(36).substring(2, 20)
                         let itemObj = {}
                         itemObj['size_code'] = inputt.name
                         itemObj['quantity'] = inputt.value
@@ -456,35 +454,39 @@
                 }
             @endif
 
+            function appendToCart(item) {
+                $(
+                    '<li id="main_cart_items" class="clearfix simpleCart_items">' +
+                        `<img src="{{ asset('images/produk/1a.jpg') }}" />` +
+                        '<div class="detil">' +
+                            '<div class="col">' +
+                                `<span class="item-name">${item.id}</span>` +
+                            '</div>' +
+                            '<div class="item-price">' +
+                                '<span>HARGA  </span>' +
+                                `<span class="input-data"> ${item.price}</span>` +
+                            '</div>' +
+                            '<div class="item-price">' +
+                                '<span class="size-cart">SIZE </span>' +
+                                `<span class="input-data"> ${item.size_code}</span>` +
+                            '</div>' +
+                            '<div class="item-price">' +
+                                '<span class="qty-cart">QTY  </span>' +
+                                `<span class="input-data">  ${item.qty}</span>` +
+                            '</div>' +
+                            '<div class="main-color-text">' +
+                                `<a href="#" class="simpleCart_remove" data-qty="${item.qty}" data-price="${item.price}" data-id="${item.id}"><i class="far fa-trash-alt fa-sm"></i></a>` +
+                            '</div>' +
+                        '</div>' +
+                    '</li>'
+                ).appendTo('#cart-wrapper')
+            }
+
             function placeCartItems(data) {
                 clearCartDisplay()
                 updateTotal(data.data.total)
                 data.data.get_items.map(item => {
-                    $(
-                        '<li id="main_cart_items" class="clearfix simpleCart_items">' +
-                            `<img src="{{ asset('images/produk/1a.jpg') }}" />` +
-                            '<div class="detil">' +
-                                '<div class="col">' +
-                                    `<span class="item-name">${item.id}</span>` +
-                                '</div>' +
-                                '<div class="item-price">' +
-                                    '<span>HARGA  </span>' +
-                                    `<span class="input-data"> ${item.price}</span>` +
-                                '</div>' +
-                                '<div class="item-price">' +
-                                    '<span class="size-cart">SIZE </span>' +
-                                    `<span class="input-data"> ${item.size_code}</span>` +
-                                '</div>' +
-                                '<div class="item-price">' +
-                                    '<span class="qty-cart">QTY  </span>' +
-                                    `<span class="input-data">  ${item.qty}</span>` +
-                                '</div>' +
-                                '<div class="main-color-text">' +
-                                    `<a href="#" class="simpleCart_remove" data-qty="${item.qty}" data-price="${item.price}" data-id="${item.id}"><i class="far fa-trash-alt fa-sm"></i></a>` +
-                                '</div>' +
-                            '</div>' +
-                        '</li>'
-                    ).appendTo('#cart-wrapper')
+                    appendToCart(item)
                 })
                 hideEmptyEle(true)
                 @if (Request::is('checkout'))
@@ -514,6 +516,7 @@
             }
 
             $('#addToCart').click(() => {
+                console.log($('input[name=quantity]').val())
                 // loopSizes()
             })
         })

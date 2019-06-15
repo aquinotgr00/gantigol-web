@@ -145,7 +145,6 @@ class CartController extends Controller
             ]);
 
             $user = json_decode($user->getBody());
-            dd($user);
             $userId = $user->id;
         }
 

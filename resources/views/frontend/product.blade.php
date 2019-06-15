@@ -9,17 +9,13 @@
     <div class="col-5">
         <img class="images-post" src="{{ asset('images\produk\i-1.jpg') }}">
     </div>
-    <!-- sidebar< -->
-    <div class="side-bar"></div>
 
     <div class="col-7">
-
-        <div class="side-bar"></div>
 
         <div class="col">
 
             @if (null != $data->data->pre_order)
-                <hr class="hr-produk">
+            <hr class="hr-produk">
             @endif
 
             <div class="row">
@@ -43,7 +39,6 @@
                     <div class="text" style="line-height:1.5;">
                         <p>{!! $data->data->description !!}</p>
                     </div>
-
                     <br>
 
                     @if (null != $data->data->pre_order)
@@ -96,8 +91,8 @@
                             </div>
                         </div>
                     @endif
-
                     <br>
+
                     <button type="button" id="sizeChartBtn" data-toggle="modal" data-target="#size_chart_modal" class="btn btn-outline-dark col-8"
                         @if ($data->data->category->size_chart->image == null)
                             disabled
@@ -105,7 +100,6 @@
                         >
                         LIHAT TABEL UKURAN
                     </button>
-
                     <br>
                     <br>
 
