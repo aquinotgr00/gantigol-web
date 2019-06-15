@@ -110,8 +110,8 @@
                                 @endif
                                 <div class="col-md-4 px-0">
                                     <div class="card">
-                                        <a href="">
-                                            <img class="card-img-top" src="{{ asset('images\content\2.png') }}" alt="Card image cap">
+                                        <a href="{{ route('blog.post', $post->id) }}">
+                                            <img class="card-img-top" src="{{ $post->image }}" alt="Card image cap">
                                         </a>
                                         <div class="card-body">
                                             <h5 class="card-title">{{$post->title}}</h5>
@@ -132,8 +132,8 @@
                                 @endif
                                 <div class="col-md-4 px-0">
                                     <div class="card">
-                                        <a href="">
-                                            <img class="card-img-top" src="{{ $post->title }}" alt="Card image cap">
+                                        <a href="{{ route('blog.post', $post->id) }}">
+                                            <img class="card-img-top" src="{{ $post->image }}" alt="Card image cap">
                                         </a>
                                         <div class="card-body">
                                             <h5 class="card-title">{{$post->title}}</h5>
