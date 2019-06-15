@@ -6,67 +6,27 @@
     <div id="multi-item-example" class="carousel slide carousel-multi-item" data-ride="carousel">
         <!--Product Slides-->
         <div class="carousel-inner" role="listbox">
-
+            @foreach($sidePost['lapak'] as $key => $post)
             <!--First slide-->
             <div class="carousel-item active product">
 
                 <div class="col-md">
                     <div class="card mb-2">
                         <a href="#">
-                            <img class="card-img-top gambar" src="{{ asset('images\produk\2.png') }}">
+                            <img class="card-img-top gambar" src="{{$post->image}}">
                         </a href="#">
                         <div class="card-body produk">
                             <a href="#">
-                                <h5 class="card-title">KAOS AIR NIKE STELL</h5>
+                                <h5 class="card-title">{{$post->name}}</h5>
                             </a>
-                            <p class="card-text">Rp. 150.000</p>
+                            <p class="card-text">Rp. {{$post->price}}</p>
                         </div>
                     </div>
                 </div>
 
             </div>
             <!--/.First slide-->
-
-            <!--Second slide-->
-            <div class="carousel-item product">
-
-                <div class="col-md">
-                    <div class="card mb-2">
-                        <a href="#">
-                            <img class="card-img-top gambar" src="{{ asset('images\produk\2.png') }}">
-                        </a>
-                        <div class="card-body produk">
-                            <a href="#">
-                                <h5 class="card-title">KAOS AIR NIKE STELL</h5>
-                            </a>
-                            <p class="card-text">Rp. 150.000</p>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <!--/.Second slide-->
-
-            <!--Third slide-->
-            <div class="carousel-item product">
-
-                <div class="col-md">
-                    <div class="card mb-2">
-                        <a href="#">
-                            <img class="card-img-top gambar" src="{{ asset('images\produk\3.png') }}">
-                        </a>
-                        <div class="card-body produk">
-                            <a href="">
-                                <h5 class="card-title">KAOS AIR NIKE STELL</h5>
-                            </a>
-                            <p class="card-text">Rp. 150.000</p>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <!--/.Third slide-->
-
+            @endforeach
         </div>
         <!--/.Slides-->
         <!--Product Controls-->

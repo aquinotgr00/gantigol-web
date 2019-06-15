@@ -16,7 +16,7 @@ class Sidebar
      */
     public function handle($request, Closure $next)
     {   
-        view()->share('sidePost', ['post'=>$this->hotPost(),'legends'=>$this->legendPost()]);
+        view()->share('sidePost', ['post'=>$this->hotPost(),'lapak'=>$this->lapak(),'legends'=>$this->legendPost()]);
         return $next($request);
     }
 
@@ -48,5 +48,15 @@ class Sidebar
     public function legendPost(){
         $post = $this->client->get('api/blogs/post/category/legenda/1');
         return json_decode($post->getBody())->post->data;
+    }
+     /**
+     * Handle an sidebar New Product.
+     *
+     * 
+     * @return mixed
+     */
+    public function lapak(){
+        $post = $this->client->get('api-product/items-latest');
+        return json_decode($post->getBody())->data;
     }
 }

@@ -118,7 +118,7 @@
                                             <p class="card-text">{{substr(strip_tags($post->body), 0, 140)}}</p>
                                         </div>
                                         <div class="card-footer">
-                                            <small class="text-muted">Last updated 3 mins ago</small>
+                                            <small class="text-muted">{!! date_format(new DateTime($value->publish_date),'d M')!!}</small>
                                         </div>
                                     </div>
                                 </div>
@@ -140,7 +140,7 @@
                                             <p class="card-text">{{substr(strip_tags($post->body), 0, 140)}}</p>
                                         </div>
                                         <div class="card-footer">
-                                            <small class="text-muted">Last updated 3 mins ago</small>
+                                            <small class="text-muted">{!! date_format(new DateTime($value->publish_date),'d M')!!}</small>
                                         </div>
                                     </div>
                                 </div>
