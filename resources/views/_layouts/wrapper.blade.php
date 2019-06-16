@@ -433,7 +433,7 @@
                             '<div class="col-7">' +
                                 '<div>' +
                                     '<div>' +
-                                        `<img class="outline" src="{{ asset('images/produk/p1.png') }}" />` +
+                                        `<img class="outline" src="${item.image}" />` +
                                     '</div>' +
                                     '<div class="detil-barang">' +
                                         '<div>' +
@@ -477,7 +477,7 @@
             function appendToCart(item) {
                 $(
                     '<li id="main_cart_items" class="clearfix simpleCart_items">' +
-                        `<img src="{{ asset('images/produk/1a.jpg') }}" />` +
+                        `<img src="${item.image}" />` +
                         '<div class="detil">' +
                             '<div class="col">' +
                                 `<span class="item-name">${item.id}</span>` +

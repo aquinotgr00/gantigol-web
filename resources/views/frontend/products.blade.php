@@ -106,7 +106,7 @@
                                         <div class="card-badge">Pre Order</div>
                                     @endif
                                     <a href="products/item/{{$product->id}}">
-                                        <img class="card-img-top gambar" src="{{ asset('images\produk\2.png') }}">
+                                        <img class="card-img-top gambar" src="{{ $product->image }}">
                                     </a>
                                     <div class="card-body produk">
                                         <a href="#">
