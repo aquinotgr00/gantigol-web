@@ -174,7 +174,7 @@
     }, "Letters, numbers, spaces or underscores only please");
     $.validator.addMethod( "phoneID", function( value, element ) {
         // return this.optional( element ) || /^\+?([ -]?\d+)+|\(\d+\)([ -]\d+)$/.test( value );
-        return this.optional( element ) || /^(\+62((\d{3}([ -]\d{3,})([- ]\d{4,})?)|(\d+)))|(\(\d+\) \d+)|\d{3}( \d+)+|(\d+[ -]\d+)|\d+.test( value );
+        return this.optional( element ) || /^(^\+62\s?|^0)(\d{3,4}-?){2}\d{3,4}$/g.test( value );
     }, "Please specify a valid phone number." );
     $(document).ready(function () {
         $( "#subdistrict_text" ).autocomplete({
