@@ -61,4 +61,5 @@ class Sidebar
         $post = $this->client->get('api/blogs/post/category/legenda/1');
         return json_decode($post->getBody())->post->data;
     }
+    
 }

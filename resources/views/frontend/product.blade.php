@@ -21,6 +21,7 @@
             <div class="row">
                 <div class="col-9 simpleCart_shelfItem">
                     <input type="text" name="variant_id" id="variant_id" class="d-none">
+                    <img style="display:none;" class="item_image" src="{{ $data->data->image }}">
                     <h2 class="headline-detail item_name">{{ $data->data->name }}</h2>
                     <h4>Rp. <span class="item_price">{{ $data->data->price }}</span></h4>
 
@@ -126,50 +127,21 @@
 <h4 class="section-header_title">PRODUK TERKAIT</h4>
 <hr>
 <div class="card-deck">
+    @if(!empty($related->data))
+    @foreach($related->data as $i=>$row)
     <div class="card">
-        <a href="#">
-            <img class="card-img-top gambar" src="{{ asset('images\produk\2.png') }}">
+        <a href="{{ route('products.single-product', $row->id) }}">
+            <img class="card-img-top gambar" src="{{$row->image}}">
         </a>
         <div class="card-body produk">
-            <a href="#">
-                <h5 class="card-title">KAOS AIR NIKE STELL</h5>
+            <a href="{{ route('products.single-product', $row->id) }}">
+                <h5 class="card-title">{{$row->name}}</h5>
             </a>
-            <p class="card-text">Rp. 150.000</p>
+            <p class="card-text">Rp.{{$row->price}}</p>
         </div>
     </div>
-    <div class="card">
-        <a href="#">
-            <img class="card-img-top gambar" src="{{ asset('images\produk\1.png') }}">
-        </a>
-        <div class="card-body produk">
-            <a href="#">
-                <h5 class="card-title">KAOS AIR NIKE STELL</h5>
-            </a>
-            <p class="card-text">Rp. 150.000</p>
-        </div>
-    </div>
-    <div class="card">
-        <a href="#">
-            <img class="card-img-top gambar" src="{{ asset('images\produk\3.png') }}">
-        </a>
-        <div class="card-body produk">
-            <a href="#">
-                <h5 class="card-title">KAOS AIR NIKE STELL</h5>
-            </a>
-            <p class="card-text">Rp. 150.000</p>
-        </div>
-    </div>
-    <div class="card">
-        <a href="#">
-            <img class="card-img-top gambar" src="{{ asset('images\produk\3.png') }}">
-        </a>
-        <div class="card-body produk">
-            <a href="#">
-                <h5 class="card-title">KAOS AIR NIKE STELL</h5>
-            </a>
-            <p class="card-text">Rp. 150.000</p>
-        </div>
-    </div>
+   @endforeach
+   @endif
 </div>
 
 <!-- Size Chart Modal -->

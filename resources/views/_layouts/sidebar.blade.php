@@ -7,6 +7,7 @@
         <!--Product Slides-->
         <div class="carousel-inner" role="listbox">
 
+
             @foreach ($sidePost['latestProducts'] as $key => $product)
                 <!--First slide-->
                 <div class="carousel-item @if ($key == 0) active @endif product">
@@ -28,50 +29,9 @@
                         </div>
                     </div>
 
-                </div>
-                <!--/.First slide-->
+            </div>
+            <!--/.First slide-->
             @endforeach
-
-            {{-- <!--Second slide-->
-            <div class="carousel-item product">
-
-                <div class="col-md">
-                    <div class="card mb-2">
-                        <a href="#">
-                            <img class="card-img-top gambar" src="{{ asset('images\produk\2.png') }}">
-                        </a>
-                        <div class="card-body produk">
-                            <a href="#">
-                                <h5 class="card-title">KAOS AIR NIKE STELL</h5>
-                            </a>
-                            <p class="card-text">Rp. 150.000</p>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <!--/.Second slide-->
-
-            <!--Third slide-->
-            <div class="carousel-item product">
-
-                <div class="col-md">
-                    <div class="card mb-2">
-                        <a href="#">
-                            <img class="card-img-top gambar" src="{{ asset('images\produk\3.png') }}">
-                        </a>
-                        <div class="card-body produk">
-                            <a href="">
-                                <h5 class="card-title">KAOS AIR NIKE STELL</h5>
-                            </a>
-                            <p class="card-text">Rp. 150.000</p>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <!--/.Third slide--> --}}
-
         </div>
         <!--/.Slides-->
         <!--Product Controls-->
