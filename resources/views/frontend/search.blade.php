@@ -65,7 +65,7 @@
                                 <div class="card">
                                     <a href="{{route('products.single-product', $item->id)}}">
                                         <img class="card-img-top gambar"
-                                            src="{{ asset('images\produk\2.png') }}">
+                                            src="{{ $item->image }}">
                                     </a>
                                     <div class="card-body produk">
                                         <a href="#">

@@ -7,7 +7,7 @@
                     <div class="carousel-caption d-none d-md-block">
                         <h3 class="display-4">{{$banner['title']}}</h3>
                         @if(!empty($banner['url']))
-                        <a class="btn btn-primary" href="{{ $banner['url'] }}">SELENGKAPNYA</a>
+                            <a class="btn btn-primary" href="http://{{ $banner['url'] }}">SELENGKAPNYA</a>
                         @endif
                     </div>
                 </div>
