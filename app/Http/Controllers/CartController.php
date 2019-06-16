@@ -189,6 +189,7 @@ class CartController extends Controller
                 'total' => $total
             ]
         ]);
+        // dd($response->getBody()->getContents());
         $data = json_decode($response->getBody());
         return response()->json($data);
     }

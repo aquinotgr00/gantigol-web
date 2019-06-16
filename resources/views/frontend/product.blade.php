@@ -20,6 +20,7 @@
 
             <div class="row">
                 <div class="col-9 simpleCart_shelfItem">
+                    <input type="text" name="variant_id" id="variant_id" class="d-none">
                     <h2 class="headline-detail item_name">{{ $data->data->name }}</h2>
                     <h4>Rp. <span class="item_price">{{ $data->data->price }}</span></h4>
 
@@ -75,10 +76,10 @@
                                 PILIHAN PRODUK 
                             </h5>
                             <div class="form-group">
-                                <select class="form-control col-8" id="sel1" name="sellist1">
-                                    <option>Pilih Produk</option>
+                                <select class="form-control col-8" id="product-list" name="product-list">
+                                    <option value="null">Pilih Produk</option>
                                     @foreach($data->data->variants as $item)
-                                        <option>{{$item->variant}}</option>
+                                        <option value="{{$item->id}}">{{$item->variant}}</option>
                                     @endforeach
                                 </select>
                             </div>

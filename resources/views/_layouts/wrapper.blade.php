@@ -539,6 +539,10 @@
             $('#addToCart').click(() => {
                 let qty = $('input[name=quantity]').val()
                 let session = getBrowserSession()
+                let variant = null
+                if ( $('.simpleCart_shelfItem').find('#product-list').length ) {
+                    variant = $('#product-list').val()
+                }
                 storeItem(qty, session)
                 // loopSizes()
             })
