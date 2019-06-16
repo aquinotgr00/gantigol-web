@@ -44,7 +44,7 @@
                                         <p class="card-text">{{substr(strip_tags($item->searchable->body), 0, 140)}}</p>
                                     </div>
                                     <div class="card-footer">
-                                        <small class="text-muted">{!! date_format(new DateTime($item->publish_date),'d M')!!}</small>
+                                        <small class="text-muted">{!! date_format(new DateTime($item->searchable->publish_date),'d M')!!}</small>
                                     </div>
                                 </div>
                             </div>
