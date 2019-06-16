@@ -21,8 +21,8 @@
         Route::post('signin', 'MembershipController@signin')->name('signin');
         Route::post('signup', 'MembershipController@signup')->name('signup');
         Route::get('signout', 'MembershipController@signout')->name('signout');
-        // Route::get('login', 'MembershipController@login')->name('login');
         Route::get('register', 'MembershipController@register')->name('register');
+        Route::post('update', 'MembershipController@update')->name('update');
 
     });
 

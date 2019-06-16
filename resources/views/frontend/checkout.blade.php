@@ -57,71 +57,86 @@
                     </div>
                 @endif
 
-                <div class="form-group">
-                    <label for="exampleInputEmail1">NAMA</label>
-                    <input class="form-control" type="text" name="name" placeholder="Nama"
-                            @if(isset($user))
-                                value="{{ $user->name }}"
-                                disabled
-                            @endif>
-                </div>
+                <form action="#" method="post" id="shipping-form">
+                    <input type="number" name="cost" id="shipping_cost" class="d-none">
+                    <input type="text" name="shipment_name" id="shipment_name" class="d-none">
 
-                <div class="form-group">
-                    <label for="phone">PHONE</label>
-                    <input type="phone" class="form-control" name="phone" id="phone" placeholder="phone"
-                            @if(isset($user))
-                                value="{{ $user->phone }}"
-                                disabled
-                            @endif>
-                </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">NAMA</label>
+                        <input class="form-control" type="text" name="name" placeholder="Nama"
+                                @if(isset($user))
+                                    value="{{ $user->name }}"
+                                    disabled
+                                @endif>
+                    </div>
 
-                <div class="form-group">
-                    <label for="address">ALAMAT</label>
-                    <textarea class="form-control" name="address" id="address" rows="3"@if(isset($user)) disabled @endif>@if(isset($user)){{ $user->address }}@endif</textarea>
-                </div>
+                    <div class="form-group">
+                        <label for="phone">PHONE</label>
+                        <input type="phone" class="form-control" name="phone" id="phone" placeholder="phone"
+                                @if(isset($user))
+                                    value="{{ $user->phone }}"
+                                    disabled
+                                @endif>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" name="email" id="email" placeholder="email"
+                                @if(isset($user))
+                                    value="{{ $user->email }}"
+                                    disabled
+                                @endif>
+                    </div>
 
-                <div class="form-group">
-                    <label for="city">KECAMATAN</label>
-                    <input type="text" class="d-none" name="subdistrict" id="subdistrict_value">
-                    <input type="text" class="form-control" name="subdistrict" id="subdistrict_text" placeholder="Kecamatan"
-                            @if(isset($user))
-                                value="{{ $user->subdistrict }}"
-                                disabled
-                            @endif>
-                </div>
+                    <div class="form-group">
+                        <label for="address">ALAMAT</label>
+                        <textarea class="form-control" name="address" id="address" rows="3"@if(isset($user)) disabled @endif>@if(isset($user)){{ $user->address }}@endif</textarea>
+                    </div>
 
-                <div class="form-group">
-                    <label for="city">KOTA</label>
-                    <input type="text" class="form-control" name="city" id="city" placeholder="Kota"
-                            @if(isset($user))
-                                value="{{ $user->city }}"
-                                disabled
-                            @endif>
-                </div>
+                    <div class="form-group">
+                        <label for="city">KECAMATAN</label>
+                        <input type="text" class="d-none" name="subdistrict" id="subdistrict_value">
+                        <input type="text" class="form-control" name="subdistrict" id="subdistrict_text" placeholder="Kecamatan"
+                                @if(isset($user))
+                                    value="{{ $user->subdistrict }}"
+                                    disabled
+                                @endif>
+                    </div>
 
-                <div class="form-group">
-                    <label for="province">PROVINSI</label>
-                    <input type="text" class="form-control" name="province" id="province" placeholder="Provinsi"
-                            @if(isset($user))
-                                value="{{ $user->province }}"
-                                disabled
-                            @endif>
-                </div>
+                    <div class="form-group">
+                        <label for="city">KOTA</label>
+                        <input type="text" class="form-control" name="city" id="city" placeholder="Kota"
+                                @if(isset($user))
+                                    value="{{ $user->city }}"
+                                    disabled
+                                @endif>
+                    </div>
 
-                <div class="form-group">
-                    <label for="postal_code">KODE POS</label>
-                    <input type="number" class="form-control" name="postal_code" id="postal_code" placeholder="Kode Pos"
-                            @if(isset($user))
-                                value="{{ $user->postal_code }}"
-                                disabled
-                            @endif>
-                </div>
+                    <div class="form-group">
+                        <label for="province">PROVINSI</label>
+                        <input type="text" class="form-control" name="province" id="province" placeholder="Provinsi"
+                                @if(isset($user))
+                                    value="{{ $user->province }}"
+                                    disabled
+                                @endif>
+                    </div>
 
-                @if (!Session::has('token') && !isset($user))
-                <div class="form-group">
-                    <p class="form-check-label"><input type="checkbox" class="mr-2">Buat akun untuk keperluan selanjutnya</p>
-                </div>
-                @endif
+                    <div class="form-group">
+                        <label for="postal_code">KODE POS</label>
+                        <input type="number" class="form-control" name="postal_code" id="postal_code" placeholder="Kode Pos"
+                                @if(isset($user))
+                                    value="{{ $user->postal_code }}"
+                                    disabled
+                                @endif>
+                    </div>
+
+                    @if (!Session::has('token') && !isset($user))
+                    <div class="form-group">
+                        <p class="form-check-label"><input type="checkbox" class="mr-2">Buat akun untuk keperluan selanjutnya</p>
+                    </div>
+                    @endif
+            
+                </form>
             </div>
         </div>
     </div>
@@ -204,8 +219,8 @@
                             <div class="form-group">
                                 <select class="gantigoal-select" name="courier" id="courier">
                                     <option>Pilih Kurir</option>
-                                    <option>JNE</option>
-                                    <option>TIKI</option>
+                                    <option value="jne">JNE</option>
+                                    <option value="tiki">TIKI</option>
                                 </select>
                             </div>
                         </div>
@@ -241,20 +256,26 @@
                     </div>
                 </div>
                 <hr class="hr-light bottom-line">
-                <div class="col-10 pr-5 text-right">
-                    <div>
-                        <label class="pr-4">DISKON
-                        </label>
-                        Rp. <span class="discount">0</span>
+                <div class="row">
+                    <div class="col-8">
+                        <div>
+                            <label class="float-sm-right">DISKON</label>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div>Rp. <span class="discount">0</span></div>
                     </div>
                 </div>
             </div>
             <div class="col-12">
-                <div class="col-10 pr-5 text-right">
-                    <div>
-                        <label class="pr-4">TOTAL
-                        </label>
-                        Rp. <span class="total_price">0</span>
+                <div class="row">
+                    <div class="col-8">
+                        <div>
+                            <label class="float-sm-right">TOTAL</label>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div>Rp. <span class="total_price">0</span></div>
                     </div>
                 </div>
                 <button class="btn btn-dark col-12 bayar">BAYAR</button>
@@ -303,6 +324,7 @@
         $('#differentAddress').on('change', function() {
             $('input[name=name]').prop('disabled', function(i, v) { return !v; })
             $('input[name=phone]').prop('disabled', function(i, v) { return !v; })
+            $('input[name=email]').prop('disabled', function(i, v) { return !v; })
             $('textarea[name=address]').prop('disabled', function(i, v) { return !v; })
             $('input[name=province]').prop('disabled', function(i, v) { return !v; })
             $('input[name=city]').prop('disabled', function(i, v) { return !v; })
@@ -310,8 +332,24 @@
             $('input[name=postal_code]').prop('disabled', function(i, v) { return !v; })
         })
 
+        $('#courier').change(() => {
+            $('input[name=shipment_name]').val($('#courier').val())
+            $('input[name=cost]').val(10000)
+        })
+
         $('.bayar').click(evt => {
             evt.preventDefault()
+            $.ajax({
+                url: '/api/carts/checkout',
+                type: 'POST',
+                data: {
+                    session: localStorage.getItem('session'),
+                    shipping: $('#shipping-form').serialize(),
+                },
+                success: res => {
+                    console.log(res)
+                }
+            })
             window.location = '/thanks'
         })
 
@@ -324,10 +362,8 @@
                     promo: promo
                 },
                 success: res => {
-                    console.log(res)
                     $('.discount').html(res.reward)
                     let beforeDiscount = $('.total_price').html()
-                    console.log(beforeDiscount)
                     $('.total_price').html(beforeDiscount-res.reward)
                 }
             })

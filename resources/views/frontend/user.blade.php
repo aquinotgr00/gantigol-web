@@ -34,76 +34,97 @@
     <div class="col-12">
         <div class="tab-content " id="nav-tabContent">
             <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">NAMA</label>
-                            <input class="form-control" type="text" value="{{ $user->name }}" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">NAMA PENGGUNA</label>
-                            <input class="form-control" type="text" value="{{ $user->username }}" readonly>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-0">
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">EMAIL</label>
-                            <input type="email" class="form-control" id="exampleInputPassword1" value="{{ $user->email }}">
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Password</label>
-                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="************">
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-0">
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">TANGGAL LAHIR</label>
+                <form action="{{ route('member.update') }}" method="post">@csrf
+                    <div class="row">
+                        <div class="col-12">
                             <div class="form-group">
-                                <input type="date" class="form-control" id="exampleInputPassword1" value="{{ $user->dob }}">
+                                <label for="exampleInputEmail1">NAMA</label>
+                                <input class="form-control" name="name" type="text" value="{{ $user->name }}" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">NAMA PENGGUNA</label>
+                                <input class="form-control" name="username" type="text" value="{{ $user->username }}" readonly>
                             </div>
                         </div>
                     </div>
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">JENIS KELAMIN</label>
+                    <div class="row mt-0">
+                        <div class="col-6">
                             <div class="form-group">
-                                <input type="text" class="form-control" id="exampleInputPassword1" value="{{ $user->gender }}">
+                                <label for="exampleInputPassword1">EMAIL</label>
+                                <input type="email" name="email" class="form-control" disabled value="{{ $user->email }}">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">TELEPON</label>
+                                <input type="number" name="phone" class="form-control"disabled value="{{ $user->phone }}"">
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row mt-0">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">ALAMAT</label>
-                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{ $user->address }}">
+                    <div class="row mt-0">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">TANGGAL LAHIR</label>
+                                <div class="form-group">
+                                    <input type="date" name="dob" class="form-control" id="exampleInputPassword1" value="{{ $user->dob }}">
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">PROVINSI</label>
-                            <input type="text" class="form-control" id="exampleInputPassword1" value="{{ $user->province }}">
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-0">
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">KOTA/KECAMATAN</label>
-                            <input type="text" class="form-control" id="exampleInputPassword1" value="{{ $user->city }}">
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">POS</label>
-                            <input type="text" class="form-control" id="exampleInputPassword1" value="{{ $user->postal_code }}">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">JENIS KELAMIN</label>
+                                <div class="form-group">
+                                    <select class="form-control" id="sel1" name="gender">
+                                        <option value="null">Silahkan Pilih</option>
+                                        <option value="male" @if ($user->gender == 'male') selected="selected" @endif>LAKI-LAKI</option>
+                                        <option value="female" @if ($user->gender == 'female') selected="selected" @endif>PEREMPUAN</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                    <div class="row mt-0">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">ALAMAT</label>
+                                <input type="text" name="address" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{ $user->address }}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-0">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">KECAMATAN</label>
+                                <input type="text" class="form-control" id="subdistrict_text" value="{{ $user->subdistrict }}">
+                                <input type="text" name="subdistrict" class="d-none" id="subdistrict_value" value="{{ $user->subdistrict }}">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">KOTA</label>
+                                <input type="text" name="city" class="form-control" id="city" value="{{ $user->city }}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-0">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">PROVINSI</label>
+                                <input type="text" name="province" class="form-control" id="province" value="{{ $user->province }}">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">POS</label>
+                                <input type="text" name="postal_code" class="form-control" id="postal_code" value="{{ $user->postal_code }}">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <br><br>
+                            <button type="submit" class="btn btn-dark col-12 bayar">UBAH</button>
+                        </div>
+                    </div>
+                </form>
             </div>
             <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                 <!-- baju -->
@@ -184,4 +205,21 @@
     </div>
 </div>
 
+@endsection
+
+@section('script')
+<script>
+    $(document).ready(function () {
+        $( "#subdistrict_text" ).autocomplete({
+            source: "/api/subdistrict",
+            minLength: 3,
+            select: function( event, ui ) {
+                $('#subdistrict_value').val(ui.item.value)
+                $('#city').val(ui.item.city)
+                $('#province').val(ui.item.province)
+                $('#postal_code').val(ui.item.postal_code)
+            }
+        });
+    })
+</script>
 @endsection

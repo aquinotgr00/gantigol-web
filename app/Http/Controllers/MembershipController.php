@@ -93,6 +93,28 @@ class MembershipController extends Controller
         return view('frontend.user', compact('user'));
     }
 
+    public function update(Request $request)
+    {
+        $response = $this->client->post('auth/membership/update-user', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Authorization' => 'Bearer '. $request->session()->get('token')
+            ],
+            'form_params' => [
+                'name' => $request->name,
+                'dob' => $request->dob,
+                'address' => $request->address,
+                'subdistrict' => $request->subdistrict,
+                'city' => $request->city,
+                'province' => $request->province,
+                'gender' => $request->gender,
+                'postal_code' => $request->postal_code
+            ]
+        ]);
+        $response = json_decode($response->getBody());
+        return back();
+    }
+
     public function signout(Request $request)
     {
         // get user by token

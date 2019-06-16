@@ -11,4 +11,5 @@ Route::name('carts.')->prefix('carts')->group(function () {
     Route::post('item-delete/{id}', 'CartController@deleteItem')->name('deleteItem');
     Route::post('api/carts/get-cart-id', 'CartController@getCartId')->name('getCartId');
     Route::post('apply-promo', 'CartController@applyPromo')->name('apply-promo');
+    Route::post('checkout', 'CartController@postCheckout')->name('checkout');
 });
