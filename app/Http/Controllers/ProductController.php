@@ -31,7 +31,9 @@ class ProductController extends Controller
     {
         $response = $this->client->get('api-product/items/'. $id);
         $data = json_decode($response->getBody());
-        return view('frontend.product', compact('data'));
+        $related_product = $this->client->get('api-product/items?tags='. $data->data->related);
+        $related = json_decode($related_product->getBody());
+        return view('frontend.product', compact('data','related'));
     }
 
     public function getNextPageProducts($page)

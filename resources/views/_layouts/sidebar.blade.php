@@ -6,23 +6,28 @@
     <div id="multi-item-example" class="carousel slide carousel-multi-item" data-ride="carousel">
         <!--Product Slides-->
         <div class="carousel-inner" role="listbox">
-            @foreach($sidePost['lapak'] as $key => $post)
-            <!--First slide-->
-            <div class="carousel-item active product">
 
-                <div class="col-md">
-                    <div class="card mb-2">
-                        <a href="#">
-                            <img class="card-img-top gambar" src="{{$post->image}}">
-                        </a href="#">
-                        <div class="card-body produk">
-                            <a href="#">
-                                <h5 class="card-title">{{$post->name}}</h5>
-                            </a>
-                            <p class="card-text">Rp. {{$post->price}}</p>
+
+            @foreach ($sidePost['latestProducts'] as $key => $product)
+                <!--First slide-->
+                <div class="carousel-item @if ($key == 0) active @endif product">
+
+                    <div class="col-md">
+                        <div class="card mb-2">
+                            @if ($product->pre_order != null)
+                                <div class="card-badge">Pre Order</div>
+                            @endif
+                            <a href="{{ route('products.single-product', $product->id) }}">
+                                <img class="card-img-top gambar" src="{{ $product->image }}">
+                            </a href="#">
+                            <div class="card-body produk">
+                                <a href="#">
+                                    <h5 class="card-title">{{ $product->name }}</h5>
+                                </a>
+                                <p class="card-text">Rp. {{ $product->price }}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
 
             </div>
             <!--/.First slide-->

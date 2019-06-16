@@ -409,6 +409,9 @@
 
             function updateTotal(price) {
                 $('.simpleCart_total').html('Rp. ' + price)
+                @if (Request::is('checkout'))
+                    $('.total_price').html(price)
+                @endif
             }
 
             function hideEmptyEle(hide) {

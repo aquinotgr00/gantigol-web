@@ -245,7 +245,7 @@
                     <div>
                         <label class="pr-4">DISKON
                         </label>
-                        <span class="discount">Rp. 80.000</span>
+                        Rp. <span class="discount">0</span>
                     </div>
                 </div>
             </div>
@@ -254,7 +254,7 @@
                     <div>
                         <label class="pr-4">TOTAL
                         </label>
-                        <span class="total_price">Rp. 100.000</span>
+                        Rp. <span class="total_price">0</span>
                     </div>
                 </div>
                 <button class="btn btn-dark col-12 bayar">BAYAR</button>
@@ -325,6 +325,10 @@
                 },
                 success: res => {
                     console.log(res)
+                    $('.discount').html(res.reward)
+                    let beforeDiscount = $('.total_price').html()
+                    console.log(beforeDiscount)
+                    $('.total_price').html(beforeDiscount-res.reward)
                 }
             })
         })
