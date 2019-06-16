@@ -78,6 +78,15 @@
                                     disabled
                                 @endif>
                     </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" name="email" id="email" placeholder="email"
+                                @if(isset($user))
+                                    value="{{ $user->email }}"
+                                    disabled
+                                @endif>
+                    </div>
 
                     <div class="form-group">
                         <label for="address">ALAMAT</label>
@@ -247,20 +256,26 @@
                     </div>
                 </div>
                 <hr class="hr-light bottom-line">
-                <div class="col-10 pr-5 text-right">
-                    <div>
-                        <label class="pr-4">DISKON
-                        </label>
-                        Rp. <span class="discount">0</span>
+                <div class="row">
+                    <div class="col-8">
+                        <div>
+                            <label class="float-sm-right">DISKON</label>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div>Rp. <span class="discount">0</span></div>
                     </div>
                 </div>
             </div>
             <div class="col-12">
-                <div class="col-10 pr-5 text-right">
-                    <div>
-                        <label class="pr-4">TOTAL
-                        </label>
-                        Rp. <span class="total_price">0</span>
+                <div class="row">
+                    <div class="col-8">
+                        <div>
+                            <label class="float-sm-right">TOTAL</label>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div>Rp. <span class="total_price">0</span></div>
                     </div>
                 </div>
                 <button class="btn btn-dark col-12 bayar">BAYAR</button>
@@ -309,6 +324,7 @@
         $('#differentAddress').on('change', function() {
             $('input[name=name]').prop('disabled', function(i, v) { return !v; })
             $('input[name=phone]').prop('disabled', function(i, v) { return !v; })
+            $('input[name=email]').prop('disabled', function(i, v) { return !v; })
             $('textarea[name=address]').prop('disabled', function(i, v) { return !v; })
             $('input[name=province]').prop('disabled', function(i, v) { return !v; })
             $('input[name=city]').prop('disabled', function(i, v) { return !v; })
@@ -317,7 +333,6 @@
         })
 
         $('#courier').change(() => {
-            console.log($('#courier').val())
             $('input[name=shipment_name]').val($('#courier').val())
             $('input[name=cost]').val(10000)
         })

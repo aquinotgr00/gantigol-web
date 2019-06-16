@@ -140,7 +140,7 @@ class CartController extends Controller
                 'shipping_cost' => $shipping['cost'],
                 'billing_name' => $shipping['name'],
                 'shipment_name' => $shipping['shipment_name'],
-                'shipping_email' => 'dummy_email@mail.com',
+                'shipping_email' => $shipping['email'],
             ]
         ]);
         $response = json_decode($response->getBody());
