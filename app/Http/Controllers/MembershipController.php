@@ -180,8 +180,7 @@ class MembershipController extends Controller
             $signinBody = json_decode($signin->getBody(), true);
 
             if (422 === $statuscode && isset($signinBody['message'])) {
-                // $request->session()->flash('error', $signinBody['message']);
-                return redirect('/')->with('error', $signinBody['message']);
+                return redirect('/')->with('errors', $signinBody['message']);
             }
 
             // get user by token
@@ -199,7 +198,7 @@ class MembershipController extends Controller
             return redirect()->intended('/');
         }
 
-        return redirect()->back()->with('errors', $body['errors']);
+        return redirect()->back()->withInput($request->input())->with('errors', $body['errors']);
     }
 
     public function apiSubdistrict(Request $request)

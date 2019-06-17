@@ -20,12 +20,12 @@
             <div class="col-12">
                 <div class="form-group">
                     <label for="exampleInputEmail1">NAMA</label>
-                    <input name="name" type="text" class="form-control" aria-describedby="emailHelp" placeholder="Nama">
+                    <input name="name" type="text" class="form-control" value="{{old('name')}}" aria-describedby="emailHelp" placeholder="Nama">
                     <label for="name" generated="true" class="error invalid-feedback"></label>
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">NAMA PENGGUNA</label>
-                    <input name="username" class="form-control" type="text" placeholder="Masukan Nama Pengguna" >
+                    <input name="username" class="form-control" value="{{old('name')}}" type="text" placeholder="Masukan Nama Pengguna" >
                     <label for="username" generated="true" class="error invalid-feedback"></label>
                     @if (session('errors'))
                         @foreach(session('errors') as $errorName => $value)
@@ -43,7 +43,7 @@
             <div class="col-6">
                 <div class="form-group">
                     <label for="exampleInputPassword1">EMAIL</label>
-                    <input name="email" type="email" class="form-control" placeholder="Masukan Email">
+                    <input name="email" type="email" value="{{old('email')}}" class="form-control" placeholder="Masukan Email">
                     <label for="email" generated="true" class="error invalid-feedback"></label>
                     @if (session('errors'))
                         @foreach(session('errors') as $errorName => $value)
@@ -59,7 +59,7 @@
             <div class="col-6">
                 <div class="form-group">
                     <label for="exampleInputPassword1">TELEPON</label>
-                    <input name="phone" type="number" class="form-control" placeholder="Masukan No Telepon">
+                    <input name="phone" type="number" value="{{old('phone')}}" class="form-control" placeholder="Masukan No Telepon">
                     <label for="phone" generated="true" class="error invalid-feedback"></label>
                     @if (session('errors'))
                         @foreach(session('errors') as $errorName => $value)
@@ -93,8 +93,7 @@
             <div class="col-6">
                 <div class="form-group">
                     <label for="exampleInputPassword1">TANGGAL LAHIR</label>
-                    <input type="date"
-                        class="form-control" name="dob" id="dob" aria-describedby="helpId" placeholder="Date of birth">
+                    <input type="date" class="form-control" value="{{old('dob')}}" name="dob" id="dob" aria-describedby="helpId" placeholder="Date of birth">
                     <label for="dob" generated="true" class="error invalid-feedback"></label>
                 </div>
             </div>
@@ -104,8 +103,8 @@
                     <div class="form-group">
                         <select class="form-control" id="sel1" name="gender">
                             <option value="null">Silahkan Pilih</option>
-                            <option value="male">LAKI-LAKI</option>
-                            <option value="female">PEREMPUAN</option>
+                            <option {{old('gender') == 'male' ? 'selected':''}} value="male">LAKI-LAKI</option>
+                            <option {{old('gender') == 'female' ? 'selected':''}} value="female">PEREMPUAN</option>
                         </select>
                         <label for="sel1" generated="true" class="error invalid-feedback"></label>
                     </div>
@@ -116,22 +115,22 @@
             <div class="col-12">
                 <div class="form-group">
                     <label for="exampleInputEmail1">ALAMAT</label>
-                    <input name="address" type="text" class="form-control" aria-describedby="emailHelp" placeholder="Alamat">
+                    <input name="address" value="{{old('address')}}" type="text" class="form-control" aria-describedby="emailHelp" placeholder="Alamat">
                     <label for="address" generated="true" class="error invalid-feedback"></label>
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
                     <label for="subdistrict">KECAMATAN</label>
-                    <input type="text" class="form-control" name="subdistrict_text" id="subdistrict_text" aria-describedby="helpId" placeholder="Subdistrict">
-                    <input type="text" class="d-none" name="subdistrict" id="subdistrict_value">
+                    <input type="text" class="form-control" value="{{old('subdistrict')}}" name="subdistrict_text" id="subdistrict_text" aria-describedby="helpId" placeholder="Subdistrict">
+                    <input type="text" class="d-none" value="{{old('subdistrict')}}" name="subdistrict" id="subdistrict_value">
                     <label for="subdistrict_text" generated="true" class="error invalid-feedback"></label>
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
                     <label for="exampleInputPassword1">KOTA</label>
-                    <input name="city" type="text" class="form-control" id="city" placeholder="Pandean Umbul Harjo">
+                    <input name="city" type="text" value="{{old('city')}}" class="form-control" id="city" placeholder="Pandean Umbul Harjo">
                     <label for="city" generated="true" class="error invalid-feedback"></label>
                 </div>
             </div>
@@ -140,14 +139,14 @@
             <div class="col-6">
                 <div class="form-group">
                     <label for="exampleInputPassword1">PROVINSI</label>
-                    <input name="province" type="text" id="province" class="form-control" placeholder="Provinsi">
+                    <input name="province" type="text" value="{{old('province')}}" id="province" class="form-control" placeholder="Provinsi">
                     <label for="province" generated="true" class="error invalid-feedback"></label>
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
                     <label for="exampleInputPassword1">POS</label>
-                    <input name="postal_code" type="text" id="postal_code" class="form-control" placeholder="Kode Pos">
+                    <input name="postal_code" type="text" value="{{old('postal_code')}}" id="postal_code" class="form-control" placeholder="Kode Pos">
                     <label for="postal_code" generated="true" class="error invalid-feedback"></label>
                 </div>
             </div>
