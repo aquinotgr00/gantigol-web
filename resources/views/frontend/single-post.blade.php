@@ -93,7 +93,7 @@
         <h4 class="section-header_title">BACA LAINNYA</h4>
         <hr> 
         <!--Carousel Wrapper-->
-        <div id="multi-item-example" class="carousel slide carousel-multi-item" data-ride="carousel">
+        <div id="multi-item-related" class="carousel slide carousel-multi-item" data-ride="carousel">
 
             <!--Slides-->
             <div class="carousel-inner" role="listbox">
@@ -163,10 +163,10 @@
                         <hr class="card-img-top ">
                     </div>
                     <div class="card post-next">
-                        <a class="left" href="#multi-item-example" data-slide="prev"><i class="fas fa-chevron-left"></i></a>
+                        <a class="left" href="#multi-item-related" data-slide="prev"><i class="fas fa-chevron-left"></i></a>
                     </div>
                     <div class="card post-next">
-                        <a class="left" href="#multi-item-example" data-slide="next"><i class="fas fa-chevron-right"></i></a>
+                        <a class="left" href="#multi-item-related" data-slide="next"><i class="fas fa-chevron-right"></i></a>
                     </div>
                     <div class="card line">
                         <hr class="card-img-top">
