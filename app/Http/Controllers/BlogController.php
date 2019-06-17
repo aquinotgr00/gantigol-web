@@ -36,6 +36,7 @@ class BlogController extends Controller
 
         $tags = [];
         $tagPosts = null;
+        $tagProducts = null;
         foreach ($data->tagged as $tag) {
             array_push($tags, $tag->tag_name);
         }
@@ -49,9 +50,18 @@ class BlogController extends Controller
                 ]
             ]);
             $tagPosts = json_decode($tagPosts->getBody());
+            $tagProducts = $this->client->get('api-product/items', [
+                'headers' => [
+                    'Accept' => 'application/json'
+                ],
+                'query' => [
+                    'tag' => $tags[0]
+                ]
+            ]);
+            $tagProducts = json_decode($tagProducts->getBody());
         }
 
-        return view('frontend.single-post', compact('data', 'sameCategoryPosts', 'categoryName', 'tagPosts'));
+        return view('frontend.single-post', compact('data', 'sameCategoryPosts', 'categoryName', 'tagPosts', 'tagProducts'));
     }
 
     public function category($categoryName)

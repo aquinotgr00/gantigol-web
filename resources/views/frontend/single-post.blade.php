@@ -179,39 +179,21 @@
         <h4 class="section-header_title">PRODUK TERKAIT</h4>
         <hr> 
         <div class="card-deck">
-            <div class="card">
-                <a href="#">
-                    <img class="card-img-top gambar" src="{{ asset('images\produk\2.png') }}">
-                </a>
-                <div class="card-body produk">
-                    <a href="#">
-                        <h5 class="card-title">KAOS AIR NIKE STELL</h5>
-                    </a>
-                    <p class="card-text">Rp. 150.000</p>
-                </div>
-            </div>
-            <div class="card">
-                <a href="#">
-                    <img class="card-img-top gambar" src="{{ asset('images\produk\1.png') }}">
-                </a>
-                <div class="card-body produk">
-                    <a href="#">
-                        <h5 class="card-title">KAOS AIR NIKE STELL</h5>
-                    </a>
-                    <p class="card-text">Rp. 150.000</p>
-                </div>
-            </div>
-            <div class="card">
-                <a href="#">
-                    <img class="card-img-top gambar" src="{{ asset('images\produk\3.png') }}">
-                </a>
-                <div class="card-body produk">
-                    <a href="#">
-                        <h5 class="card-title">KAOS AIR NIKE STELL</h5>
-                    </a>
-                    <p class="card-text">Rp. 150.000</p>
-                </div>
-            </div>
+            @if ($tagProducts != null)
+                @foreach ($tagProducts->data as $key => $value)
+                    <div class="card">
+                        <a href="#">
+                            <img class="card-img-top gambar" src="{{ $value->image }}">
+                        </a>
+                        <div class="card-body produk">
+                            <a href="#">
+                                <h5 class="card-title">{{$value->name}}</h5>
+                            </a>
+                            <p class="card-text">Rp. {{$value->price}}</p>
+                        </div>
+                    </div>
+                @endforeach
+            @endif
         </div>
     </div>
 
