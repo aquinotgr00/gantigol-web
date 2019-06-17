@@ -35,6 +35,14 @@ class HomeController extends Controller
         return view('frontend.index', compact('bola', 'klub', 'man', 'banners'));
     }
 
+    public function about()
+    {
+        $banners = $this->client->get('api/banners/banner/home/3');
+        $banners = json_decode($banners->getBody(), true);
+
+        return view('frontend.about', compact('banners'));
+    }
+
     public function reset()
     {
         return view('frontend.reset-password');

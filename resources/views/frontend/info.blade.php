@@ -13,7 +13,7 @@
             <div class="card card-category">
                 <!-- Card header -->
                 <div class="card-header card-category" role="tab" id="headingOne1">
-                    <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapseOne1"
+                    <a class="collapsed" href="{{route('homepage.contact-page')}}"
                         aria-expanded="false" aria-controls="collapseOne1">
                         <div>
                             <p class="mb-0 @if (Request::segment(1) == 'contact-us') font-weight-bold @endif">
@@ -27,7 +27,7 @@
             <div class="card card-category">
                 <!-- Card header -->
                 <div class="card-header card-category" role="tab" id="headingTwo2">
-                    <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapseTwo2"
+                    <a class="collapsed" href="{{route('homepage.faq-page')}}"
                         aria-expanded="false" aria-controls="collapseTwo2">
                         <div>
                             <p class="mb-0 @if (Request::segment(1) == 'faq') font-weight-bold @endif">
@@ -41,7 +41,7 @@
             <div class="card card-category">
                 <!-- Card header -->
                 <div class="card-header card-category" role="tab" id="headingTwo2">
-                    <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapseTwo2"
+                    <a class="collapsed" href="{{route('homepage.tnc-page')}}"
                         aria-expanded="false" aria-controls="collapseTwo2">
                         <div>
                             <p class="mb-0 @if (Request::segment(1) == 'tnc') font-weight-bold @endif">

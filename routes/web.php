@@ -7,9 +7,10 @@
     Route::post('reset', 'HomeController@postReset')->name('homepage.post-reset');
     Route::get('reset-password/{token}', 'HomeController@resetForm')->name('homepage.reset-form');
     Route::post('reset-password', 'HomeController@postResetForm')->name('homepage.post-reset-form');
-    Route::get('contact-us', 'HomeController@infoPage')->name('homepage.info-page');
-    Route::get('faq', 'HomeController@infoPage')->name('homepage.info-page');
-    Route::get('tnc', 'HomeController@infoPage')->name('homepage.info-page');
+    Route::get('about-us', 'HomeController@about')->name('homepage.about-page');
+    Route::get('contact-us', 'HomeController@infoPage')->name('homepage.contact-page');
+    Route::get('faq', 'HomeController@infoPage')->name('homepage.faq-page');
+    Route::get('tnc', 'HomeController@infoPage')->name('homepage.tnc-page');
 
 
     // ===================================================================================================================================
