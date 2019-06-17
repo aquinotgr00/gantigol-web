@@ -27,7 +27,7 @@
                         >
                     <img style="display:none;" class="item_image" src="{{ $data->data->image }}">
                     <h2 class="headline-detail item_name">{{ $data->data->name }}</h2>
-                    <h4>Rp. <span class="item_price">{{ $data->data->price }}</span></h4>
+                    <h4>Rp. <span class="item_price">{{ \AppHelper::instance()->rupiah($data->data->price) }}</span></h4>
 
                     @if (null != $data->data->pre_order)
                         <h5>
@@ -141,7 +141,7 @@
             <a href="{{ route('products.single-product', $row->id) }}">
                 <h5 class="card-title">{{$row->name}}</h5>
             </a>
-            <p class="card-text">Rp.{{$row->price}}</p>
+            <p class="card-text">Rp.{{\AppHelper::instance()->rupiah($row->price)}}</p>
         </div>
     </div>
    @endforeach
