@@ -171,16 +171,16 @@
                     <div class="col-md-8 col-xs-12">
                         <div class="row">
                             <div class="col-lg-3 col-xs-12">
-                                <p><a class="footer" href="#">Tentang Kami</a></p>
+                                <p><a class="footer" href="{{route('homepage.about-page')}}">Tentang Kami</a></p>
                             </div>
                             <div class="col-lg-3 col-xs-12">
-                                <p><a class="footer" href="#">Kontak Kami</a></p>
+                                <p><a class="footer" href="{{route('homepage.contact-page')}}">Kontak Kami</a></p>
                             </div>
                             <div class="col-lg-3 col-xs-12">
-                                <p><a class="footer" href="#">FAQ</a></p>
+                                <p><a class="footer" href="{{route('homepage.faq-page')}}">FAQ</a></p>
                             </div>
                             <div class="col-lg-3 col-xs-12 px-0">
-                                <p><a class="footer" href="#">Syarat dan Ketentuan</a></p>
+                                <p><a class="footer" href="{{route('homepage.tnc-page')}}">Syarat dan Ketentuan</a></p>
                             </div>
                         </div>
                     </div>
@@ -201,7 +201,24 @@
 
     <script>
         $(document).ready(function () {
-            
+            /* Fungsi formatRupiah */
+            function formatRupiah(angka){
+                var number_string = angka.toString().replace(/[^,\d]/g, ''),
+                split       = number_string.split(','),
+                sisa        = split[0].length % 3,
+                rupiah        = split[0].substr(0, sisa),
+                ribuan        = split[0].substr(sisa).match(/\d{3}/gi);
+    
+                // tambahkan titik jika yang di input sudah menjadi angka ribuan
+                if(ribuan){
+                    separator = sisa ? '.' : '';
+                    rupiah += separator + ribuan.join('.');
+                }
+    
+                rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+                return rupiah;
+            }
+
             // Dropdown mechanism
             // First by handling the click on the link to open/close the dropdown
             $('li.dropdown.forgot a[role=button]').on('click', function (event) {
@@ -275,6 +292,11 @@
                         $(this).closest('#main_cart_items').remove()
                     }
                 })
+            })
+
+            $('#product-list').on('change', () => {
+                $('#variant_id').val($('#product-list').val())
+                console.log($('#variant_id').val())
             })
 
             function loopSizes() {
@@ -361,7 +383,8 @@
                     url: '/api/carts/store',
                     type: 'POST',
                     data: {
-                        id: '{{ \Request::segment(3) }}',
+                        id: $('#variant_id').val(),
+                        price: $('.item_price').html(),
                         qty: qty,
                         user_token: localStorage.getItem('user_token'),
                         session: session
@@ -410,7 +433,7 @@
             function updateTotal(price) {
                 $('.simpleCart_total').html('Rp. ' + price)
                 @if (Request::is('checkout'))
-                    $('.total_price').html(price)
+                    $('.total_price').html(formatRupiah(price))
                 @endif
             }
 
@@ -441,7 +464,7 @@
                                         '</div>' +
                                         '<div>' +
                                             '<span class="judul-barang">HARGA  </span>' +
-                                            `<span> Rp ${item.price}</span>` +
+                                            `<span> Rp ${formatRupiah(item.price)}</span>` +
                                         '</div>' +
                                         '<div>' +
                                             '<span class="judul-barang size-cart">SIZE </span>' +
@@ -463,7 +486,7 @@
                                 '</div>' +
                             '</div>' +
                             '<div class=" col-3">' +
-                                `<div class="harga">Rp. ${item.qty*item.price}</div>` +
+                                `<div class="harga">Rp. ${formatRupiah(item.qty*item.price)}</div>` +
                             '</div>' +
                             '<div class="col-1">' +
                                 '<a href="" class="far fa-trash-alt fa-sm barang"> </a>' +
@@ -484,7 +507,7 @@
                             '</div>' +
                             '<div class="item-price">' +
                                 '<span>HARGA  </span>' +
-                                `<span class="input-data"> ${item.price}</span>` +
+                                `<span class="input-data"> ${formatRupiah(item.price)}</span>` +
                             '</div>' +
                             '<div class="item-price">' +
                                 '<span class="size-cart">SIZE </span>' +
@@ -495,7 +518,7 @@
                                 `<span class="input-data">  ${item.qty}</span>` +
                             '</div>' +
                             '<div class="main-color-text">' +
-                                `<a href="#" class="simpleCart_remove" data-qty="${item.qty}" data-price="${item.price}" data-id="${item.id}"><i class="far fa-trash-alt fa-sm"></i></a>` +
+                                `<a href="#" class="simpleCart_remove" data-qty="${item.qty}" data-price="${formatRupiah(item.price)}" data-id="${item.id}"><i class="far fa-trash-alt fa-sm"></i></a>` +
                             '</div>' +
                         '</div>' +
                     '</li>'
@@ -539,10 +562,6 @@
             $('#addToCart').click(() => {
                 let qty = $('input[name=quantity]').val()
                 let session = getBrowserSession()
-                let variant = null
-                if ( $('.simpleCart_shelfItem').find('#product-list').length ) {
-                    variant = $('#product-list').val()
-                }
                 storeItem(qty, session)
                 // loopSizes()
             })

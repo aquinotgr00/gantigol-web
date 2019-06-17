@@ -156,7 +156,8 @@ class CartController extends Controller
 
     public function store(Request $request)
     {
-        $product = $this->getProduct($request->id);
+        $product = $this->client->get('api-product/variant/99?id='.$request->id);
+        $product = json_decode($product->getBody());
         
         $userId = null;
         if ($request->user_token != null) {
@@ -173,14 +174,14 @@ class CartController extends Controller
             $userId = $user->id;
         }
 
-        $total = $product->data->price * $request->qty;
+        $total = $request->price * $request->qty;
         
         $response = $this->client->post('api-ecommerce/cart', [
             'form_params' => [
                 'session' => $request->session,
                 'items[$key][product_id]' => $request->id,
                 'items[$key][qty]' => $request->qty,
-                'items[$key][price]' => $product->data->price,
+                'items[$key][price]' => $request->price,
                 'items[$key][subtotal]' => $total,
                 'items[$key][wishlist]' => 'false',
                 'items[$key][checked]' => 'true',
@@ -189,7 +190,7 @@ class CartController extends Controller
                 'total' => $total
             ]
         ]);
-        // dd($response->getBody()->getContents());
+
         $data = json_decode($response->getBody());
         return response()->json($data);
     }

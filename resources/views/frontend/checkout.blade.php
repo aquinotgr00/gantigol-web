@@ -288,6 +288,25 @@
 @section('script')
 <script>
     $(document).ready(function () {
+        /* Fungsi formatRupiah */
+        function formatRupiah(angka){
+            var number_string = angka.toString().replace(/[^,\d]/g, ''),
+            split       = number_string.split(','),
+            sisa        = split[0].length % 3,
+            rupiah        = split[0].substr(0, sisa),
+            ribuan        = split[0].substr(sisa).match(/\d{3}/gi);
+
+            // tambahkan titik jika yang di input sudah menjadi angka ribuan
+            if(ribuan){
+                separator = sisa ? '.' : '';
+                rupiah += separator + ribuan.join('.');
+            }
+
+            rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+            return rupiah;
+        }
+
+        let promoApplied = false
         $('.checkout_login_btn').click(evt => {
             evt.preventDefault()
             $('#checkout-login-form').toggleClass('d-none')
@@ -354,19 +373,22 @@
         })
 
         $('#promo-code-btn').click(() => {
-            let promo = $('input[name=promo-code]').val()
-            $.ajax({
-                url: '/api/carts/apply-promo',
-                type: 'POST',
-                data: {
-                    promo: promo
-                },
-                success: res => {
-                    $('.discount').html(res.reward)
-                    let beforeDiscount = $('.total_price').html()
-                    $('.total_price').html(beforeDiscount-res.reward)
-                }
-            })
+            if (!promoApplied) {
+                let promo = $('input[name=promo-code]').val()
+                $.ajax({
+                    url: '/api/carts/apply-promo',
+                    type: 'POST',
+                    data: {
+                        promo: promo
+                    },
+                    success: res => {
+                        $('.discount').html(formatRupiah(res.reward))
+                        let beforeDiscount = $('.total_price').html()
+                        $('.total_price').html(formatRupiah(beforeDiscount-res.reward))
+                        promoApplied = true
+                    }
+                })
+            }
         })
     })
 </script>

@@ -20,7 +20,11 @@
 
             <div class="row">
                 <div class="col-9 simpleCart_shelfItem">
-                    <input type="text" name="variant_id" id="variant_id" class="d-none">
+                    <input type="text" name="variant_id" id="variant_id" class="d-none"
+                        @if ($data->data->variants[0]->variant == "ALL SIZE")
+                            value="{{$data->data->variants[0]->id}}"
+                        @endif
+                        >
                     <img style="display:none;" class="item_image" src="{{ $data->data->image }}">
                     <h2 class="headline-detail item_name">{{ $data->data->name }}</h2>
                     <h4>Rp. <span class="item_price">{{ $data->data->price }}</span></h4>
