@@ -141,7 +141,6 @@ class MembershipController extends Controller
                         'items[$key][product_id]' => $item->product_id,
                         'items[$key][qty]' => 0,
                         'items[$key][price]' => $item->price,
-                        'items[$key][size_code]' => $item->size_code,
                         'items[$key][subtotal]' => 0,
                         'items[$key][checked]' => 'false',
                         'total' => 0
