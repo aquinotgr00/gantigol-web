@@ -25,6 +25,10 @@ class BlogController extends Controller
     {
         if ($request->is('blog/formasi')) {
             $id = 7;
+        } else if ($request->is('blog/statistik')) {
+            $id = 14;
+        } else if ($request->is('blog/taktik')) {
+            $id = 15;
         }
         $response = $this->client->get('api/blogs/post/'.$id);
         $data = json_decode($response->getBody())->blog;

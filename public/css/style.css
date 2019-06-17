@@ -1078,6 +1078,9 @@ label.error {
 div.line {
   margin-top: 8px;
 }
+div.modal_size_chart {
+  max-width: 750px;
+}
 
 /* end of additional from aqn */
 /* ======================================================================================================================== */

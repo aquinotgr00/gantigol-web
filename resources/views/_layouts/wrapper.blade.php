@@ -30,8 +30,8 @@
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">WIKI BOLA</a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="{{route('blog.formasi')}}">FORMASI</a>
-                        <a class="dropdown-item" href="{{route('blog.category', 'statistik')}}">STATISTIK</a>
-                        <a class="dropdown-item" href="{{route('blog.category', 'taktik')}}">TAKTIK</a>
+                        <a class="dropdown-item" href="{{route('blog.statistik')}}">STATISTIK</a>
+                        <a class="dropdown-item" href="{{route('blog.taktik')}}">TAKTIK</a>
                     </div>
                 </li>
                 <li class="nav-item">

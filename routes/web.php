@@ -38,6 +38,8 @@
             Route::get('post-on-page/{category}/{page}', 'BlogController@getNextPagePosts')->name('post-next-page');
             Route::get('tags/{name}', 'BlogController@tags')->name('tags');
             Route::get('formasi', 'BlogController@post')->name('formasi');
+            Route::get('statistik', 'BlogController@post')->name('statistik');
+            Route::get('taktik', 'BlogController@post')->name('taktik');
         });
     });
 
