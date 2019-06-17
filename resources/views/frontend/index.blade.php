@@ -16,8 +16,8 @@
             @if ($klub->highlight !== null)
             <div>
                 <a href="{{ route('blog.post', $klub->highlight->id) }}" class="custom-card">
-                    <div class="card bg-dark text-white">
-                        <img class="card-img" src="{{$klub->highlight->image}}" alt="Card image">
+                    <div class="card bg-dark text-white" style="height:475px;overflow:hidden">
+                        <img class="card-img" src="{{$klub->highlight->image}}" alt="Card image" style="height:100%;">
                         <div class="card-img-overlay" href="#">
                             <h3 class="card-title judul">{{$klub->highlight->title}}</h3>
                         </div>
@@ -70,8 +70,8 @@
             @if ($bola->highlight !== null)
             <div>
                 <a href="{{ route('blog.post', $bola->highlight->id) }}" class="custom-card">
-                    <div class="card bg-dark text-white">
-                        <img class="card-img" src="{{ $bola->highlight->image}}" alt="Card image">
+                    <div class="card bg-dark text-white" style="height:475px;overflow:hidden">
+                        <img class="card-img" src="{{ $bola->highlight->image}}" alt="Card image" style="height:100%;">
                         <div class="card-img-overlay" href="#">
                             <h3 class="card-title judul">{{$bola->highlight->title}}</h3>
                         </div>
@@ -123,8 +123,8 @@
             @if ($man->highlight !== null)
             <div>
                 <a href="{{ route('blog.post', $man->highlight->id) }}" class="custom-card">
-                    <div class="card bg-dark text-white">
-                        <img class="card-img" src="{{ $man->highlight->image }}" alt="Card image">
+                    <div class="card bg-dark text-white" style="height:475px;overflow:hidden">
+                        <img class="card-img" src="{{ $man->highlight->image }}" alt="Card image" style="height:100%;">
                         <div class="card-img-overlay" href="#">
                             <h3 class="card-title judul">{{$man->highlight->title}}</h3>
                         </div>

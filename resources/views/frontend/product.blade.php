@@ -25,9 +25,10 @@
                             value="{{$data->data->variants[0]->id}}"
                         @endif
                         >
+                    <span class="d-none">{{$data->data->price}}"></span>
                     <img style="display:none;" class="item_image" src="{{ $data->data->image }}">
                     <h2 class="headline-detail item_name">{{ $data->data->name }}</h2>
-                    <h4>Rp. <span class="item_price">{{ \AppHelper::instance()->rupiah($data->data->price) }}</span></h4>
+                    <h4>Rp. <span>{{ \AppHelper::instance()->rupiah($data->data->price) }}</span></h4>
 
                     @if (null != $data->data->pre_order)
                         <h5>
@@ -65,16 +66,6 @@
                                 @endforeach
                             </div>
                         @endif
-                        {{-- <div class="row col-9 size">
-                            <div class="quantity buttons_added kiri">
-                                <span class="ukuran"> L</span>
-                                <input type="button" value="-" class="minus"><input type="number" step="1" min="0" name="l" value="0" title="Quantity" class="input-text qty text" size="4"><input type="button" value="+" class="plus">
-                            </div>
-                            <div class="quantity buttons_added">
-                                <span class="ukuran"> XL</span>
-                                <input type="button" value="-" class="minus"><input type="number" step="1" min="0" name="xl" value="0" title="Quantity" class="input-text qty text" size="4"><input type="button" value="+" class="plus">
-                            </div>
-                        </div> --}}
                     @elseif (null == $data->data->pre_order)
                         @if ($data->data->variants[0]->variant != 'ALL SIZE')
                             <h5>
@@ -99,7 +90,7 @@
                     <br>
 
                     <button type="button" id="sizeChartBtn" data-toggle="modal" data-target="#size_chart_modal" class="btn btn-outline-dark col-8"
-                        @if ($data->data->category->size_chart->image == null)
+                        @if ($data->data->category->size_chart == null)
                             disabled
                         @endif
                         >
@@ -158,7 +149,7 @@
                 </button>
             </div>
             <div class="modal-body text-center">
-                <img src="{{$data->data->category->size_chart->image}}" alt="size chart image">
+                <img src="{{$data->data->category->size_chart->image}}" alt="size chart image" style="width:100%;">
             </div>
             <div class="modal-footer border-top-0">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
