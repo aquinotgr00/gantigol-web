@@ -15,11 +15,17 @@ class BlogController extends Controller
             'base_uri' => env('API_URL'),
             'timeout' => env('CURL_TIMEOUT','50'),
             'http_errors' => false,
+            'headers' => [
+                'Accept' => 'application/json'
+            ]
         ]);
     }
     
-    public function post($id)
+    public function post(Request $request, $id = null)
     {
+        if ($request->is('blog/formasi')) {
+            $id = 7;
+        }
         $response = $this->client->get('api/blogs/post/'.$id);
         $data = json_decode($response->getBody())->blog;
 

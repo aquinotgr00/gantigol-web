@@ -29,7 +29,7 @@
                 <li class="nav-item wiki">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">WIKI BOLA</a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="{{route('blog.category', 'formasi')}}">FORMASI</a>
+                        <a class="dropdown-item" href="{{route('blog.formasi')}}">FORMASI</a>
                         <a class="dropdown-item" href="{{route('blog.category', 'statistik')}}">STATISTIK</a>
                         <a class="dropdown-item" href="{{route('blog.category', 'taktik')}}">TAKTIK</a>
                     </div>

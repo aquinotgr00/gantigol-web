@@ -36,6 +36,7 @@
             Route::get('category/{name}', 'BlogController@category')->name('category');
             Route::get('post-on-page/{category}/{page}', 'BlogController@getNextPagePosts')->name('post-next-page');
             Route::get('tags', 'BlogController@tags')->name('tags');
+            Route::get('formasi', 'BlogController@post')->name('formasi');
         });
     });
 
