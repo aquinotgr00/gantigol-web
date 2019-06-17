@@ -46,7 +46,7 @@ class BlogController extends Controller
                     'Accept' => 'application/json'
                 ],
                 'query' => [
-                    'tag' => $tags[0]
+                    'tag' => $tags
                 ]
             ]);
             $tagPosts = json_decode($tagPosts->getBody());
@@ -88,8 +88,18 @@ class BlogController extends Controller
         return response()->json(['html'=>' ']);
     }
     
-    public function tags()
+    public function tags($name)
     {
-        return view('frontend.tags');
+        $posts = $this->client->get('api/blogs/post/tag/limit/99', [
+            'headers' => [
+                'Accept' => 'application/json'
+            ],
+            'query' => [
+                'tag' => $name
+            ]
+        ]);
+        $posts = json_decode($posts->getBody());
+        $categoryName = 'tags';
+        return view('frontend.tags', compact('categoryName', 'posts'));
     }
 }

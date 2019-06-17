@@ -30,10 +30,10 @@
                 @foreach ($klub->post->data as $value)
                     <div class="col-md-4 px-0">
                         <div class="card">
-                            <a href="{{ route('blog.post', $value->id) }}">
-                                <img class="card-img-top" src="{{ $value->image }}" alt="Card image cap">
+                            <a href="{{ route('blog.post', $value->id) }}" style="height:165px;">
+                                <img class="card-img-top" src="{{ $value->image }}" alt="Card image cap" style="height:100%;">
                             </a>
-                            <div class="card-body">
+                            <div class="card-body" style="height:230px;">
                                 <h5 class="card-title">{{$value->title}}</h5>
                                 <p class="card-text">{{ substr(strip_tags(html_entity_decode($value->body)), 0, 140) }}</p>
                             </div>
@@ -84,10 +84,10 @@
                 @foreach ($bola->post->data as $value)
                     <div class="col-md-4 px-0">
                         <div class="card">
-                            <a href="{{ route('blog.post', $value->id) }}">
-                                <img class="card-img-top" src="{{ $value->image }}" alt="Card image cap">
+                            <a href="{{ route('blog.post', $value->id) }}" style="height:165px;">
+                                <img class="card-img-top" src="{{ $value->image }}" alt="Card image cap" style="height:100%;">
                             </a>
-                            <div class="card-body">
+                            <div class="card-body" style="height:230px;">
                                 <h5 class="card-title">{{$value->title}}</h5>
                                 <p class="card-text">{{ substr(strip_tags(html_entity_decode($value->body)), 0, 140) }}</p>
                             </div>
@@ -137,10 +137,10 @@
                 @foreach ($man->post->data as $value)
                     <div class="col-md-4 px-0">
                         <div class="card">
-                            <a href="{{ route('blog.post', $value->id) }}">
-                                <img class="card-img-top" src="{{ $value->image }}" alt="Card image cap">
+                            <a href="{{ route('blog.post', $value->id) }}" style="height:165px;">
+                                <img class="card-img-top" src="{{ $value->image }}" alt="Card image cap" style="height:100%;">
                             </a>
-                            <div class="card-body">
+                            <div class="card-body" style="height:230px;">
                                 <h5 class="card-title">{{$value->title}}</h5>
                                 <p class="card-text">{{ substr(strip_tags(html_entity_decode($value->body)), 0, 140) }}</p>
                             </div>

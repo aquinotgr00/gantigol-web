@@ -58,7 +58,7 @@
         <br>
         <p>TAG:
             @foreach ($data->tagged as $key => $tag)
-                <span class="tag">{{$tag->tag_name}}</span>
+                <a style="font-size:15px;" href="{{route('blog.tags', $tag->tag_name)}}"><span class="tag">{{$tag->tag_name}}</span></a>
             @endforeach
         </p> 
         <br>
@@ -110,10 +110,10 @@
                                 @endif
                                 <div class="col-md-4 px-0">
                                     <div class="card">
-                                        <a href="{{ route('blog.post', $post->id) }}">
-                                            <img class="card-img-top" src="{{ $post->image }}" alt="Card image cap">
+                                        <a href="{{ route('blog.post', $post->id) }}" style="height:165px;">
+                                            <img class="card-img-top" src="{{ $post->image }}" alt="Card image cap" style="height:100%;">
                                         </a>
-                                        <div class="card-body">
+                                        <div class="card-body" style="height:230px;">
                                             <h5 class="card-title">{{$post->title}}</h5>
                                             <p class="card-text">{{substr(strip_tags($post->body), 0, 140)}}</p>
                                         </div>
