@@ -115,7 +115,7 @@
                                         </a>
                                         <div class="card-body" style="height:230px;">
                                             <h5 class="card-title">{{$post->title}}</h5>
-                                            <p class="card-text">{{substr(strip_tags($post->body), 0, 140)}}</p>
+                                            <p class="card-text">{{substr(strip_tags($post->body), 0, 120)}}</p>
                                         </div>
                                         <div class="card-footer">
                                             <small class="text-muted">{!! date_format(new DateTime($post->publish_date),'d M')!!}</small>
@@ -137,7 +137,7 @@
                                         </a>
                                         <div class="card-body">
                                             <h5 class="card-title">{{$post->title}}</h5>
-                                            <p class="card-text">{{substr(strip_tags($post->body), 0, 140)}}</p>
+                                            <p class="card-text">{{substr(strip_tags($post->body), 0, 120)}}</p>
                                         </div>
                                         <div class="card-footer">
                                             <small class="text-muted">{!! date_format(new DateTime($post->publish_date),'d M')!!}</small>
