@@ -433,7 +433,8 @@
             function updateTotal(price) {
                 $('.simpleCart_total').html('Rp. ' + price)
                 @if (Request::is('checkout'))
-                    $('.total_price').html(formatRupiah(price))
+                    $('.total_price').html(price)
+                    $('.total_price_text').html(formatRupiah(price))
                 @endif
             }
 
@@ -498,6 +499,7 @@
             @endif
 
             function appendToCart(item) {
+                console.log(item)
                 $(
                     '<li id="main_cart_items" class="clearfix simpleCart_items">' +
                         `<img src="${item.image}" />` +
@@ -539,9 +541,6 @@
             
             function getCartItems(id) {
                 let url = '/api/carts/items/' + id
-                // @if (Request::is('checkout'))
-                //     url = '/api/carts/items/' + id + '/true'
-                // @endif
 
                 $.ajax({
                     url: url,

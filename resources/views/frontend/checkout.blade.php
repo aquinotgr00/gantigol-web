@@ -68,6 +68,7 @@
                                     value="{{ $user->name }}"
                                     disabled
                                 @endif>
+                        <label for="name" generated="true" class="error invalid-feedback"></label>
                     </div>
 
                     <div class="form-group">
@@ -77,6 +78,7 @@
                                     value="{{ $user->phone }}"
                                     disabled
                                 @endif>
+                        <label for="phone" generated="true" class="error invalid-feedback"></label>
                     </div>
                     
                     <div class="form-group">
@@ -86,21 +88,24 @@
                                     value="{{ $user->email }}"
                                     disabled
                                 @endif>
+                        <label for="email" generated="true" class="error invalid-feedback"></label>
                     </div>
 
                     <div class="form-group">
                         <label for="address">ALAMAT</label>
                         <textarea class="form-control" name="address" id="address" rows="3"@if(isset($user)) disabled @endif>@if(isset($user)){{ $user->address }}@endif</textarea>
+                        <label for="address" generated="true" class="error invalid-feedback"></label>
                     </div>
 
                     <div class="form-group">
                         <label for="city">KECAMATAN</label>
                         <input type="text" class="d-none" name="subdistrict" id="subdistrict_value">
-                        <input type="text" class="form-control" name="subdistrict" id="subdistrict_text" placeholder="Kecamatan"
+                        <input type="text" class="form-control" name="subdistrict_text" id="subdistrict_text" placeholder="Kecamatan"
                                 @if(isset($user))
                                     value="{{ $user->subdistrict }}"
                                     disabled
                                 @endif>
+                        <label for="subdistrict_text" generated="true" class="error invalid-feedback"></label>
                     </div>
 
                     <div class="form-group">
@@ -110,6 +115,7 @@
                                     value="{{ $user->city }}"
                                     disabled
                                 @endif>
+                        <label for="city" generated="true" class="error invalid-feedback"></label>
                     </div>
 
                     <div class="form-group">
@@ -119,6 +125,7 @@
                                     value="{{ $user->province }}"
                                     disabled
                                 @endif>
+                        <label for="province" generated="true" class="error invalid-feedback"></label>
                     </div>
 
                     <div class="form-group">
@@ -128,6 +135,7 @@
                                     value="{{ $user->postal_code }}"
                                     disabled
                                 @endif>
+                        <label for="postal_code" generated="true" class="error invalid-feedback"></label>
                     </div>
 
                     @if (!Session::has('token') && !isset($user))
@@ -247,6 +255,7 @@
                             <div class=" col-4">
                                 <div class="form-group">
                                     <input class="form-control" id="promo-code" name="promo-code" type="text" placeholder="Masukkan Kode Kupon" >
+                                    <label for="promo-code" class="error invalid-feedback promo-error">Silahkan Masukan Kode Promo</label>
                                 </div>
                             </div>
                             <div class="col-4">
@@ -263,7 +272,9 @@
                         </div>
                     </div>
                     <div class="col-4">
-                        <div>Rp. <span class="discount">0</span></div>
+                        <div><span class="discount d-none">0</span>
+                            Rp. <span class="discount_text">0</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -275,7 +286,9 @@
                         </div>
                     </div>
                     <div class="col-4">
-                        <div>Rp. <span class="total_price">0</span></div>
+                        <div><span class="total_price d-none">0</span>
+                            Rp. <span class="total_price_text">0</span>
+                        </div>
                     </div>
                 </div>
                 <button class="btn btn-dark col-12 bayar">BAYAR</button>
@@ -288,6 +301,10 @@
 @section('script')
 <script>
     $(document).ready(function () {
+        $.validator.addMethod( "phoneID", function( value, element ) {
+            // return this.optional( element ) || /^\+?([ -]?\d+)+|\(\d+\)([ -]\d+)$/.test( value );
+            return this.optional( element ) || /^((?:\+62|62)|0)[2|8]{1}[0-9]+$/g.test( value );
+        }, "Please specify a valid phone number." )
         /* Fungsi formatRupiah */
         function formatRupiah(angka){
             var number_string = angka.toString().replace(/[^,\d]/g, ''),
@@ -358,22 +375,38 @@
 
         $('.bayar').click(evt => {
             evt.preventDefault()
-            $.ajax({
-                url: '/api/carts/checkout',
-                type: 'POST',
-                data: {
-                    session: localStorage.getItem('session'),
-                    shipping: $('#shipping-form').serialize(),
-                },
-                success: res => {
-                    console.log(res)
-                }
-            })
-            window.location = '/thanks'
+            if (!$('#shipping-form').validate()) { // Not Valid
+                return;
+            } else {
+                $('#shipping-form').submit()
+            }
+            // $.ajax({
+            //     url: '/api/carts/checkout',
+            //     type: 'POST',
+            //     data: {
+            //         session: localStorage.getItem('session'),
+            //         shipping: $('#shipping-form').serialize(),
+            //     },
+            //     success: res => {
+            //         console.log(res)
+            //     }
+            // })
+            // window.location = '/thanks'
         })
 
         $('#promo-code-btn').click(() => {
-            if (!promoApplied) {
+            let beforeDiscount = 0
+            let reward = 0
+            if ($('#promo-code').val() === '') {
+                $('#promo-code').addClass('is-invalid')
+                $('.promo-error').addClass('d-block')
+                return;
+            }
+            if (!promoApplied && $('#promo-code').val() !== '') {
+                $('#promo-code').removeClass('is-invalid')
+                $('.promo-error').removeClass('d-block')
+                $('#promo-code-btn').html('PAKAI NANTI')
+                $('#promo-code').attr('disabled', true)
                 let promo = $('input[name=promo-code]').val()
                 $.ajax({
                     url: '/api/carts/apply-promo',
@@ -382,14 +415,69 @@
                         promo: promo
                     },
                     success: res => {
-                        $('.discount').html(formatRupiah(res.reward))
-                        let beforeDiscount = $('.total_price').html()
-                        $('.total_price').html(formatRupiah(beforeDiscount-res.reward))
+                        reward = res.reward
+                        $('.discount').html(reward)
+                        $('.discount_text').html(formatRupiah(reward))
+                        beforeDiscount = $('.total_price').html()
+                        $('.total_price').html(beforeDiscount-reward)
+                        $('.total_price_text').html(formatRupiah($('.total_price').html()))
                         promoApplied = true
                     }
                 })
+            } else if (promoApplied) {
+                beforeDiscount = parseInt($('.total_price').html())
+                reward = parseInt($('.discount').html())
+                console.log(beforeDiscount)
+                console.log(reward)
+                $('#promo-code').val('')
+                $('#promo-code').attr('disabled', false)
+                $('.discount_text').html(0)
+                $('#promo-code-btn').html('TERAPKAN')
+                $('.total_price').html(beforeDiscount+reward)
+                $('.total_price_text').html(formatRupiah(beforeDiscount+reward))
+                $('.discount').html(0)
+                promoApplied = false
             }
         })
+        
+        $('#shipping-form').validate({
+            highlight: function(element, errorClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function(element, errorClass) {
+                $(element).removeClass('is-invalid');
+            },
+            rules: {
+                name: 'required',
+                email: {
+                    required: true,
+                    email: true
+                },
+                phone: {
+                    required: true,
+                    minlength: 10,
+                    phoneID: true
+                },
+                address: 'required',
+                subdistrict_text: 'required',
+                city: 'required',
+                province: 'required',
+                postal_code: 'required',
+            },
+            submitHandler: function (evt) {
+                $.ajax({
+                    url: '/api/carts/checkout',
+                    type: 'POST',
+                    data: {
+                        session: localStorage.getItem('session'),
+                        shipping: $('#shipping-form').serialize(),
+                    },
+                    success: res => {
+                        console.log(res)
+                    }
+                })
+            }
+        });
     })
 </script>
 @endsection

@@ -156,7 +156,7 @@ class CartController extends Controller
 
     public function store(Request $request)
     {
-        $product = $this->client->get('api-product/variant/99?id='.$request->id);
+        $product = $this->client->get('api-product/variant?id='.$request->id);
         $product = json_decode($product->getBody());
         
         $userId = null;
