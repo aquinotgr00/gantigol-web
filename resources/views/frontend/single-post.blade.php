@@ -102,7 +102,7 @@
                 <div class="carousel-item product active">
                     <div class="card-deck">
                         @if ($tagPosts != null)
-                            @foreach ($tagPosts as $key => $post)
+                            @foreach ($tagPosts->data as $key => $post)
                                 @if (0 != $key && 0 === ($key%3))
                                     </div></div>
                                     <div class="carousel-item product">
