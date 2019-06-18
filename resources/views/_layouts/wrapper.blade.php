@@ -431,7 +431,7 @@
             }
 
             function updateTotal(price) {
-                $('.simpleCart_total').html('Rp. ' + price)
+                $('.simpleCart_total').html('Rp. ' + formatRupiah(price))
                 @if (Request::is('checkout'))
                     $('.total_price').html(price)
                     $('.total_price_text').html(formatRupiah(price))
