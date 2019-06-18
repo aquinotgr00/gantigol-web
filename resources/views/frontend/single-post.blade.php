@@ -182,11 +182,11 @@
             @if ($tagProducts != null)
                 @foreach ($tagProducts->data as $key => $value)
                     <div class="card">
-                        <a href="#">
+                        <a href="{{ route('products.single-product', $value->id) }}">
                             <img class="card-img-top gambar" src="{{ $value->image }}">
                         </a>
                         <div class="card-body produk">
-                            <a href="#">
+                            <a href="{{ route('products.single-product', $value->id) }}">
                                 <h5 class="card-title">{{$value->name}}</h5>
                             </a>
                             <p class="card-text">Rp. {{$value->price}}</p>
