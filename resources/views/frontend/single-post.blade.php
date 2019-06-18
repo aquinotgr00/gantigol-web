@@ -102,7 +102,7 @@
                 <div class="carousel-item product active">
                     <div class="card-deck">
                         @if ($tagPosts != null)
-                            @foreach ($tagPosts as $key => $post)
+                            @foreach ($tagPosts->data as $key => $post)
                                 @if (0 != $key && 0 === ($key%3))
                                     </div></div>
                                     <div class="carousel-item product">
@@ -116,7 +116,7 @@
                                         <div class="card-body" style="height:230px;">
                                             <a href="{{ route('blog.post', $post->id) }}" style="height:165px;">
                                                 <h5 class="card-title">{{$post->title}}</h5>
-                                                <p class="card-text">{{substr(strip_tags($post->body), 0, 120)}}</p>
+                                                <p class="card-text">{{substr(strip_tags(html_entity_decode($post->body)), 0, 120)}}</p>
                                             </a>
                                         </div>
                                         <div class="card-footer">
@@ -184,11 +184,11 @@
             @if ($tagProducts != null)
                 @foreach ($tagProducts->data as $key => $value)
                     <div class="card">
-                        <a href="#">
+                        <a href="{{ route('products.single-product', $value->id) }}">
                             <img class="card-img-top gambar" src="{{ $value->image }}">
                         </a>
                         <div class="card-body produk">
-                            <a href="#">
+                            <a href="{{ route('products.single-product', $value->id) }}">
                                 <h5 class="card-title">{{$value->name}}</h5>
                             </a>
                             <p class="card-text">Rp. {{$value->price}}</p>

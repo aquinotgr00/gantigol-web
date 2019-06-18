@@ -31,12 +31,18 @@ class ProductController extends Controller
     {
         $response = $this->client->get('api-product/items/'. $id);
         $data = json_decode($response->getBody());
+        $tags = [];
+        $tagPosts = null;
+        $tagProducts = null;
+        foreach ($data->data->tagged as $tag) {
+            array_push($tags, $tag->tag_name);
+        }
         $related_product = $this->client->get('api-product/items',[
                 'headers' => [
                     'Accept' => 'application/json'
                 ],
                 'query' => [
-                    'tag' => $data->data->related
+                    'tag' => $tags[0]
                 ]
             ]);
         $related = json_decode($related_product->getBody());
