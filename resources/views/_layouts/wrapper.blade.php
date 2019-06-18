@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.typekit.net/mfg8mxp.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+    <link type="text/css" rel="stylesheet" href="{{ asset('css/lightslider.css') }}">
     <script type="https://fonts.googleapis.com/css?family=Proxima+Nova"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.1.1/dist/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -18,6 +19,7 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.0/dist/jquery.validate.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.min.css">
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="{{ asset('js/lightslider.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
 </head>
 
@@ -120,10 +122,9 @@
                                 <!--end shopping-cart-header -->
 
                                 <ul id="cart-wrapper" class="shopping-cart-items mb-0">
-                                    {{-- <li id="main_cart_items" class="clearfix simpleCart_items"></li> --}}
                                 </ul>
 
-                                <a href="/checkout" class="btn btn-primary btn-block simpleCart_checkout bayar" style="display:none;">BAYAR</a>
+                                <a href="/checkout" class="btn btn-primary btn-block simpleCart_checkout bayar mt-5" style="display:none;">BAYAR</a>
                             </div>
                             <!--end shopping-cart -->
 
@@ -289,14 +290,39 @@
                         if (res.amount_items == 0) {
                             hideEmptyEle(false)
                         }
-                        $(this).closest('#main_cart_items').remove()
+                        $(this).closest('.simpleCart_items').remove()
+                        @if (Request::is('checkout'))
+                            $(`#checkout-item-${id}`).remove()
+                        @endif
+                    }
+                })
+            })
+            $('#checkout-item-list').on('click', '.simpleCart_remove', function(evt) {
+                evt.preventDefault()
+                const id = $(this).data('id')
+                const qty = $(this).data('qty')
+                const subtotal = $(this).data('price') * qty
+                $.ajax({
+                    url: '/api/carts/item-delete/' + id,
+                    type: 'POST',
+                    data: {
+                        id: localStorage.getItem('cart_id'),
+                        qty: qty,
+                        subtotal: subtotal
+                    },
+                    success: res => {
+                        updateTotal(res.total)
+                        if (res.amount_items == 0) {
+                            hideEmptyEle(false)
+                        }
+                        $(this).closest('.checkout-list-items').remove()
+                        $(`#cart-item-${id}`).remove()
                     }
                 })
             })
 
             $('#product-list').on('change', () => {
                 $('#variant_id').val($('#product-list').val())
-                console.log($('#variant_id').val())
             })
 
             function loopSizes() {
@@ -452,16 +478,16 @@
             function placeCartItemsOnCheckout(data) {
                 data.map(item => {
                     $(
-                        '<hr class="hr-light top-line">' +
-                        '<div class="row barang">' +
-                            '<div class="col-7">' +
-                                '<div>' +
-                                    '<div>' +
-                                        `<img class="outline" src="${item.image}" />` +
+                        `<div id="checkout-item-${item.id}" class="checkout-list-items">` +
+                            '<hr class="hr-light top-line">' +
+                            '<div class="row barang">' +
+                                '<div class="col-7">' +
+                                    '<div style="float:left;width:25%;">' +
+                                        `<img class="outline" src="${item.product_variant.product.image}" style="width:100%;" />` +
                                     '</div>' +
                                     '<div class="detil-barang">' +
                                         '<div>' +
-                                            `<span class="judul-barang">${item.id}</span>` +
+                                            `<span class="judul-barang">${item.product_variant.product.name}</span>` +
                                         '</div>' +
                                         '<div>' +
                                             '<span class="judul-barang">HARGA  </span>' +
@@ -469,7 +495,7 @@
                                         '</div>' +
                                         '<div>' +
                                             '<span class="judul-barang size-cart">SIZE </span>' +
-                                            `<span> ${item.size_code}</span>` +
+                                            `<span> ${item.product_variant.variant}</span>` +
                                         '</div>' +
                                         '<div>' +
                                             '<span class="judul-barang qty-cart">QTY  </span>' +
@@ -480,17 +506,17 @@
                                         '</div>' +
                                     '</div>' +
                                 '</div>' +
-                            '</div>' +
-                            '<div class="col-1">' +
-                                '<div>' +
-                                    '<div class="diskon">0%</div>' +
+                                '<div class="col-1">' +
+                                    '<div>' +
+                                        '<div class="diskon">0%</div>' +
+                                    '</div>' +
                                 '</div>' +
-                            '</div>' +
-                            '<div class=" col-3">' +
-                                `<div class="harga">Rp. ${formatRupiah(item.qty*item.price)}</div>` +
-                            '</div>' +
-                            '<div class="col-1">' +
-                                '<a href="" class="far fa-trash-alt fa-sm barang"> </a>' +
+                                '<div class=" col-3">' +
+                                    `<div class="harga">Rp. ${formatRupiah(item.qty*item.price)}</div>` +
+                                '</div>' +
+                                '<div class="col-1">' +
+                                    `<a href="#" class="far fa-trash-alt fa-sm barang simpleCart_remove" data-qty="${item.qty}" data-price="${item.price}" data-id="${item.id}"> </a>` +
+                                '</div>' +
                             '</div>' +
                         '</div>'
                     ).appendTo('#checkout-item-list')
@@ -501,26 +527,26 @@
             function appendToCart(item) {
                 console.log(item)
                 $(
-                    '<li id="main_cart_items" class="clearfix simpleCart_items">' +
-                        `<img src="${item.image}" />` +
+                    `<li id="cart-item-${item.id}" class="clearfix simpleCart_items">` +
+                        `<img src="${item.product_variant.product.image}" style="width:25%;" />` +
                         '<div class="detil">' +
                             '<div class="col">' +
-                                `<span class="item-name">${item.id}</span>` +
+                                `<span class="item-name">${item.product_variant.product.name}</span>` +
                             '</div>' +
                             '<div class="item-price">' +
                                 '<span>HARGA  </span>' +
-                                `<span class="input-data"> ${formatRupiah(item.price)}</span>` +
+                                `<span class="input-data">Rp. ${formatRupiah(item.price)}</span>` +
                             '</div>' +
                             '<div class="item-price">' +
                                 '<span class="size-cart">SIZE </span>' +
-                                `<span class="input-data"> ${item.size_code && 'no size'}</span>` +
+                                `<span class="input-data"> ${item.product_variant.variant}</span>` +
                             '</div>' +
                             '<div class="item-price">' +
                                 '<span class="qty-cart">QTY  </span>' +
                                 `<span class="input-data">  ${item.qty}</span>` +
                             '</div>' +
                             '<div class="main-color-text">' +
-                                `<a href="#" class="simpleCart_remove" data-qty="${item.qty}" data-price="${formatRupiah(item.price)}" data-id="${item.id}"><i class="far fa-trash-alt fa-sm"></i></a>` +
+                                `<a href="#" class="simpleCart_remove" data-qty="${item.qty}" data-price="${item.price}" data-id="${item.id}"><i class="far fa-trash-alt fa-sm"></i></a>` +
                             '</div>' +
                         '</div>' +
                     '</li>'

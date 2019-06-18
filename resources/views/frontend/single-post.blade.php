@@ -114,8 +114,10 @@
                                             <img class="card-img-top" src="{{ $post->image }}" alt="Card image cap" style="height:100%;">
                                         </a>
                                         <div class="card-body" style="height:230px;">
-                                            <h5 class="card-title">{{$post->title}}</h5>
-                                            <p class="card-text">{{substr(strip_tags($post->body), 0, 120)}}</p>
+                                            <a href="{{ route('blog.post', $post->id) }}" style="height:165px;">
+                                                <h5 class="card-title">{{$post->title}}</h5>
+                                                <p class="card-text">{{substr(strip_tags($post->body), 0, 120)}}</p>
+                                            </a>
                                         </div>
                                         <div class="card-footer">
                                             <small class="text-muted">{!! date_format(new DateTime($post->publish_date),'d M')!!}</small>
@@ -159,16 +161,16 @@
         {{-- @if ($tagPosts != null && count($tagPosts) > 3) --}}
             <div class="controls-top control">
                 <div class="card-deck">
-                    <div class="card line">
-                        <hr class="card-img-top ">
+                    <div class="card line" style="margin-top:3px;">
+                        <hr class="card-img-top">
                     </div>
                     <div class="card post-next">
-                        <a class="left" href="#multi-item-related" data-slide="prev"><i class="fas fa-chevron-left"></i></a>
+                        <a class="left" href="#multi-item-related" data-slide="prev"><i class="fas fa-chevron-left slide-arrow"></i></a>
                     </div>
                     <div class="card post-next">
-                        <a class="left" href="#multi-item-related" data-slide="next"><i class="fas fa-chevron-right"></i></a>
+                        <a class="left" href="#multi-item-related" data-slide="next"><i class="fas fa-chevron-right slide-arrow"></i></a>
                     </div>
-                    <div class="card line">
+                    <div class="card line" style="margin-top:3px;">
                         <hr class="card-img-top">
                     </div>
                 </div>

@@ -1081,6 +1081,22 @@ div.line {
 div.modal_size_chart {
   max-width: 750px;
 }
+i.slide-arrow {
+  margin-top: 7px;
+}
+div.my-lightslider .lSSlideWrapper {
+  height: 503px;
+}
+div.my-lightslider ul.lightSlider,
+div.my-lightslider li.lslide {
+  height: 100%!important;
+}
+.btn-primary:hover{
+  border-color: #000;
+}
+.btn-primary;:focus {
+  box-shadow: 0 0 0 0.2rem rgba(29, 29, 29, 0.5);
+}
 
 /* end of additional from aqn */
 /* ======================================================================================================================== */

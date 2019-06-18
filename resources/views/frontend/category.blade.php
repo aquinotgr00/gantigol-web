@@ -90,7 +90,7 @@
                 .done(function(data)
                 {
                     if(data.html == " "){
-                        $('.ajax-load').html("<p class='text-center nomore-products'>No more posts found.</p>");
+                        $('.ajax-load').html("<p class='text-center nomore-products'><b class='text-uppercase'>No more posts found.</b></p>");
                         return;
                     }
                     load = true

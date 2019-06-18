@@ -47,7 +47,6 @@ class CartController extends Controller
                         'items[$key][product_id]' => $item->product_id,
                         'items[$key][qty]' => 0,
                         'items[$key][price]' => $item->price,
-                        'items[$key][size_code]' => $item->size_code,
                         'items[$key][subtotal]' => 0,
                         'items[$key][checked]' => 'true',
                         'total' => 0
@@ -230,7 +229,6 @@ class CartController extends Controller
                     'items[$key][subtotal]' => $product->data->price * $item['quantity'],
                     'items[$key][wishlist]' => 'false',
                     'items[$key][checked]' => 'true',
-                    'items[$key][size_code]' => $item['size_code'],
                     'amount_items' => $quantity,
                     'user_id' => $userId,
                     'total' => $total

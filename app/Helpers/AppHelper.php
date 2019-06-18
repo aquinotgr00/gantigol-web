@@ -11,7 +11,7 @@ class AppHelper
 
     public function rupiah($price)
     {
-        $rupiah = number_format($price,2,',','.');
+        $rupiah = number_format($price,0,',','.');
         return $rupiah;
     }
 }

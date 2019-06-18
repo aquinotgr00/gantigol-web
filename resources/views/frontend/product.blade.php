@@ -7,7 +7,20 @@
 @section('content')
 <div class="row">
     <div class="col-5">
-        <img class="images-post" src="{{ $data->data->image }}">
+        {{-- <img class="images-post" src="{{ $data->data->image }}"> --}}
+        <ul class="lightSlider">
+            @if (count($data->data->images) == 0)
+            <li data-thumb="{{ $data->data->image }}">
+                <img class="images-post" src="{{ $data->data->image }}" />
+            </li>
+            @elseif (count($data->data->images) > 0)
+                @foreach ($data->data->images as $image)
+                    <li data-thumb="{{ $image->image }}">
+                        <img class="images-post" src="{{ $image->image }}" />
+                    </li>
+                @endforeach
+            @endif
+        </ul>
     </div>
 
     <div class="col-7">
@@ -157,4 +170,18 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+<script>
+    $('.lightSlider').lightSlider({
+        gallery: true,
+        item: 1,
+        loop:true,
+        galleryMargin: 20,
+        thumbMargin: 40,
+        thumbItem: 5,
+        addClass: 'my-lightslider',
+    });
+</script>
 @endsection

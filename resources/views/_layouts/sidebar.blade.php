@@ -37,16 +37,16 @@
         <!--Product Controls-->
         <div class="controls-top">
             <div class="card-deck">
-                <div class="card line">
+                <div class="card line" style="margin-top:3px;">
                     <hr class="card-img-top ">
                 </div>
                 <div class="card next">
-                    <a class="left" href="#multi-item-example" data-slide="prev"><i class="fas fa-chevron-left"></i></a>
+                    <a class="left" href="#multi-item-example" data-slide="prev"><i class="fas fa-chevron-left slide-arrow"></i></a>
                 </div>
                 <div class="card next">
-                    <a class="left" href="#multi-item-example" data-slide="next"><i class="fas fa-chevron-right"></i></a>
+                    <a class="left" href="#multi-item-example" data-slide="next"><i class="fas fa-chevron-right slide-arrow"></i></a>
                 </div>
-                <div class="card line">
+                <div class="card line" style="margin-top:3px;">
                     <hr class="card-img-top ">
                 </div>
             </div>
@@ -83,7 +83,7 @@
                     <img class="card-img-top" src="{{ $value->image }}" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title">{!! date_format(new DateTime($value->publish_date),'d F')!!}</h5>
-                        <p class="card-text">{{ substr(strip_tags(html_entity_decode($value->body)), 0, 300) }}</p>
+                        <p class="card-text">{{ substr(strip_tags(html_entity_decode($value->body)), 0, 400) }}</p>
                     </div>
                     @endforeach
                 </div>

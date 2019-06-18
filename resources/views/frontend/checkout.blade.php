@@ -140,7 +140,7 @@
 
                     @if (!Session::has('token') && !isset($user))
                     <div class="form-group">
-                        <p class="form-check-label"><input type="checkbox" class="mr-2">Buat akun untuk keperluan selanjutnya</p>
+                        <p class="form-check-label"><input type="checkbox" class="mr-2">Simpan akun untuk keperluan selanjutnya</p>
                     </div>
                     @endif
             
@@ -259,7 +259,7 @@
                                 </div>
                             </div>
                             <div class="col-4">
-                                <button type="button" id="promo-code-btn" class="btn btn-outline-dark col-12">TERAPKAN</button>
+                                <button type="button" id="promo-code-btn" class="btn btn-outline-dark col-12">GUNAKAN</button>
                             </div>
                         </div>     
                     </div>
@@ -364,7 +364,7 @@
             $('textarea[name=address]').prop('disabled', function(i, v) { return !v; })
             $('input[name=province]').prop('disabled', function(i, v) { return !v; })
             $('input[name=city]').prop('disabled', function(i, v) { return !v; })
-            $('input[name=subdistrict]').prop('disabled', function(i, v) { return !v; })
+            $('input[name=subdistrict_text]').prop('disabled', function(i, v) { return !v; })
             $('input[name=postal_code]').prop('disabled', function(i, v) { return !v; })
         })
 
@@ -405,7 +405,7 @@
             if (!promoApplied && $('#promo-code').val() !== '') {
                 $('#promo-code').removeClass('is-invalid')
                 $('.promo-error').removeClass('d-block')
-                $('#promo-code-btn').html('PAKAI NANTI')
+                $('#promo-code-btn').html('BATALKAN')
                 $('#promo-code').attr('disabled', true)
                 let promo = $('input[name=promo-code]').val()
                 $.ajax({
@@ -427,12 +427,10 @@
             } else if (promoApplied) {
                 beforeDiscount = parseInt($('.total_price').html())
                 reward = parseInt($('.discount').html())
-                console.log(beforeDiscount)
-                console.log(reward)
                 $('#promo-code').val('')
                 $('#promo-code').attr('disabled', false)
                 $('.discount_text').html(0)
-                $('#promo-code-btn').html('TERAPKAN')
+                $('#promo-code-btn').html('GUNAKAN')
                 $('.total_price').html(beforeDiscount+reward)
                 $('.total_price_text').html(formatRupiah(beforeDiscount+reward))
                 $('.discount').html(0)

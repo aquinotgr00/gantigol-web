@@ -34,8 +34,22 @@
                                 <img class="card-img-top" src="{{ $value->image }}" alt="Card image cap" style="height:100%;">
                             </a>
                             <div class="card-body" style="height:230px;">
-                                <h5 class="card-title">{{$value->title}}</h5>
-                                <p class="card-text">{{ substr(strip_tags(html_entity_decode($value->body)), 0, 120) }}</p>
+                                <a href="{{ route('blog.post', $value->id) }}" style="height:165px;">
+                                    <h5 class="card-title">{{$value->title}}</h5>
+                                    <p class="card-text">
+                                        {{-- {{ substr(strip_tags(html_entity_decode($value->body)), 0, 120) }} --}}
+                                        {{-- {{ str_limit(strip_tags(html_entity_decode($value->body)), $limit = 130, $end = '...') }} --}}
+                                        @php
+                                        // strip tags to avoid breaking any html
+                                        $string = strip_tags($value->body);
+                                        // truncate string
+                                        $stringCut = substr($string, 0, 130);
+                                        $string = substr($stringCut, 0);
+                                        $string .= '...';
+                                        echo $string;
+                                        @endphp
+                                    </p>
+                                </a>
                             </div>
                             <div class="card-footer">
                                 <small class="text-muted">{!! date_format(new DateTime($value->publish_date),'d M')!!}</small>
@@ -88,8 +102,10 @@
                                 <img class="card-img-top" src="{{ $value->image }}" alt="Card image cap" style="height:100%;">
                             </a>
                             <div class="card-body" style="height:230px;">
-                                <h5 class="card-title">{{$value->title}}</h5>
-                                <p class="card-text">{{ substr(strip_tags(html_entity_decode($value->body)), 0, 120) }}</p>
+                                <a href="{{ route('blog.post', $value->id) }}" style="height:165px;">
+                                    <h5 class="card-title">{{$value->title}}</h5>
+                                    <p class="card-text">{{ substr(strip_tags(html_entity_decode($value->body)), 0, 120) }}</p>
+                                </a>
                             </div>
                             <div class="card-footer">
                                 <small class="text-muted">{!! date_format(new DateTime($value->publish_date),'d M')!!}</small>
@@ -141,8 +157,10 @@
                                 <img class="card-img-top" src="{{ $value->image }}" alt="Card image cap" style="height:100%;">
                             </a>
                             <div class="card-body" style="height:230px;">
-                                <h5 class="card-title">{{$value->title}}</h5>
-                                <p class="card-text">{{ substr(strip_tags(html_entity_decode($value->body)), 0, 120) }}</p>
+                                <a href="{{ route('blog.post', $value->id) }}" style="height:165px;">
+                                    <h5 class="card-title">{{$value->title}}</h5>
+                                    <p class="card-text">{{ substr(strip_tags(html_entity_decode($value->body)), 0, 120) }}</p>
+                                </a>
                             </div>
                             <div class="card-footer">
                                 <small class="text-muted">{!! date_format(new DateTime($value->publish_date),'d M')!!}</small>
