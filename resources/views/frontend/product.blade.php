@@ -131,26 +131,26 @@
     </div>
 </div>
 
-<!-- related products -->
-<h4 class="section-header_title">PRODUK TERKAIT</h4>
-<hr>
-<div class="card-deck">
-    @if(!empty($related->data))
-    @foreach($related->data as $i=>$row)
-    <div class="card">
-        <a href="{{ route('products.single-product', $row->id) }}">
-            <img class="card-img-top gambar" src="{{$row->image}}">
-        </a>
-        <div class="card-body produk">
+@if(!empty($related->data))
+    <!-- related products -->
+    <h4 class="section-header_title">PRODUK TERKAIT</h4>
+    <hr>
+    <div class="card-deck">
+        @foreach($related->data as $i=>$row)
+        <div class="card">
             <a href="{{ route('products.single-product', $row->id) }}">
-                <h5 class="card-title">{{$row->name}}</h5>
+                <img class="card-img-top gambar" src="{{$row->image}}">
             </a>
-            <p class="card-text">Rp.{{\AppHelper::instance()->rupiah($row->price)}}</p>
+            <div class="card-body produk">
+                <a href="{{ route('products.single-product', $row->id) }}">
+                    <h5 class="card-title">{{$row->name}}</h5>
+                </a>
+                <p class="card-text">Rp.{{\AppHelper::instance()->rupiah($row->price)}}</p>
+            </div>
         </div>
+    @endforeach
     </div>
-   @endforeach
-   @endif
-</div>
+@endif
 
 <!-- Size Chart Modal -->
 <div class="modal fade" id="size_chart_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

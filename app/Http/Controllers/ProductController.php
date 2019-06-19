@@ -34,18 +34,21 @@ class ProductController extends Controller
         $tags = [];
         $tagPosts = null;
         $tagProducts = null;
-        foreach ($data->data->tagged as $tag) {
-            array_push($tags, $tag->tag_name);
+        $related = null;
+        if ($data->data->tagged != null) {
+            foreach ($data->data->tagged as $tag) {
+                array_push($tags, $tag->tag_name);
+            }
+            $related_product = $this->client->get('api-product/items',[
+                    'headers' => [
+                        'Accept' => 'application/json'
+                    ],
+                    'query' => [
+                        'tag' => $tags[0]
+                    ]
+                ]);
+            $related = json_decode($related_product->getBody());
         }
-        $related_product = $this->client->get('api-product/items',[
-                'headers' => [
-                    'Accept' => 'application/json'
-                ],
-                'query' => [
-                    'tag' => $tags[0]
-                ]
-            ]);
-        $related = json_decode($related_product->getBody());
         return view('frontend.product', compact('data','related'));
     }
 
