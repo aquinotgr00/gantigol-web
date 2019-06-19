@@ -27,6 +27,13 @@ class CartController extends Controller
         return $data;
     }
 
+    public function getCourierCost(Request $request, $id, $courier)
+    {
+        $response = $this->client->get('shipment/cost?o=501&d='.$id.'&w=100&c='.$courier);
+        $response = json_decode($response->getBody());
+        return response()->json($response->rajaongkir->results[0]->costs);
+    }
+
     public function checkout(Request $request)
     {
         $prevUrl = env('APP_URL').'/checkout';

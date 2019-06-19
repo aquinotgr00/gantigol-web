@@ -10,7 +10,13 @@
 
             @foreach ($sidePost['latestProducts'] as $key => $product)
                 <!--First slide-->
-                <div class="carousel-item @if ($key == 0) active @endif product">
+                <div class="carousel-item
+                    product
+                    @if ($key == 0) active @endif
+                    @if ($product->pre_order != null)
+                    overflow-hidden
+                    @endif
+                    ">
 
                     <div class="col-md">
                         <div class="card mb-2">

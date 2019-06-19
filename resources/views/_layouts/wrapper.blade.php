@@ -367,7 +367,6 @@
                         items: items,
                     },
                     success: function (res) {
-                        console.log(res)
                         placeCartItems(res)
                     }
                 })
@@ -398,7 +397,6 @@
                     type: 'POST',
                     data: session,
                     success: function (res) {
-                        console.log(res)
                     }
                 })
             }
@@ -460,7 +458,10 @@
                 $('.simpleCart_total').html('Rp. ' + formatRupiah(price))
                 @if (Request::is('checkout'))
                     $('.total_price').html(price)
-                    $('.total_price_text').html(formatRupiah(price))
+                    // $('.total_price_text').html(formatRupiah(price))
+                    let courier = $('#courier-type').val()
+                    let discount = $('.discount').html()
+                    $('.total_price_text').html(formatRupiah(price - courier - discount))
                 @endif
             }
 
@@ -525,7 +526,6 @@
             @endif
 
             function appendToCart(item) {
-                console.log(item)
                 $(
                     `<li id="cart-item-${item.id}" class="clearfix simpleCart_items">` +
                         `<img src="${item.product_variant.product.image}" style="width:25%;" />` +

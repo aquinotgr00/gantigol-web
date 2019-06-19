@@ -110,6 +110,7 @@
 
                     <div class="form-group">
                         <label for="city">KOTA</label>
+                        <input type="text" class="d-none" name="city_id" id="city_id">
                         <input type="text" class="form-control" name="city" id="city" placeholder="Kota"
                                 @if(isset($user))
                                     value="{{ $user->city }}"
@@ -163,55 +164,6 @@
             </div>
         </div>
 
-        {{-- @foreach ($cartItems as $item)
-            <hr class="hr-light top-line">
-            <div class="row barang">
-                <div class="col-7">
-                    <div>
-                        <div>
-                            <img class="outline" src="{{ asset('images\produk\p1.png') }}" />
-                        </div>
-                        <div class="detil-barang">
-                            <div>
-                                <span class="judul-barang">{{ $item->product_id }}</span>
-                            </div>
-                            <div>
-                                <span class="judul-barang">HARGA  </span>
-                                <span> Rp {{ $item->price }}</span>
-                            </div>
-                            <div>
-                                <span class="judul-barang size-cart">SIZE </span>
-                                <span> XL</span>
-                            </div>
-                            <div>
-                                <span class="judul-barang qty-cart">QTY  </span>
-                                <span>  {{ $item->qty }}</span>
-                            </div>
-                            <div class="quantity buttons_added">
-                                <input type="button" value="-" class="minus"><input type="number" step="1" min="1" max="" name="quantity" value="{{ $item->qty }}" title="Qty" class="input-text qty text" size="4" pattern="" inputmode=""><input type="button" value="+" class="plus">
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="col-1 ">
-
-                    <div>
-                        <div class="diskon">
-                            0%
-                        </div>
-                    </div>
-                </div>
-                <div class=" col-3">
-                    <div class="harga">Rp. {{ $item->price*$item->qty }}</div>
-                </div>
-                <div class="col-1">
-                    <a href="" class="far fa-trash-alt fa-sm barang"> </a>
-                </div>
-                <div>
-                </div>
-            </div>
-        @endforeach --}}
         <div id="checkout-item-list">
         </div>
 
@@ -237,15 +189,13 @@
                         <div class="dropdown">
                             <div class="form-group">
                                 <select class="gantigoal-select" name="courier-type" id="courier-type">
-                                    <option>Jenis pengiriman</option>
-                                    <option>YES</option>
-                                    <option>OKE</option>
+                                    <option value=0>Jenis pengiriman</option>
                                 </select>
                             </div>
                         </div>
                     </div>
-                    <div class="col-4 courier_fee">
-                        Rp. 0
+                    <div class="col-4">
+                        Rp. <span class="courier_fee">0</span>
                     </div>
                     <div class="col-12">
                         <div class="row">
@@ -302,7 +252,6 @@
 <script>
     $(document).ready(function () {
         $.validator.addMethod( "phoneID", function( value, element ) {
-            // return this.optional( element ) || /^\+?([ -]?\d+)+|\(\d+\)([ -]\d+)$/.test( value );
             return this.optional( element ) || /^((?:\+62|62)|0)[2|8]{1}[0-9]+$/g.test( value );
         }, "Please specify a valid phone number." )
         /* Fungsi formatRupiah */
@@ -321,6 +270,26 @@
 
             rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
             return rupiah;
+        }
+
+        function getCourierCost(id, courier) {
+            $.ajax({
+                url: '/api/carts/courier-cost/'+ id + '/' + courier,
+                type: 'GET',
+                success: res => {
+                    console.log(res)
+                    res.map(item => {
+                        $('#courier-type').append(new Option(item.service, item.cost[0].value))
+                    })
+                }
+            })
+        }
+
+        function updateTotalCheckout() {
+            let total = $('.total_price').html()
+            let courier = $('#courier-type').val()
+            let discount = $('.discount').html()
+            $('.total_price_text').html(formatRupiah(total - courier - discount))
         }
 
         let promoApplied = false
@@ -352,10 +321,17 @@
             select: function( event, ui ) {
                 $('#subdistrict_value').val(ui.item.value)
                 $('#city').val(ui.item.city)
+                $('#city_id').val(ui.item.city_id)
                 $('#province').val(ui.item.province)
                 $('#postal_code').val(ui.item.postal_code)
             }
         });
+
+        $('#courier').change(() => {
+            let courier = $('#courier').val()
+            let city_id = $('#city_id').val()
+            getCourierCost(city_id, courier)
+        })
 
         $('#differentAddress').on('change', function() {
             $('input[name=name]').prop('disabled', function(i, v) { return !v; })
@@ -371,6 +347,11 @@
         $('#courier').change(() => {
             $('input[name=shipment_name]').val($('#courier').val())
             $('input[name=cost]').val(10000)
+        })
+
+        $('#courier-type').change(() => {
+            $('.courier_fee').html(formatRupiah($('#courier-type').val()))
+            updateTotalCheckout()
         })
 
         $('.bayar').click(evt => {
@@ -395,7 +376,7 @@
         })
 
         $('#promo-code-btn').click(() => {
-            let beforeDiscount = 0
+            let beforeDiscount = parseInt($('.total_price').html())
             let reward = 0
             if ($('#promo-code').val() === '') {
                 $('#promo-code').addClass('is-invalid')
@@ -418,22 +399,18 @@
                         reward = res.reward
                         $('.discount').html(reward)
                         $('.discount_text').html(formatRupiah(reward))
-                        beforeDiscount = $('.total_price').html()
-                        $('.total_price').html(beforeDiscount-reward)
-                        $('.total_price_text').html(formatRupiah($('.total_price').html()))
+                        updateTotalCheckout()
                         promoApplied = true
                     }
                 })
             } else if (promoApplied) {
-                beforeDiscount = parseInt($('.total_price').html())
                 reward = parseInt($('.discount').html())
                 $('#promo-code').val('')
                 $('#promo-code').attr('disabled', false)
                 $('.discount_text').html(0)
                 $('#promo-code-btn').html('GUNAKAN')
-                $('.total_price').html(beforeDiscount+reward)
-                $('.total_price_text').html(formatRupiah(beforeDiscount+reward))
                 $('.discount').html(0)
+                updateTotalCheckout()
                 promoApplied = false
             }
         })

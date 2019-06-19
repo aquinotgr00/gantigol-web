@@ -202,13 +202,13 @@ class MembershipController extends Controller
 
     public function apiSubdistrict(Request $request)
     {
-        // return $request->all();
         $response = $this->client->get('shipment/subdistrict?q='.$request->term);
         $response = json_decode($response->getBody());
         foreach ($response->data as $key => $value) {
             $data[$key]['id'] = $value->id;
             $data[$key]['value'] = $value->name;
             $data[$key]['city'] = $value->city->name;
+            $data[$key]['city_id'] = $value->city->id;
             $data[$key]['province'] = $value->city->province->name;
             $data[$key]['postal_code'] = $value->city->postal_code;
         }
