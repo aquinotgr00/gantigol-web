@@ -1094,8 +1094,17 @@ div.my-lightslider li.lslide {
 .btn-primary:hover{
   border-color: #000;
 }
-.btn-primary;:focus {
+.btn-primary:focus {
   box-shadow: 0 0 0 0.2rem rgba(29, 29, 29, 0.5);
+}
+a.checkout_login_btn:hover { color: unset; }
+button.promo-apply-btn {
+  font-family: league-gothic, sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+button.promo-apply-btn:hover {
+  background-color: #000!important;
 }
 
 /* end of additional from aqn */

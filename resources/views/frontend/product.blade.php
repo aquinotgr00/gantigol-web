@@ -9,11 +9,11 @@
     <div class="col-5">
         {{-- <img class="images-post" src="{{ $data->data->image }}"> --}}
         <ul class="lightSlider">
-            @if (count($data->data->images) == 0)
+            {{-- @if (count($data->data->images) == 0) --}}
             <li data-thumb="{{ $data->data->image }}">
                 <img class="images-post" src="{{ $data->data->image }}" />
             </li>
-            @elseif (count($data->data->images) > 0)
+            @if (count($data->data->images) > 0)
                 @foreach ($data->data->images as $image)
                     <li data-thumb="{{ $image->image }}">
                         <img class="images-post" src="{{ $image->image }}" />
@@ -56,7 +56,9 @@
                         DESKRIPSI
                     </h5>
                     <div class="text" style="line-height:1.5;">
-                        <p>{!! $data->data->description !!}</p>
+                        <p>
+                            {!! $data->data->description !!}
+                        </p>
                     </div>
                     <br>
 
@@ -88,7 +90,7 @@
                                 <select class="form-control col-8" id="product-list" name="product-list">
                                     <option value="null">Pilih Produk</option>
                                     @foreach($data->data->variants as $item)
-                                        <option value="{{$item->id}}">{{$item->variant}}</option>
+                                        <option data-max="{{$item->quantity_on_hand}}" value="{{$item->id}}">{{$item->variant}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -96,7 +98,11 @@
                         <div class="row col-9 size">
                             <div class="quantity buttons_added">
                                 <span class="ukuran">QTY</span>
-                                <input type="button" value="-" class="minus"><input type="number" step="1" min="1" max="" name="quantity" value="1" title="Qty" class="input-text qty text" size="4" pattern="" inputmode=""><input type="button" value="+" class="plus">
+                                @if ($data->data->variants[0]->variant != 'ALL SIZE')
+                                    <input type="button" value="-" class="minus"><input type="number" step="1" min="1" max="" name="quantity" value="1" title="Qty" class="input-text qty text" size="4" pattern="" inputmode=""><input type="button" value="+" class="plus">
+                                @elseif ($data->data->variants[0]->variant == 'ALL SIZE')
+                                    <input type="button" value="-" class="minus"><input type="number" step="1" min="1" max="{{$data->data->variants[0]->quantity_on_hand}}" name="quantity" value="1" title="Qty" class="input-text qty text" size="4" pattern="" inputmode=""><input type="button" value="+" class="plus">
+                                @endif
                             </div>
                         </div>
                     @endif
@@ -112,7 +118,7 @@
                     <br>
                     <br>
 
-                    <button class="btn btn-dark col-8 bayar item_add" id="addToCart" href="">BAYAR</button>
+                    <button class="btn btn-dark col-8 bayar item_add" @if (null == $data->data->pre_order) id="addToCart" @endif>BAYAR</button>
                     <br>
                     <br>
                     <br>

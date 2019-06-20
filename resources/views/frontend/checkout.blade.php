@@ -58,8 +58,10 @@
                 @endif
 
                 <form action="#" method="post" id="shipping-form">
+                    <input type="text" class="d-none" name="user_id" id="user_id" @if(isset($user)) value="{{$user->id}}@endif">
                     <input type="number" name="cost" id="shipping_cost" class="d-none">
                     <input type="text" name="shipment_name" id="shipment_name" class="d-none">
+                    <input type="number" name="discount" id="discount" class="d-none" value="0">
 
                     <div class="form-group">
                         <label for="exampleInputEmail1">NAMA</label>
@@ -141,7 +143,7 @@
 
                     @if (!Session::has('token') && !isset($user))
                     <div class="form-group">
-                        <p class="form-check-label"><input type="checkbox" class="mr-2">Simpan akun untuk keperluan selanjutnya</p>
+                        <p class="form-check-label"><input type="checkbox" name="register_account" class="mr-2">Simpan akun untuk keperluan selanjutnya</p>
                     </div>
                     @endif
             
@@ -173,47 +175,51 @@
             <div class="col-12">
                 <label>KURIR</label>
                 <hr class="hr-light top-line">
-                <div class="row">
-                    <div class="col-4 kurir">
-                        <div class="dropdown">
-                            <div class="form-group">
-                                <select class="gantigoal-select" name="courier" id="courier">
-                                    <option>Pilih Kurir</option>
-                                    <option value="jne">JNE</option>
-                                    <option value="tiki">TIKI</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-4 kurir">
-                        <div class="dropdown">
-                            <div class="form-group">
-                                <select class="gantigoal-select" name="courier-type" id="courier-type">
-                                    <option value=0>Jenis pengiriman</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        Rp. <span class="courier_fee">0</span>
-                    </div>
-                    <div class="col-12">
-                        <div class="row">
-                            <div class="col-12">
-                                <hr class="hr-light top-line mt-2">
-                            </div>
-                            <div class=" col-4">
+                <form action="#" method="post" id="courier-form">
+                    <div class="row">
+                        <div class="col-4 kurir">
+                            <div class="dropdown">
                                 <div class="form-group">
-                                    <input class="form-control" id="promo-code" name="promo-code" type="text" placeholder="Masukkan Kode Kupon" >
-                                    <label for="promo-code" class="error invalid-feedback promo-error">Silahkan Masukan Kode Promo</label>
+                                    <select class="form-control gantigoal-select" name="courier" id="courier">
+                                        <option value="null">Pilih Kurir</option>
+                                        <option value="jne">JNE</option>
+                                        <option value="tiki">TIKI</option>
+                                    </select>
+                                    <label for="courier" generated="true" class="error invalid-feedback">This field is required.</label>
                                 </div>
                             </div>
-                            <div class="col-4">
-                                <button type="button" id="promo-code-btn" class="btn btn-outline-dark col-12">GUNAKAN</button>
+                        </div>
+                        <div class="col-4 kurir">
+                            <div class="dropdown">
+                                <div class="form-group">
+                                    <select class="gantigoal-select" name="courier_type" id="courier_type" disabled>
+                                        <option value=0>Jenis pengiriman</option>
+                                    </select>
+                                    <label for="courier_type" generated="true" class="error invalid-feedback"></label>
+                                </div>
                             </div>
-                        </div>     
+                        </div>
+                        <div class="col-4">
+                            Rp. <span class="courier_fee">0</span>
+                        </div>
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-12">
+                                    <hr class="hr-light top-line mt-2">
+                                </div>
+                                <div class=" col-4">
+                                    <div class="form-group">
+                                        <input class="form-control" id="promo-code" name="promo-code" type="text" placeholder="Masukkan Kode Kupon" >
+                                        <label for="promo-code" class="error invalid-feedback promo-error">Silahkan Masukan Kode Promo</label>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <button type="button" id="promo-code-btn" class="btn btn-outline-dark promo-apply-btn col-12">GUNAKAN</button>
+                                </div>
+                            </div>     
+                        </div>
                     </div>
-                </div>
+                </form>
                 <hr class="hr-light bottom-line">
                 <div class="row">
                     <div class="col-8">
@@ -222,7 +228,7 @@
                         </div>
                     </div>
                     <div class="col-4">
-                        <div><span class="discount d-none">0</span>
+                        <div>
                             Rp. <span class="discount_text">0</span>
                         </div>
                     </div>
@@ -246,6 +252,25 @@
         </div>
     </div>
 </div>
+
+
+<!-- Delete Item Modal -->
+<div class="modal fade" id="deleteItemModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Apakah anda yakin?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-dismiss="modal">No</button>
+                <button type="button" data-dismiss="modal" class="btn btn-dark simpleCart_remove" id="deleteButton" data-id="0" data-price="0" data-qty="0">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('script')
@@ -254,6 +279,9 @@
         $.validator.addMethod( "phoneID", function( value, element ) {
             return this.optional( element ) || /^((?:\+62|62)|0)[2|8]{1}[0-9]+$/g.test( value );
         }, "Please specify a valid phone number." )
+        $.validator.addMethod("valueNotEquals", function(value, element, arg){
+            return arg !== value;
+        }, "Value must not equal null.");
         /* Fungsi formatRupiah */
         function formatRupiah(angka){
             var number_string = angka.toString().replace(/[^,\d]/g, ''),
@@ -272,6 +300,18 @@
             return rupiah;
         }
 
+        $(document).on("click", ".deleteModal", function () {
+            var itemID = $(this).data('id');
+            var itemPrice = $(this).data('price');
+            var itemQty = $(this).data('qty');
+            $(".modal-footer #deleteButton").data('id', itemID);
+            $(".modal-footer #deleteButton").data('price', itemPrice);
+            $(".modal-footer #deleteButton").data('qty', itemQty);
+            console.log($(".modal-footer #deleteButton").data('qty'));
+            console.log($(".modal-footer #deleteButton").data('price'));
+            console.log($(".modal-footer #deleteButton").data('id'));
+        });
+
         function getCourierCost(id, courier) {
             $.ajax({
                 url: '/api/carts/courier-cost/'+ id + '/' + courier,
@@ -279,17 +319,30 @@
                 success: res => {
                     console.log(res)
                     res.map(item => {
-                        $('#courier-type').append(new Option(item.service, item.cost[0].value))
+                        $('#courier_type').append(new Option(item.service, item.cost[0].value))
                     })
                 }
             })
         }
 
         function updateTotalCheckout() {
-            let total = $('.total_price').html()
-            let courier = $('#courier-type').val()
-            let discount = $('.discount').html()
-            $('.total_price_text').html(formatRupiah(total - courier - discount))
+            let total = parseInt($('.total_price').html())
+            let courier = parseInt($('#courier_type').val())
+            let discount = $('#discount').val()
+            $('.total_price_text').html(formatRupiah(total + courier - discount))
+        }
+
+        if ($('#subdistrict_text').val() != '' && $('#subdistrict_value').val() == '') {
+            $.ajax({
+                url: '/api/subdistrict',
+                type: 'GET',
+                data: {
+                    term: $('#subdistrict_text').val()
+                },
+                success: res => {
+                    $('#city_id').val(res[0].city_id)
+                }
+            })
         }
 
         let promoApplied = false
@@ -319,7 +372,7 @@
             source: "/api/subdistrict",
             minLength: 3,
             select: function( event, ui ) {
-                $('#subdistrict_value').val(ui.item.value)
+                $('#subdistrict_value').val(ui.item.id)
                 $('#city').val(ui.item.city)
                 $('#city_id').val(ui.item.city_id)
                 $('#province').val(ui.item.province)
@@ -328,9 +381,17 @@
         });
 
         $('#courier').change(() => {
-            let courier = $('#courier').val()
-            let city_id = $('#city_id').val()
-            getCourierCost(city_id, courier)
+            $('#courier_type').attr('disabled', true)
+            $('#courier_type').empty().append(new Option("Jenis pengiriman", 0))
+            if ($('#courier').val() !== 'null') {
+                $('#courier').removeClass('is-invalid')
+                $('label[for=courier]').css('display', 'none')
+                $('input[name=shipment_name]').val($('#courier').val())
+                let courier = $('#courier').val()
+                let city_id = $('#city_id').val()
+                getCourierCost(city_id, courier)
+                $('#courier_type').attr('disabled', false)
+            }
         })
 
         $('#differentAddress').on('change', function() {
@@ -344,13 +405,9 @@
             $('input[name=postal_code]').prop('disabled', function(i, v) { return !v; })
         })
 
-        $('#courier').change(() => {
-            $('input[name=shipment_name]').val($('#courier').val())
-            $('input[name=cost]').val(10000)
-        })
-
-        $('#courier-type').change(() => {
-            $('.courier_fee').html(formatRupiah($('#courier-type').val()))
+        $('#courier_type').change(() => {
+            $('.courier_fee').html(formatRupiah($('#courier_type').val()))
+            $('input[name=cost]').val($('#courier_type').val())
             updateTotalCheckout()
         })
 
@@ -358,20 +415,13 @@
             evt.preventDefault()
             if (!$('#shipping-form').validate()) { // Not Valid
                 return;
-            } else {
-                $('#shipping-form').submit()
             }
-            // $.ajax({
-            //     url: '/api/carts/checkout',
-            //     type: 'POST',
-            //     data: {
-            //         session: localStorage.getItem('session'),
-            //         shipping: $('#shipping-form').serialize(),
-            //     },
-            //     success: res => {
-            //         console.log(res)
-            //     }
-            // })
+            if ($('#courier').val() === 'null' || $('#courier_type').val() === 'null') {
+                $('#courier').addClass('is-invalid');
+                $('label[for=courier]').css('display', 'block')
+                return;
+            }
+            $('#shipping-form').submit()
             // window.location = '/thanks'
         })
 
@@ -397,19 +447,19 @@
                     },
                     success: res => {
                         reward = res.reward
-                        $('.discount').html(reward)
+                        $('#discount').val(reward)
                         $('.discount_text').html(formatRupiah(reward))
                         updateTotalCheckout()
                         promoApplied = true
                     }
                 })
             } else if (promoApplied) {
-                reward = parseInt($('.discount').html())
+                reward = parseInt($('#discount').val())
                 $('#promo-code').val('')
                 $('#promo-code').attr('disabled', false)
                 $('.discount_text').html(0)
                 $('#promo-code-btn').html('GUNAKAN')
-                $('.discount').html(0)
+                $('#discount').val(0)
                 updateTotalCheckout()
                 promoApplied = false
             }
@@ -452,7 +502,7 @@
                     }
                 })
             }
-        });
+        })
     })
 </script>
 @endsection

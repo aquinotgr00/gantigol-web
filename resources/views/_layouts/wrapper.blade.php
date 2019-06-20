@@ -291,14 +291,14 @@
                             hideEmptyEle(false)
                         }
                         $(this).closest('.simpleCart_items').remove()
+                        $(`#checkout-item-${id}`).remove()
                         @if (Request::is('checkout'))
-                            $(`#checkout-item-${id}`).remove()
                         @endif
                     }
                 })
             })
-            $('#checkout-item-list').on('click', '.simpleCart_remove', function(evt) {
-                evt.preventDefault()
+            $('#deleteItemModal').on('click', '.simpleCart_remove', function(evt) {
+                // evt.preventDefault()
                 const id = $(this).data('id')
                 const qty = $(this).data('qty')
                 const subtotal = $(this).data('price') * qty
@@ -316,13 +316,16 @@
                             hideEmptyEle(false)
                         }
                         $(this).closest('.checkout-list-items').remove()
-                        $(`#cart-item-${id}`).remove()
+                        $(`#checkout-item-${id}`).remove()
                     }
                 })
             })
 
             $('#product-list').on('change', () => {
                 $('#variant_id').val($('#product-list').val())
+                let max = $('option:selected', this).data('max')
+                $('input[name=quantity]').attr('max', max)
+                $('input[name=quantity]').val(0)
             })
 
             function loopSizes() {
@@ -459,9 +462,9 @@
                 @if (Request::is('checkout'))
                     $('.total_price').html(price)
                     // $('.total_price_text').html(formatRupiah(price))
-                    let courier = $('#courier-type').val()
-                    let discount = $('.discount').html()
-                    $('.total_price_text').html(formatRupiah(price - courier - discount))
+                    let courier = parseInt($('#courier_type').val())
+                    let discount = $('#discount').val()
+                    $('.total_price_text').html(formatRupiah(price + courier - discount))
                 @endif
             }
 
@@ -502,9 +505,9 @@
                                             '<span class="judul-barang qty-cart">QTY  </span>' +
                                             `<span>  ${item.qty}</span>` +
                                         '</div>' +
-                                        '<div class="quantity buttons_added">' +
-                                            `<input type="button" value="-" class="minus"><input type="number" step="1" min="1" max="" name="quantity" value="${item.qty}" title="Qty" class="input-text qty text" size="4" pattern="" inputmode=""><input type="button" value="+" class="plus">` +
-                                        '</div>' +
+                                        // '<div class="quantity buttons_added">' +
+                                        //     `<input type="button" value="-" class="minus"><input type="number" step="1" min="1" max="" name="quantity" value="${item.qty}" title="Qty" class="input-text qty text" size="4" pattern="" inputmode=""><input type="button" value="+" class="plus">` +
+                                        // '</div>' +
                                     '</div>' +
                                 '</div>' +
                                 '<div class="col-1">' +
@@ -516,7 +519,8 @@
                                     `<div class="harga">Rp. ${formatRupiah(item.qty*item.price)}</div>` +
                                 '</div>' +
                                 '<div class="col-1">' +
-                                    `<a href="#" class="far fa-trash-alt fa-sm barang simpleCart_remove" data-qty="${item.qty}" data-price="${item.price}" data-id="${item.id}"> </a>` +
+                                    // `<a href="#" class="far fa-trash-alt fa-sm barang simpleCart_remove" data-qty="${item.qty}" data-price="${item.price}" data-id="${item.id}"> </a>` +
+                                    `<a href="#" class="far fa-trash-alt fa-sm barang deleteModal" data-toggle="modal" data-target="#deleteItemModal" data-qty="${item.qty}" data-price="${item.price}" data-id="${item.id}"> </a>` +
                                 '</div>' +
                             '</div>' +
                         '</div>'
@@ -571,6 +575,9 @@
                 $.ajax({
                     url: url,
                     type: 'GET',
+                    data: {
+                        session: localStorage.getItem('session')
+                    },
                     success: function (res) {
                         if (res.data.get_items.length !== 0) {
                             placeCartItems(res)
@@ -586,9 +593,12 @@
 
             $('#addToCart').click(() => {
                 let qty = $('input[name=quantity]').val()
-                let session = getBrowserSession()
-                storeItem(qty, session)
-                // loopSizes()
+                let variant = $('#product-list').val()
+                if (qty <= $('input[name=quantity]').attr('max') && variant !== 'null') {
+                    let session = getBrowserSession()
+                    storeItem(qty, session)
+                    // loopSizes()
+                }
             })
         })
     </script>

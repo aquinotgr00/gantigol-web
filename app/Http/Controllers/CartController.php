@@ -36,31 +36,31 @@ class CartController extends Controller
 
     public function checkout(Request $request)
     {
-        $prevUrl = env('APP_URL').'/checkout';
         $token = $request->session()->get('token');
         $username = $request->session()->get('username');
-        $cartId = $request->session()->get('cart_id');
+        // $prevUrl = env('APP_URL').'/checkout';
+        // $cartId = $request->session()->get('cart_id');
 
-        if ($cartId != null && URL::previous() === $prevUrl) {
-            $cartItemsResponse = $this->client->get('api-ecommerce/cart/'. $cartId);
-            $cartItems = json_decode($cartItemsResponse->getBody());
-            $cartItems = $cartItems->data;
+        // if ($cartId != null && URL::previous() === $prevUrl) {
+        //     $cartItemsResponse = $this->client->get('api-ecommerce/cart/'. $cartId);
+        //     $cartItems = json_decode($cartItemsResponse->getBody());
+        //     $cartItems = $cartItems->data;
         
-            // update the user cart items to checked false
-            foreach ($cartItems->get_items as $key => $item) {
-                $response = $this->client->post('api-ecommerce/cart', [
-                    'form_params' => [
-                        'session' => $cartItems->session,
-                        'items[$key][product_id]' => $item->product_id,
-                        'items[$key][qty]' => 0,
-                        'items[$key][price]' => $item->price,
-                        'items[$key][subtotal]' => 0,
-                        'items[$key][checked]' => 'true',
-                        'total' => 0
-                    ]
-                ]);
-            }
-        }
+        //     // update the user cart items to checked false
+        //     foreach ($cartItems->get_items as $key => $item) {
+        //         $response = $this->client->post('api-ecommerce/cart', [
+        //             'form_params' => [
+        //                 'session' => $cartItems->session,
+        //                 'items[$key][product_id]' => $item->product_id,
+        //                 'items[$key][qty]' => 0,
+        //                 'items[$key][price]' => $item->price,
+        //                 'items[$key][subtotal]' => 0,
+        //                 'items[$key][checked]' => 'true',
+        //                 'total' => 0
+        //             ]
+        //         ]);
+        //     }
+        // }
 
         if (!is_null($token) && !is_null($username)) {
             // get user by token
@@ -76,12 +76,36 @@ class CartController extends Controller
         return view('frontend.checkout');
     }
 
-    public function getItems($id, $checked = false)
+    public function postCheckout(Request $request)
     {
-        $url = 'api-ecommerce/cart/'. $id;
-        if ($checked) {
-            $url = 'api-ecommerce/cart-checked/'. $id;
-        }
+        $shipping = [];
+        parse_str($request->shipping, $shipping);
+        // return response()->json($shipping);
+        $response = $this->client->post('api-ecommerce/cart-checkout', [
+            'form_params' => [
+                'session' => $request->session,
+                'shipping_name' => $shipping['name'],
+                'shipping_phone' => $shipping['phone'],
+                'shipping_email' => $shipping['email'],
+                'shipping_address' => $shipping['address'],
+                'shipping_cost' => $shipping['cost'],
+                'shipping_subdistrict_id' => $shipping['subdistrict'],
+                'shipment_name' => $shipping['shipment_name'],
+                'discount' => $shipping['discount'],
+                'user_id' => $shipping['user_id']
+            ]
+        ]);
+        return $response->getBody()->getContents();
+        $response = json_decode($response->getBody());
+        return response()->json($response);
+    }
+
+    public function getItems(Request $request, $id, $checked = false)
+    {
+        $url = 'api-ecommerce/cart/'. $id . '?session='. $request->session;
+        // if ($checked) {
+        //     $url = 'api-ecommerce/cart-checked/'. $id;
+        // }
         $response = $this->client->get($url);
         $data = json_decode($response->getBody());
         return response()->json($data);
@@ -131,26 +155,6 @@ class CartController extends Controller
             return response()->json($response->data);
         }
         return response()->json('failed');
-    }
-
-    public function postCheckout(Request $request)
-    {
-        $shipping = [];
-        parse_str($request->shipping, $shipping);
-        $response = $this->client->post('api-ecommerce/cart-checkout', [
-            'form_params' => [
-                'session' => $request->session,
-                'shipping_name' => $shipping['name'],
-                'shipping_phone' => $shipping['phone'],
-                'shipping_address' => $shipping['address'],
-                'shipping_cost' => $shipping['cost'],
-                'billing_name' => $shipping['name'],
-                'shipment_name' => $shipping['shipment_name'],
-                'shipping_email' => $shipping['email'],
-            ]
-        ]);
-        $response = json_decode($response->getBody());
-        return response()->json($response);
     }
 
     public function applyPromo(Request $request)

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
+use function GuzzleHttp\json_decode;
 
 class ProductController extends Controller
 {
@@ -24,7 +25,10 @@ class ProductController extends Controller
         $banners = $this->client->get('api/banners/banner/shop/3');
         $banners = json_decode($banners->getBody());
 
-        return view('frontend.products')->with(['data' => $data, 'banners' => $banners]);
+        $categories = $this->client->get('api-product/categories');
+        $categories = json_decode($categories->getBody());
+
+        return view('frontend.products')->with(['data' => $data, 'banners' => $banners, 'categories' => $categories]);
     }
 
     public function product($id)
