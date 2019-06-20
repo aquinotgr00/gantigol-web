@@ -13,6 +13,11 @@
 <meta property="og:title" content="{{ $data->title }}" />
 <meta property="og:image:url" content="{{ $data->image ?? asset('images\post\1.jpg') }}" />
 <meta property="og:site_name" content="Ganti GOl"/>
+
+<!-- whatsapp -->
+
+<meta property="og:image:width" content="300">
+<meta property="og:image:height" content="300">
 @endsection
 @section('heading')
 @include('_layouts.breadcrumb')
@@ -90,7 +95,7 @@
                             <nav>
                                 <a class="social" href="http://www.twitter.com/intent/tweet?url={{env('APP_URL')}}blog/post/{{$data->id}}" target="_blank"><i class="fa fa-twitter"></i></a>
                                 <a class="social" href="https://www.facebook.com/sharer/sharer.php?u={{env('APP_URL')}}blog/post/{{$data->id}}" target="_blank"><i class="fa fa-facebook"></i></a>
-                                <a class="social" href="#"><i class="fa fa-whatsapp"></i></a>
+                                <a class="social" href="https://wa.me/?text={{env('APP_URL')}}blog/post/{{$data->id}}" target="_blank"><i class="fa fa-whatsapp"></i></a>
                             </nav>
                         </div>
                     </div>
