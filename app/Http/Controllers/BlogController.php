@@ -59,7 +59,8 @@ class BlogController extends Controller
                     'Accept' => 'application/json'
                 ],
                 'query' => [
-                    'tag' => $tags[0]
+                    'tags' => $tags[0],
+                    'limit' => 4
                 ]
             ]);
             $tagProducts = json_decode($tagProducts->getBody());

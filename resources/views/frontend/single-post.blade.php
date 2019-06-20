@@ -34,14 +34,14 @@
 
         <!-- Date/Time -->
         {{-- <p><img class="mr-2 mt-1" src="{{ asset('images\icon\pen.svg') }}">Amalia on January 1, 2019 at 12:00 PM</p> --}}
-        <p><img class="mr-2 mt-1" src="{{ asset('images\icon\pen.svg') }}">{{$data->author ?? "Gantigoal"}} on {{$data->publish_date ?? "Some day"}} at 12:00 PM</p>
+        <p><img class="mr-2 mt-1" src="{{ asset('images\icon\pen.svg') }}">{{$data->author ?? "GantiGol"}} on {{$data->publish_date ?? "Some day"}} at 12:00 PM</p>
         <hr>
 
         <!-- Preview Image -->
         <div class="card">
             {{-- <img class="images-post" src="{{ $data->image ?? asset('images\post\1.jpg') }}" alt=""> --}}
             <img class="images-post" src="{{ $data->image ?? 'https://imgplaceholder.com/928x469' }}" alt="">
-            <p class="source">stockimage.com</p>
+            <p class="source">{{$data->source_image ?? "GantiGol"}}</p>
         </div>
         <br>
 
