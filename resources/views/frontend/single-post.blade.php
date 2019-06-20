@@ -80,7 +80,7 @@
                         <div class="share">
                             <span class="share-btn"><button class="btn btn-dark" href="">BAGIKAN</button></span>
                             <nav>
-                                <a class="social" href="http://www.twitter.com/intent/tweet?url={{env('APP_URL')}}/blog/post/{{$data->id}}" target="_blank"><i class="fa fa-twitter"></i></a>
+                                <a class="social" href="http://www.twitter.com/intent/tweet?url={{env('APP_URL')}}blog/post/{{$data->id}}" target="_blank"><i class="fa fa-twitter"></i></a>
                                 <a class="social" href="#"><i class="fa fa-facebook"></i></a>
                                 <a class="social" href="#"><i class="fa fa-whatsapp"></i></a>
                             </nav>
