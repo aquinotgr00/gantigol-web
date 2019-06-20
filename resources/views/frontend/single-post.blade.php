@@ -1,5 +1,25 @@
 @extends('_layouts.wrapper')
+@section('meta')
+<!-- twitter -->
+<meta name="twitter:card" content="summary_large_image" >
+<meta name="twitter:site" content="@GANTIGOL" >
+<meta name="twitter:creator" content="@GANTIGOL" >
+<meta name="twitter:title" content="{{ $data->title }}" >
+<meta name="twitter:image:src" content="{{ $data->image ?? asset('images\post\1.jpg') }}" >
 
+<!-- facebook -->
+<meta property="og:url" content="{{env('APP_URL')}}blog/post/{{$data->id}}" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="{{ $data->title }}" />
+<meta property="og:image" content="{{ $data->image ?? asset('images\post\1.jpg') }}" />
+<meta property="og:image:url" content="{{ $data->image ?? asset('images\post\1.jpg') }}" />
+<meta property="og:site_name" content="Ganti GOl"/>
+
+<!-- whatsapp -->
+
+<meta property="og:image:width" content="300">
+<meta property="og:image:height" content="300">
+@endsection
 @section('heading')
 @include('_layouts.breadcrumb')
 @endsection
@@ -74,9 +94,9 @@
                         <div class="share">
                             <span class="share-btn"><button class="btn btn-dark" href="">BAGIKAN</button></span>
                             <nav>
-                                <a class="social" href="#"><i class="fa fa-twitter"></i></a>
-                                <a class="social" href="#"><i class="fa fa-facebook"></i></a>
-                                <a class="social" href="#"><i class="fa fa-whatsapp"></i></a>
+                                <a class="social" href="http://www.twitter.com/intent/tweet?url={{env('APP_URL')}}blog/post/{{$data->id}}" target="_blank"><i class="fa fa-twitter"></i></a>
+                                <a class="social" href="https://www.facebook.com/sharer/sharer.php?u={{env('APP_URL')}}blog/post/{{$data->id}}" target="_blank"><i class="fa fa-facebook"></i></a>
+                                <a class="social" href="https://wa.me/?text={{env('APP_URL')}}blog/post/{{$data->id}}" target="_blank"><i class="fa fa-whatsapp"></i></a>
                             </nav>
                         </div>
                     </div>
