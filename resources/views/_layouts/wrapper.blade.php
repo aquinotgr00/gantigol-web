@@ -749,7 +749,7 @@
                 let qty = parseInt($('input[name=quantity]').val())
                 let variant = parseInt($('#product-list').val())
                 let variantId = $('#variant_id').val()
-                if (qty <= $('input[name=quantity]').attr('max') && variant !== 'null') {
+                if (qty <= $('input[name=quantity]').attr('max') && variant !== 'null' && qty !== 0) {
                     let session = getBrowserSession()
                     storeItem(variantId, qty, session)
                 }

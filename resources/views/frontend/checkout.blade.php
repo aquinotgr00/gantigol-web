@@ -541,24 +541,24 @@
                         console.log(res)
                         $.post('/charge',JSON.stringify(res), function(success) {
                             console.log(success)
-                            // const charge = JSON.parse(success)
-                            // snap.pay(charge.token, {
-                            //     onSuccess: function(result){
-                            //         console.log('success');
-                            //         // handlePaymentResponse(result);
-                            //         window.location = '/thank-you';
-                            //     },
-                            //     onPending: function(result){
-                            //         console.log('pending');
-                            //         // handlePaymentResponse(result);
-                            //         window.location = '/thank-you';
-                            //     },
-                            //     onError: function(result){
-                            //         console.log('error');
-                            //         // handlePaymentResponse(result);
-                            //     },
-                            //     onClose: function(){console.log('customer closed the popup without finishing the payment');}
-                            // });
+                            const charge = JSON.parse(success)
+                            snap.pay(charge.token, {
+                                onSuccess: function(result){
+                                    console.log('success');
+                                    // handlePaymentResponse(result);
+                                    window.location = '/thanks';
+                                },
+                                onPending: function(result){
+                                    console.log('pending');
+                                    // handlePaymentResponse(result);
+                                    window.location = '/thanks';
+                                },
+                                onError: function(result){
+                                    console.log('error');
+                                    // handlePaymentResponse(result);
+                                },
+                                onClose: function(){console.log('customer closed the popup without finishing the payment');}
+                            });
                         })
                     }
                 })
