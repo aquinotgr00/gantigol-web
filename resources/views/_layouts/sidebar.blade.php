@@ -42,18 +42,24 @@
         <!--/.Slides-->
         <!--Product Controls-->
         <div class="controls-top">
-            <div class="card-deck">
+            <div class="card-deck arrow-control-wrapper">
                 <div class="card line" style="margin-top:3px;">
-                    <hr class="card-img-top ">
+                    <hr class="card-img-top d-none d-sm-flex">
                 </div>
-                <div class="card next">
-                    <a class="left" href="#multi-item-example" data-slide="prev"><i class="fas fa-chevron-left slide-arrow"></i></a>
-                </div>
-                <div class="card next">
-                    <a class="left" href="#multi-item-example" data-slide="next"><i class="fas fa-chevron-right slide-arrow"></i></a>
+                <div class="row">
+                    <div class="col-xs-6 latest-product-arrow-control arrow-control-left">
+                        <div class="card" style="margin-right:5px;">
+                            <a class="left" href="#multi-item-example" data-slide="prev"><i class="fas fa-chevron-left slide-arrow"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 latest-product-arrow-control arrow-control-right">
+                        <div class="card" style="margin-left:5px;">
+                            <a class="left" href="#multi-item-example" data-slide="next"><i class="fas fa-chevron-right slide-arrow"></i></a>
+                        </div>
+                    </div>
                 </div>
                 <div class="card line" style="margin-top:3px;">
-                    <hr class="card-img-top ">
+                    <hr class="card-img-top d-none d-sm-flex">
                 </div>
             </div>
         </div>

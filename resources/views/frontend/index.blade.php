@@ -16,9 +16,9 @@
             @if ($klub->highlight !== null)
             <div>
                 <a href="{{ route('blog.post', $klub->highlight->id) }}" class="custom-card">
-                    <div class="card bg-dark text-white" style="height:475px;overflow:hidden">
+                    <div class="card bg-dark text-white post-highlight-wrapper" style="overflow:hidden">
                         <img class="card-img" src="{{$klub->highlight->image}}" alt="Card image" style="height:100%;">
-                        <div class="card-img-overlay" href="#">
+                        <div class="card-img-overlay highlight-image-overlay" href="#">
                             <h3 class="card-title judul">{{$klub->highlight->title}}</h3>
                         </div>
                     </div>
@@ -30,15 +30,13 @@
                 @foreach ($klub->post->data as $value)
                     <div class="col-md-4 px-0">
                         <div class="card">
-                            <a href="{{ route('blog.post', $value->id) }}" class="single-post-a-img" style="height:165px;">
+                            <a href="{{ route('blog.post', $value->id) }}" class="single-post-a-img">
                                 <img class="card-img-top" src="{{ $value->image }}" alt="Card image cap" style="height:100%;">
                             </a>
                             <div class="card-body" style="height:230px;">
                                 <a href="{{ route('blog.post', $value->id) }}" style="height:165px;">
                                     <h5 class="card-title">{{$value->title}}</h5>
                                     <p class="card-text">
-                                        {{-- {{ substr(strip_tags(html_entity_decode($value->body)), 0, 120) }} --}}
-                                        {{-- {{ str_limit(strip_tags(html_entity_decode($value->body)), $limit = 130, $end = '...') }} --}}
                                         @php
                                         // strip tags to avoid breaking any html
                                         $string = strip_tags($value->body);
@@ -61,14 +59,14 @@
             {{-- MORE ARTICLES ROW --}}
             <div class="card-deck">
                 <div class="card line">
-                    <hr class="card-img-top ">
+                    <hr class="card-img-top d-none d-sm-flex">
                 </div>
                 <div class="card">
 
                     <a class="btn btn-dark" href="{{ route('blog.category', 'klub') }}">ARTIKEL LAINNYA</a>
                 </div>
                 <div class="card line">
-                    <hr class="card-img-top ">
+                    <hr class="card-img-top d-none d-sm-flex">
                 </div>
             </div>
 
@@ -84,9 +82,9 @@
             @if ($bola->highlight !== null)
             <div>
                 <a href="{{ route('blog.post', $bola->highlight->id) }}" class="custom-card">
-                    <div class="card bg-dark text-white" style="height:475px;overflow:hidden">
+                    <div class="card bg-dark text-white post-highlight-wrapper" style="overflow:hidden">
                         <img class="card-img" src="{{ $bola->highlight->image}}" alt="Card image" style="height:100%;">
-                        <div class="card-img-overlay" href="#">
+                        <div class="card-img-overlay highlight-image-overlay" href="#">
                             <h3 class="card-title judul">{{$bola->highlight->title}}</h3>
                         </div>
                     </div>
@@ -98,13 +96,23 @@
                 @foreach ($bola->post->data as $value)
                     <div class="col-md-4 px-0">
                         <div class="card">
-                            <a href="{{ route('blog.post', $value->id) }}" style="height:165px;">
+                            <a href="{{ route('blog.post', $value->id) }}" class="single-post-a-img">
                                 <img class="card-img-top" src="{{ $value->image }}" alt="Card image cap" style="height:100%;">
                             </a>
                             <div class="card-body" style="height:230px;">
                                 <a href="{{ route('blog.post', $value->id) }}" style="height:165px;">
                                     <h5 class="card-title">{{$value->title}}</h5>
-                                    <p class="card-text">{{ substr(strip_tags(html_entity_decode($value->body)), 0, 120) }}</p>
+                                    <p class="card-text">
+                                        @php
+                                        // strip tags to avoid breaking any html
+                                        $string = strip_tags($value->body);
+                                        // truncate string
+                                        $stringCut = substr($string, 0, 130);
+                                        $string = substr($stringCut, 0);
+                                        $string .= '...';
+                                        echo $string;
+                                        @endphp
+                                    </p>
                                 </a>
                             </div>
                             <div class="card-footer">
@@ -117,13 +125,13 @@
             {{-- MORE ARTICLES ROW --}}
             <div class="card-deck">
                 <div class="card line">
-                    <hr class="card-img-top ">
+                    <hr class="card-img-top d-none d-sm-flex">
                 </div>
                 <div class="card">
                     <a class="btn btn-dark" href="{{ route('blog.category', 'bola') }}">ARTIKEL LAINNYA</a>
                 </div>
                 <div class="card line">
-                    <hr class="card-img-top ">
+                    <hr class="card-img-top d-none d-sm-flex">
                 </div>
             </div>
 
@@ -139,9 +147,9 @@
             @if ($man->highlight !== null)
             <div>
                 <a href="{{ route('blog.post', $man->highlight->id) }}" class="custom-card">
-                    <div class="card bg-dark text-white" style="height:475px;overflow:hidden">
+                    <div class="card bg-dark text-white post-highlight-wrapper" style="overflow:hidden">
                         <img class="card-img" src="{{ $man->highlight->image }}" alt="Card image" style="height:100%;">
-                        <div class="card-img-overlay" href="#">
+                        <div class="card-img-overlay highlight-image-overlay" href="#">
                             <h3 class="card-title judul">{{$man->highlight->title}}</h3>
                         </div>
                     </div>
@@ -153,13 +161,23 @@
                 @foreach ($man->post->data as $value)
                     <div class="col-md-4 px-0">
                         <div class="card">
-                            <a href="{{ route('blog.post', $value->id) }}" style="height:165px;">
+                            <a href="{{ route('blog.post', $value->id) }}" class="single-post-a-img">
                                 <img class="card-img-top" src="{{ $value->image }}" alt="Card image cap" style="height:100%;">
                             </a>
                             <div class="card-body" style="height:230px;">
                                 <a href="{{ route('blog.post', $value->id) }}" style="height:165px;">
                                     <h5 class="card-title">{{$value->title}}</h5>
-                                    <p class="card-text">{{ substr(strip_tags(html_entity_decode($value->body)), 0, 120) }}</p>
+                                    <p class="card-text">
+                                        @php
+                                        // strip tags to avoid breaking any html
+                                        $string = strip_tags($value->body);
+                                        // truncate string
+                                        $stringCut = substr($string, 0, 130);
+                                        $string = substr($stringCut, 0);
+                                        $string .= '...';
+                                        echo $string;
+                                        @endphp
+                                    </p>
                                 </a>
                             </div>
                             <div class="card-footer">
@@ -172,13 +190,13 @@
             {{-- MORE ARTICLES ROW --}}
             <div class="card-deck">
                 <div class="card line">
-                    <hr class="card-img-top ">
+                    <hr class="card-img-top d-none d-sm-flex">
                 </div>
                 <div class="card">
                     <a class="btn btn-dark" href="{{ route('blog.category', 'man') }}">ARTIKEL LAINNYA</a>
                 </div>
                 <div class="card line">
-                    <hr class="card-img-top ">
+                    <hr class="card-img-top d-none d-sm-flex">
                 </div>
             </div>
 

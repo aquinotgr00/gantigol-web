@@ -1047,17 +1047,17 @@ padding: 20px 0px 20px 0px;
     height: unset;
   }
   .display-4 {
-      font-size: 1.5rem;
+      font-size: 1.5rem!important;
       font-weight: 300;
       line-height: 1.2;
   }
   h3{
-      font-size: 1.5rem;
+      font-size: 1.5rem!important;
       font-weight: 300;
       line-height: 1.2;
   }
   .judul{
-        margin-top: 18%;
+        margin-top: 28%;
   }
   .carousel-caption {
       text-align: left;
@@ -1074,9 +1074,9 @@ padding: 20px 0px 20px 0px;
   .font{
     font-size: 12px
   }
-  /* .carousel-item {
+  .carousel-item {
     height: unset;
-  } */
+  }
   .left{
     font-size: 20px;
   }
@@ -1183,6 +1183,40 @@ button.promo-apply-btn:hover {
   background-color: #000!important;
 }
 div.post { min-height: 250px; }
+a.single-post-a-img {
+  height: 165px;
+}
+div.post-highlight-wrapper {
+  height: 475px;
+}
+div.highlight-image-overlay {
+  box-shadow: inset 0px -90px 34px 0px rgba(0,0,0,0.6);
+}
+
+/* MOBILE RESPONSIVE */
+@media only screen and (max-width: 475px) {
+  a.single-post-a-img {
+    height: 225px;
+  }
+  div.latest-product-arrow-control {
+    margin: 0 auto;
+  }
+  div.latest-product-arrow-control.arrow-control-left {
+    margin-right: 0;
+  }
+  div.latest-product-arrow-control.arrow-control-right {
+    margin-left: 0;
+  }
+  div.gantigol-banner-wrapper {
+    margin-top: 110px;
+  }
+  div.post-highlight-wrapper {
+    height: 225px;
+  }
+  div.arrow-control-wrapper {
+    margin-top: 0;
+  }
+}
 
 /* end of additional from aqn */
 /* ======================================================================================================================== */
