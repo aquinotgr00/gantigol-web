@@ -1,4 +1,4 @@
-<div class="col-3">
+<div class="col-lg-3">
     <h4 class="section-header_title">LAPAK</h4>
     <hr>
 
@@ -89,7 +89,7 @@
                     <img class="card-img-top" src="{{ $value->image }}" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title">{!! date_format(new DateTime($value->publish_date),'d F')!!}</h5>
-                        <p class="card-text">{{ substr(strip_tags(html_entity_decode($value->body)), 0, 400) }}</p>
+                        <p class="card-text">{{ substr(strip_tags(html_entity_decode($value->body)), 0, 500) }}</p>
                     </div>
                     @endforeach
                 </div>
@@ -103,21 +103,23 @@
             <h4 class="section-header_title">IKUTI KAMI</h4>
             <hr>
             <div class="controls-top">
-                <div class="card-deck ikuti">
-                    <div class="card line">
-                        <a href="#">
-                            <img border="0" alt="W3Schools" src="{{ asset('images\ikuti\1.svg') }}">
-                        </a>
-                    </div>
-                    <div class="card line">
-                        <a href="#">
-                            <img border="0" alt="W3Schools" src="{{ asset('images\ikuti\2.svg') }}" >
-                        </a>
-                    </div>
-                    <div class="card line">
-                        <a href="#">
-                            <img border="0" alt="W3Schools" src="{{ asset('images\ikuti\3.svg') }}">
-                        </a>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card line col-4">
+                            <a href="#">
+                                <img border="0" alt="W3Schools" src="{{ asset('images\ikuti\1.svg') }}">
+                            </a>
+                        </div>
+                        <div class="card line col-4">
+                            <a href="#">
+                                <img border="0" alt="W3Schools" src="{{ asset('images\ikuti\2.svg') }}" >
+                            </a>
+                        </div>
+                        <div class="card line col-4">
+                            <a href="#">
+                                <img border="0" alt="W3Schools" src="{{ asset('images\ikuti\3.svg') }}">
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

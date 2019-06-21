@@ -1,10 +1,10 @@
-<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="min-height: 70px;">
+<div id="carouselExampleIndicators" class="carousel slide mt-5" data-ride="carousel" style="min-height: 70px;">
     <div class="carousel-inner" role="listbox">
         @if (count($banners) >= 1)
             @foreach ($banners as $key => $banner)
                 <!-- Slide One - Set the background image for this slide in the line below -->
                 <div class="carousel-item {{ $key == 0 ? 'active':'' }}" style="background-image: url('{{$banner['image']}}')">>
-                    <div class="carousel-caption d-none d-md-block">
+                    <div class="carousel-caption">
                         <h3 class="display-4">{{$banner['title']}}</h3>
                         @if(!empty($banner['url']))
                             <a class="btn btn-primary" href="http://{{ $banner['url'] }}">SELENGKAPNYA</a>

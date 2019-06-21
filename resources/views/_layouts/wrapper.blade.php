@@ -22,11 +22,13 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="{{ asset('js/lightslider.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
+    <link type="text/css" rel="stylesheet" href="{{ asset('css/gantigol.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
 </head>
 
 <body>
 
-    <nav class="navbar navbar-expand-sm fixed-top">
+    <nav class="navbar navbar-expand-sm fixed-top d-none d-sm-flex">
         <div class="container">
             <ul class="nav navbar-nav pull-sm-left ">
                 <li class="nav-item wiki">
@@ -137,6 +139,143 @@
         <!--end container -->
     </nav>
 
+    <header class="index-v2 d-lg-none ">
+        <div class="container-fluid col-12">
+            <div id="topbar" class="row flexer mt-0 ">
+                <div class="col-4">
+                    <a href="/" class="logo">
+                        <img src="{{ asset('images\gantigol\logo.svg') }}" height="70">
+                    </a>
+                </div>
+                <div class="col-8">
+                    <div id="mainnav" class="pull-right">
+                        <a href=" #" class="hidden-md hidden-lg" id="mainnav-toggle"><i class="zmdi zmdi-menu"></i></a>
+                        <nav class="dropdown mt-0">
+                            <ul>
+                                <li>
+                                    <div class="input-group md-form form-sm form-2 pl-0">
+                                        <input class="form-control my-0 py-1 lime-border" type="text" placeholder="Search" aria-label="Search">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text lime lighten-2" id="basic-text1"><i class="fas fa-search text-grey" aria-hidden="true"></i></span>
+                                    </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a id="menu-toggle" class="main-page" href="#">WIKI BOLA</a>
+                                </li>
+                                <li>
+                                    <a class="main-page" href="{{ route('blog.category', 'game') }}">GAME</a>
+                                </li>
+                                <li>
+                                    <a class="main-page" href="{{ route('blog.category', 'tokoh') }}">TOKOH</a>
+                                </li>
+                                <li>
+                                    <a class="main-page" href="{{ route('products.index') }}">LAPAK</a>
+                                </li>
+                                <li class="hidden-lg hidden-md">
+                                    <a id="cart-toggle-sm" class="main-page" href=" #">
+                                        <i class="zmdi zmdi-shopping-cart"></i> &nbsp;CART
+                                    </a>
+                                </li>
+                                <li class="hidden-lg hidden-md">
+                                    <a id="account-toggle-sm" class="main-page" href=" #">
+                                        <i class="zmdi zmdi-account-circle"></i> &nbsp;ACCOUNT
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                        <a id="account-toggle" href="#">
+                            <img src="./Starcross_files/account-of-checkered-design.png" alt="Account toggle">
+                        </a>
+
+                        <a id="cart-toggle" href="#">
+                            <img src="./Starcross_files/shopping-cart-of-checkered-design.png" alt="Cart toggle">
+                            <span id="cart-count" class="text-center hidden">1</span>
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="hover-account" class="account-form">
+            <form method="POST" action=" login" accept-charset="UTF-8"><input name="_token" type="hidden" value="AmM5qI0KOisEwOYhUgN5rAWGIMWTaFeLP6mcSzh7">
+                <div class="youraccount">
+                    <label for="email" class="italics">Email Address :</label>
+                    <input class="italics" name="email" type="email" id="email">
+                    <label for="password" class="italics">Password :</label>
+                    <input name="password" type="password" value="" id="password">
+                </div>
+                <div class="youraccount">
+                    <a href=" password/reset" class="forgot-password-nav pull-right">Forgot your password?</a>
+                </div>
+                <input class="button brownbutton acc-login" style="border:none;" type="submit" value="LOGIN">
+                <a href=" register" class="button brownbutton acc-register">REGISTER</a>
+            </form>
+        </div>
+
+        <div id="hover-menu">
+            <div class="hidden-lg hidden-md">
+                <h6><a href=" shop/Man">FORMASI</a></h6>
+                
+            </div>
+            
+            <div class="hidden-lg hidden-md">
+                <h6><a href=" shop/Woman">STATISTIK</a></h6>
+                
+            </div>
+            
+            <div class="hidden-lg hidden-md">
+                <h6><a href=" shop/Kids">TAKTIK</a></h6>
+                
+            </div>
+            
+        </div>
+
+        <div id="hover-cart">
+            <div class="shopping-cart">
+                <div class="shopping-cart-header">
+                    <div class="shopping-cart-total">
+                        <span class="lighter-text text-body"><h6 class="text-body">Total:</h6></span>
+                        <span class="main-color-text text-body"><h6 class="text-body">1.111.849 </h6></span>
+                        <span class="main-color-text text-body "><h6 class="text-body">Rp </h6></span>
+                        <hr class="hr-cart">
+                    </div>
+                </div>
+                <!--end shopping-cart-header -->
+
+                <ul class="shopping-cart-items">
+                    <li class="clearfix">
+                        <img class="w-25" src="assets\images\produk\1a.jpg">
+                        <div class="detil">
+                            <div class="col">
+                                <span class="item-name text-body font-weight-bold">KAOS NIKE WALKING IN THE AIR</span>
+                            </div>
+                            <div class="item-price">
+                                <span class="text-body font">HARGA  </span>
+                                <span class="input-data text-body font"> Rp 1.111.849</span>
+                            </div>
+                            <div class="item-price">
+                                <span class="size-cart text-body font">SIZE </span>
+                                <span class="input-data text-body font"> XL</span>
+                            </div>
+                            <div class="item-price text-body ">
+                                <span class="qty-cart text-body font">QTY  </span>
+                                <span class="input-data text-body font">  1</span>
+                            </div>
+                            <div class="main-color-text">
+                                <a href="" class="far fa-trash-alt fa-sm"> </a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+
+                <button type="submit" class="btn btn-dark col-12">BAYAR</button>
+            </div>
+            <!--end shopping-cart -->
+        </div>
+    </header>
+
     @yield('heading')
 
     <!-- post1 < -->
@@ -168,21 +307,23 @@
             </div>
         </div>
         <div class="footer" style="margin-top:7px;">
-            <div class="link-footer">
-                <div class="row justify-content-md-center" style="margin-top:0;">
-                    <div class="col-md-8 col-xs-12">
-                        <div class="row">
-                            <div class="col-lg-3 col-xs-12">
-                                <p><a class="footer" href="{{route('homepage.about-page')}}">Tentang Kami</a></p>
-                            </div>
-                            <div class="col-lg-3 col-xs-12">
-                                <p><a class="footer" href="{{route('homepage.contact-page')}}">Kontak Kami</a></p>
-                            </div>
-                            <div class="col-lg-3 col-xs-12">
-                                <p><a class="footer" href="{{route('homepage.faq-page')}}">FAQ</a></p>
-                            </div>
-                            <div class="col-lg-3 col-xs-12 px-0">
-                                <p><a class="footer" href="{{route('homepage.tnc-page')}}">Syarat dan Ketentuan</a></p>
+            <div class="container">
+                <div class="link-footer">
+                    <div class="justify-content-md-center" style="margin-top:0;">
+                        <div class="col-md-8 col-xs-12 mx-auto">
+                            <div class="row">
+                                <div class="col-lg-3 col-xs-12">
+                                    <p><a class="footer" href="{{route('homepage.about-page')}}">Tentang Kami</a></p>
+                                </div>
+                                <div class="col-lg-3 col-xs-12">
+                                    <p><a class="footer" href="{{route('homepage.contact-page')}}">Kontak Kami</a></p>
+                                </div>
+                                <div class="col-lg-3 col-xs-12">
+                                    <p><a class="footer" href="{{route('homepage.faq-page')}}">FAQ</a></p>
+                                </div>
+                                <div class="col-lg-3 col-xs-12 px-lg-0">
+                                    <p><a class="footer" href="{{route('homepage.tnc-page')}}">Syarat dan Ketentuan</a></p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -191,6 +332,9 @@
         </div>
     </footer>
 
+    <script src="{{ asset('js/gantigol.js') }}"></script>
+
+    <!-- global ajax request header -->
     <script>
         $.ajaxSetup({
             headers: {

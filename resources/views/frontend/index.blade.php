@@ -6,7 +6,7 @@
 
 @section('content')
 <div class="row">
-    <div class="col-9">
+    <div class="col-lg-9">
 
         @if ($klub->post->total > 0)
             <h4 class="section-header_title">KLUB</h4>
@@ -30,7 +30,7 @@
                 @foreach ($klub->post->data as $value)
                     <div class="col-md-4 px-0">
                         <div class="card">
-                            <a href="{{ route('blog.post', $value->id) }}" style="height:165px;">
+                            <a href="{{ route('blog.post', $value->id) }}" class="single-post-a-img" style="height:165px;">
                                 <img class="card-img-top" src="{{ $value->image }}" alt="Card image cap" style="height:100%;">
                             </a>
                             <div class="card-body" style="height:230px;">

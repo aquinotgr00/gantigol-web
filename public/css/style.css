@@ -434,7 +434,6 @@ footer {
 }
 .link-footer{
    margin: 0 auto;
-  width: 900px;
   text-align: center;
    position: relative;
 }
@@ -1041,6 +1040,83 @@ padding: 20px 0px 20px 0px;
   }
 
 }
+
+/* UPDATE MOBILE */
+@media only screen and (max-width: 475px) {
+  .gambar{
+    height: unset;
+  }
+  .display-4 {
+      font-size: 1.5rem;
+      font-weight: 300;
+      line-height: 1.2;
+  }
+  h3{
+      font-size: 1.5rem;
+      font-weight: 300;
+      line-height: 1.2;
+  }
+  .judul{
+        margin-top: 18%;
+  }
+  .carousel-caption {
+      text-align: left;
+      margin-top: 20px;
+      margin-left: 0px;
+  }
+  a{
+      font-size: 13px;
+    }
+  .item-name {
+    color: white;
+    font-size: 12px;
+  }
+  .font{
+    font-size: 12px
+  }
+  /* .carousel-item {
+    height: unset;
+  } */
+  .left{
+    font-size: 20px;
+  }
+  .event_day{
+    height: unset;
+  }
+  .nav-tabs {
+    margin-top: 1rem;
+  }
+  .outline{
+  width: 90%
+  }
+  .kurir{
+    margin-top: 0.5rem;
+  }
+  .detil-barang{
+    padding-left: 0px;
+    margin-top: 1em;
+  }
+  .diskon{
+    margin-left: 2rem;
+  }
+  .harga{
+    margin-left: 6rem;
+  }
+  .barang:before{
+    margin-top: 15.5em;
+  }
+  /* .fa-trash-alt .fa-sm .barang:before{
+    margin-top: 
+  } */
+  .kurir-harga{
+    text-align: right;
+    margin-right: 0px;
+  }
+}
+
+
+
+
 /* additional from aqn */
 /* ======================================================================================================================== */
 /* ======================================================================================================================== */
