@@ -47,7 +47,7 @@
                         <h5>
                             Tanggal Berakhir
                         </h5>
-                        <p>{{$data->data->pre_order->end_date}}</p>
+                        <p>{!! date_format(new DateTime($data->data->pre_order->end_date),'d F')!!}</p>
                     @endif
 
                     <br>

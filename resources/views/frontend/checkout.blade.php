@@ -309,6 +309,11 @@
 @endsection
 
 @section('script')
+<script
+    type="text/javascript"
+    src="https://app.sandbox.midtrans.com/snap/snap.js"
+    data-client-key="SB-Mid-client-Mk0Qk3hlWbNXlXV_"
+></script>
 <script>
     $(document).ready(function () {
         $.validator.addMethod( "phoneID", function( value, element ) {
@@ -534,6 +539,27 @@
                     },
                     success: res => {
                         console.log(res)
+                        $.post('/charge',JSON.stringify(res), function(success) {
+                            console.log(success)
+                            // const charge = JSON.parse(success)
+                            // snap.pay(charge.token, {
+                            //     onSuccess: function(result){
+                            //         console.log('success');
+                            //         // handlePaymentResponse(result);
+                            //         window.location = '/thank-you';
+                            //     },
+                            //     onPending: function(result){
+                            //         console.log('pending');
+                            //         // handlePaymentResponse(result);
+                            //         window.location = '/thank-you';
+                            //     },
+                            //     onError: function(result){
+                            //         console.log('error');
+                            //         // handlePaymentResponse(result);
+                            //     },
+                            //     onClose: function(){console.log('customer closed the popup without finishing the payment');}
+                            // });
+                        })
                     }
                 })
             }

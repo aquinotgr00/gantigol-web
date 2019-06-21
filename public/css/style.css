@@ -1106,6 +1106,7 @@ button.promo-apply-btn {
 button.promo-apply-btn:hover {
   background-color: #000!important;
 }
+div.post { min-height: 250px; }
 
 /* end of additional from aqn */
 /* ======================================================================================================================== */

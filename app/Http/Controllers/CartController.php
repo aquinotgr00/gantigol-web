@@ -16,7 +16,7 @@ class CartController extends Controller
         $this->client = new Client([
             'base_uri' => env('API_URL'),
             'timeout' => '10',
-            'http_errors' => false,
+            // 'http_errors' => false,
         ]);
     }
 
@@ -58,22 +58,36 @@ class CartController extends Controller
     {
         $shipping = [];
         parse_str($request->shipping, $shipping);
-        // return response()->json($shipping);
-        $response = $this->client->post('api-ecommerce/cart-checkout', [
-            'form_params' => [
-                'session' => $request->session,
-                'shipping_name' => $shipping['name'],
-                'shipping_phone' => $shipping['phone'],
-                'shipping_email' => $shipping['email'],
-                'shipping_address' => $shipping['address'],
-                'shipping_cost' => $shipping['cost'],
-                'shipping_subdistrict_id' => $shipping['subdistrict'],
-                'shipment_name' => $shipping['shipment_name'],
-                'discount' => $shipping['discount'],
-                'user_id' => $shipping['user_id']
-            ]
-        ]);
-        return $response->getBody()->getContents();
+        if ($shipping['user_id'] == "") {
+            $response = $this->client->post('api-ecommerce/cart-checkout', [
+                'form_params' => [
+                    'session' => $request->session,
+                    'shipping_name' => $shipping['name'],
+                    'shipping_phone' => $shipping['phone'],
+                    'shipping_email' => $shipping['email'],
+                    'shipping_address' => $shipping['address'],
+                    'shipping_cost' => $shipping['cost'],
+                    'shipping_subdistrict_id' => $shipping['subdistrict'],
+                    'shipment_name' => $shipping['shipment_name'],
+                    'discount' => $shipping['discount'],
+                ]
+            ]);
+        } else if ($shipping['user_id'] !== "") {
+            $response = $this->client->post('api-ecommerce/cart-checkout', [
+                'form_params' => [
+                    'session' => $request->session,
+                    'shipping_name' => $shipping['name'],
+                    'shipping_phone' => $shipping['phone'],
+                    'shipping_email' => $shipping['email'],
+                    'shipping_address' => $shipping['address'],
+                    'shipping_cost' => $shipping['cost'],
+                    'shipping_subdistrict_id' => $shipping['subdistrict'],
+                    'shipment_name' => $shipping['shipment_name'],
+                    'discount' => $shipping['discount'],
+                    'user_id' => $shipping['user_id']
+                ]
+            ]);
+        }
         $response = json_decode($response->getBody());
         return response()->json($response);
     }
@@ -252,5 +266,25 @@ class CartController extends Controller
             $data = json_decode($response->getBody());
         }
         return response()->json($data);
+    }
+
+    public function charge(Request $request) {
+        $api_url = config('services.midtrans.isProduction') ? 'https://app.midtrans.com/snap/v1/transactions' : 'https://app.sandbox.midtrans.com/snap/v1/transactions';
+        $server_key = config('services.midtrans.serverKey');
+
+        $client = new Client();
+        $response = $client->post(
+            $api_url,
+            [
+                'headers'=>[
+                    'Content-Type'=>'application/json',
+                    'Accept'=>'application/json',
+                    'Authorization'=>'Basic ' . base64_encode($server_key . ':')
+                ],
+                'json'=>json_decode($request->getContent())
+            ]
+        );
+            
+        return $response->getBody();
     }
 }
