@@ -48,7 +48,8 @@ class ProductController extends Controller
                         'Accept' => 'application/json'
                     ],
                     'query' => [
-                        'tag' => $tags[0]
+                        'tags' => $tags[0],
+                        'limit' => 4
                     ]
                 ]);
             $related = json_decode($related_product->getBody());

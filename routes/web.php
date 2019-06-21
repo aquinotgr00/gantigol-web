@@ -57,3 +57,4 @@
 
 
     Route::get('checkout', 'CartController@checkout')->name('carts.checkout');
+    Route::post('checkout-preorder', 'CartController@checkoutPreOrder')->name('carts.checkout-pre-order');

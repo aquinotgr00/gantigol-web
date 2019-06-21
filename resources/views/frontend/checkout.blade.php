@@ -1,14 +1,7 @@
 @extends('_layouts.wrapper')
 
 @section('heading')
-<div class="container">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">HOME</a></li>
-            <li class="breadcrumb-item active" aria-current="page">KLUB</li>
-        </ol>
-    </nav>
-</div>
+@include('_layouts.breadcrumb')
 @endsection
 
 @section('content')
@@ -167,6 +160,48 @@
         </div>
 
         <div id="checkout-item-list">
+            @if (isset($preOrderItems))
+                @foreach ($preOrderItems as $key => $value)
+                    <div id="checkout-item-${item.id}" class="checkout-list-items">
+                        <hr class="hr-light top-line">
+                        <div class="row barang">
+                            <div class="col-7">
+                                <div style="float:left;width:25%;">
+                                    <img class="outline" src="{{$value->data->image}}" style="width:100%;" />
+                                </div>
+                                <div class="detil-barang">
+                                    <div>
+                                        <span class="judul-barang">{{$value->data->product_name}}</span>
+                                    </div>
+                                    <div>
+                                        <span class="judul-barang">HARGA  </span>
+                                        <span> Rp {{$value->data->price}}</span>
+                                    </div>
+                                    <div>
+                                        <span class="judul-barang size-cart">SIZE </span>
+                                        <span> {{$value->data->variant}}</span>
+                                    </div>
+                                    <div>
+                                        <span class="judul-barang qty-cart">QTY  </span>
+                                        <span>  0</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-1">
+                                <div>
+                                    <div class="diskon">0%</div>
+                                </div>
+                            </div>
+                            <div class=" col-3">
+                                <div class="harga">Rp. 0</div>
+                            </div>
+                            <div class="col-1">
+                                <a href="#" class="far fa-trash-alt fa-sm barang deleteModal" data-toggle="modal" data-target="#deleteItemModal" data-qty="0" data-price="{{$value->data->price}}" data-id="0"> </a>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            @endif
         </div>
 
         <hr class="hr-light top-line">
@@ -256,7 +291,7 @@
 
 <!-- Delete Item Modal -->
 <div class="modal fade" id="deleteItemModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Apakah anda yakin?</h5>

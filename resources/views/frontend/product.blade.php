@@ -64,22 +64,38 @@
 
                     @if (null != $data->data->pre_order)
                         @if ($data->data->variants[0]->variant != 'ALL SIZE')
-                            <h5>
-                                PILIH UKURAN
-                            </h5>
-                            <div class="row col-9 size">
-                                @foreach ($data->data->variants as $key => $item)
-                                    @php $key++ @endphp
-                                    <div class="quantity buttons_added @if ($key%2 != 0) kiri @endif">
-                                        <span class="ukuran"> {{$item->variant}}</span>
-                                        <input type="button" value="-" class="minus"><input type="number" step="1" min="0" name="s" value="0" title="Quantity" class="input-text qty text" size="4"><input type="button" value="+" class="plus">
-                                    </div>
-                                    @if ($key%2 == 0 && $key != count($data->data->variants))
+                            <form action="/checkout-preorder" method="post" id="pre-order-form">@csrf
+                                <h5>
+                                    PILIH UKURAN
+                                </h5>
+                                <div class="row col-9 size">
+                                    @foreach ($data->data->variants as $key => $item)
+                                        @php $key++ @endphp
+                                        <div class="quantity buttons_added @if ($key%2 != 0) kiri @endif">
+                                            <span class="ukuran"> {{$item->variant}}</span>
+                                            <input type="button" value="-" class="minus"><input type="number" data-id="{{$item->id}}" step="1" min="0" max="" name="items[{{$item->id}}]" value="0" title="Quantity" class="input-text qty text" size="4"><input type="button" value="+" class="plus">
                                         </div>
-                                        <div class="row col-9 size">
+                                        @if ($key%2 == 0 && $key != count($data->data->variants))
+                                            </div>
+                                            <div class="row col-9 size">
+                                        @endif
+                                    @endforeach
+                                </div>
+                                <br>
+                                <button type="button" id="sizeChartBtn" data-toggle="modal" data-target="#size_chart_modal" class="btn btn-outline-dark col-8"
+                                    @if ($data->data->category->size_chart == null)
+                                        disabled
                                     @endif
-                                @endforeach
-                            </div>
+                                    >
+                                    LIHAT TABEL UKURAN
+                                </button>
+                                <br>
+                                <br>
+
+                                <button type="submit" class="btn btn-dark col-8 bayar item_add" id="preOrder">
+                                    BAYAR
+                                </button>
+                            </form>
                         @endif
                     @elseif (null == $data->data->pre_order)
                         @if ($data->data->variants[0]->variant != 'ALL SIZE')
@@ -105,20 +121,22 @@
                                 @endif
                             </div>
                         </div>
+                        <br>
+                        <button type="button" id="sizeChartBtn" data-toggle="modal" data-target="#size_chart_modal" class="btn btn-outline-dark col-8"
+                            @if ($data->data->category->size_chart == null)
+                                disabled
+                            @endif
+                            >
+                            LIHAT TABEL UKURAN
+                        </button>
+                        <br>
+                        <br>
+
+                        <button type="button" class="btn btn-dark col-8 bayar item_add" id="addToCart">
+                            BAYAR
+                        </button>
                     @endif
-                    <br>
 
-                    <button type="button" id="sizeChartBtn" data-toggle="modal" data-target="#size_chart_modal" class="btn btn-outline-dark col-8"
-                        @if ($data->data->category->size_chart == null)
-                            disabled
-                        @endif
-                        >
-                        LIHAT TABEL UKURAN
-                    </button>
-                    <br>
-                    <br>
-
-                    <button class="btn btn-dark col-8 bayar item_add" @if (null == $data->data->pre_order) id="addToCart" @endif>BAYAR</button>
                     <br>
                     <br>
                     <br>
@@ -143,7 +161,7 @@
     <hr>
     <div class="card-deck">
         @foreach($related->data as $i=>$row)
-        <div class="card">
+        <div class="card col-md-3 px-0">
             <a href="{{ route('products.single-product', $row->id) }}">
                 <img class="card-img-top gambar" src="{{$row->image}}">
             </a>

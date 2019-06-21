@@ -38,29 +38,7 @@ class CartController extends Controller
     {
         $token = $request->session()->get('token');
         $username = $request->session()->get('username');
-        // $prevUrl = env('APP_URL').'/checkout';
-        // $cartId = $request->session()->get('cart_id');
-
-        // if ($cartId != null && URL::previous() === $prevUrl) {
-        //     $cartItemsResponse = $this->client->get('api-ecommerce/cart/'. $cartId);
-        //     $cartItems = json_decode($cartItemsResponse->getBody());
-        //     $cartItems = $cartItems->data;
-        
-        //     // update the user cart items to checked false
-        //     foreach ($cartItems->get_items as $key => $item) {
-        //         $response = $this->client->post('api-ecommerce/cart', [
-        //             'form_params' => [
-        //                 'session' => $cartItems->session,
-        //                 'items[$key][product_id]' => $item->product_id,
-        //                 'items[$key][qty]' => 0,
-        //                 'items[$key][price]' => $item->price,
-        //                 'items[$key][subtotal]' => 0,
-        //                 'items[$key][checked]' => 'true',
-        //                 'total' => 0
-        //             ]
-        //         ]);
-        //     }
-        // }
+        $categoryName = 'Checkout';
 
         if (!is_null($token) && !is_null($username)) {
             // get user by token
@@ -71,9 +49,9 @@ class CartController extends Controller
             ]);
 
             $user = json_decode($user->getBody());
-            return view('frontend.checkout', compact('user'));
+            return view('frontend.checkout', compact('user', 'categoryName'));
         }
-        return view('frontend.checkout');
+        return view('frontend.checkout', compact('categoryName'));
     }
 
     public function postCheckout(Request $request)
@@ -184,25 +162,51 @@ class CartController extends Controller
             $userId = $user->id;
         }
 
-        $total = $request->price * $request->qty;
+        // $total = $request->price * $request->qty;
         
         $response = $this->client->post('api-ecommerce/cart', [
             'form_params' => [
                 'session' => $request->session,
-                'items[$key][product_id]' => $request->id,
+                'items[$key][product_id]' => $request->id,      // variant ID
                 'items[$key][qty]' => $request->qty,
-                'items[$key][price]' => $request->price,
-                'items[$key][subtotal]' => $total,
                 'items[$key][wishlist]' => 'false',
                 'items[$key][checked]' => 'true',
-                'amount_items' => $request->qty,
                 'user_id' => $userId,
-                'total' => $total
             ]
         ]);
 
         $data = json_decode($response->getBody());
         return response()->json($data);
+    }
+
+    public function checkoutPreOrder(Request $request)
+    {
+        // return $request->all();
+        $token = $request->session()->get('token');
+        $username = $request->session()->get('username');
+        $categoryName = 'Checkout';
+
+        $preOrderItems = [];
+        foreach ($request->items as $id => $value) {
+            if ($value > 0) {
+                $item = $this->client->get('api-product/variant?id='.$id);
+                $item = json_decode($item->getBody());
+                $preOrderItems[] = $item;
+            }
+        }
+        // return response()->json($preOrderItems);
+        if (!is_null($token) && !is_null($username)) {
+            // get user by token
+            $user = $this->client->get('api/user', [
+                'headers' => [
+                    'Authorization' => 'Bearer '.$token
+                ]
+            ]);
+
+            $user = json_decode($user->getBody());
+            return view('frontend.checkout', compact('user', 'categoryName', 'preOrderItems'));
+        }
+        return view('frontend.checkout', compact('categoryName', 'preOrderItems'));
     }
 
     public function storeItems(Request $request)

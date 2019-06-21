@@ -292,8 +292,8 @@
                             hideEmptyEle(false)
                         }
                         $(this).closest('.simpleCart_items').remove()
-                        $(`#checkout-item-${id}`).remove()
                         @if (Request::is('checkout'))
+                            $(`#checkout-item-${id}`).remove()
                         @endif
                     }
                 })
@@ -316,8 +316,8 @@
                         if (res.amount_items == 0) {
                             hideEmptyEle(false)
                         }
-                        $(this).closest('.checkout-list-items').remove()
                         $(`#checkout-item-${id}`).remove()
+                        $(`#cart-item-${id}`).remove()
                     }
                 })
             })
@@ -334,20 +334,30 @@
                 let contained = false
                 $('.qty').map((key, inputt) => {
                     if (inputt.value != 0) {
-                        contained = true;
+                        contained = true
                         let itemObj = {}
+                        itemObj['id'] = inputt.dataset.id
                         itemObj['size_code'] = inputt.name
                         itemObj['quantity'] = inputt.value
                         items.push(itemObj)
                     }
                 })
                 if (contained) {
-                    // if (localStorage.getItem('cart_id') === null) {
-                        // let session = getBrowserSession()
-                        // postItemToCart(items, session)
-                    // } else if (localStorage.getItem('cart_id') !== null) {
-                    //     putItemToCart(items)
-                    // }
+                    let session = getBrowserSession()
+                    // $.ajax({
+                    //     url: '/api/carts/store-pre-order',
+                    //     type: 'POST',
+                    //     data: {
+                    //         items: items,
+                    //         session: session
+                    //     },
+                    //     success: res => {
+                    //         console.log(res)
+                    //     }
+                    // })
+                    // items.map(item => {
+                    //     storeItem(item.id, item.quantity, session)
+                    // })
                 }
             }
 
@@ -406,13 +416,12 @@
             }
             **/
 
-            function storeItem(qty, session) {
+            function storeItem(id, qty, session) {
                 $.ajax({
                     url: '/api/carts/store',
                     type: 'POST',
                     data: {
-                        id: $('#variant_id').val(),
-                        price: $('.item_price').html(),
+                        id: id,
                         qty: qty,
                         user_token: localStorage.getItem('user_token'),
                         session: session
@@ -593,13 +602,16 @@
             }
 
             $('#addToCart').click(() => {
-                let qty = $('input[name=quantity]').val()
-                let variant = $('#product-list').val()
+                let qty = parseInt($('input[name=quantity]').val())
+                let variant = parseInt($('#product-list').val())
+                let variantId = $('#variant_id').val()
                 if (qty <= $('input[name=quantity]').attr('max') && variant !== 'null') {
                     let session = getBrowserSession()
-                    storeItem(qty, session)
-                    // loopSizes()
+                    storeItem(variantId, qty, session)
                 }
+            })
+            $('#preOrder').click(() => {
+                loopSizes()
             })
         })
     </script>

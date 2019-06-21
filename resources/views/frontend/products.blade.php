@@ -31,7 +31,7 @@
                         KATEGORI
                     </h5>
                 </div>
-                <!--Accordion wrapper-->
+                <!--Categories wrapper-->
                 <div class="accordion md-accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
 
                     <!-- Accordion card -->
@@ -94,6 +94,7 @@
                 </div>
             </div>
 
+            <!-- Product List -->
             <div class="col-9" id="product-list">
 
                 <div class="card-deck list">
@@ -109,7 +110,7 @@
                                         <img class="card-img-top gambar" src="{{ $product->image }}">
                                     </a>
                                     <div class="card-body produk">
-                                        <a href="#">
+                                        <a href="products/item/{{$product->id}}">
                                             <h5 class="card-title">{{ $product->name }}</h5>
                                         </a>
                                         <p class="card-text">Rp. {{ \AppHelper::instance()->rupiah($product->price) }}</p>
