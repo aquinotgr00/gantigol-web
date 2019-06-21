@@ -23,7 +23,7 @@ class ProductController extends Controller
         $data = json_decode($response->getBody());
 
         $banners = $this->client->get('api/banners/banner/shop/3');
-        $banners = json_decode($banners->getBody());
+        $banners = json_decode($banners->getBody(), true);
 
         $categories = $this->client->get('api-product/categories');
         $categories = json_decode($categories->getBody());

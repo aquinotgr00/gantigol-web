@@ -103,7 +103,7 @@
                                 PILIHAN PRODUK 
                             </h5>
                             <div class="form-group">
-                                <select class="form-control col-8" id="product-list" name="product-list">
+                                <select class="form-control gantigoal-select col-8" id="product-list" name="product-list">
                                     <option value="null">Pilih Produk</option>
                                     @foreach($data->data->variants as $item)
                                         <option data-max="{{$item->quantity_on_hand}}" value="{{$item->id}}">{{$item->variant}}</option>
@@ -122,7 +122,7 @@
                             </div>
                         </div>
                         <br>
-                        <button type="button" id="sizeChartBtn" data-toggle="modal" data-target="#size_chart_modal" class="btn btn-outline-dark col-8"
+                        <button type="button" id="sizeChartBtn" data-toggle="modal" data-target="#size_chart_modal" class="btn btn-outline-dark promo-apply-btn col-8"
                             @if ($data->data->category->size_chart == null)
                                 disabled
                             @endif
