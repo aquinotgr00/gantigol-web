@@ -186,7 +186,9 @@
                 </button>
             </div>
             <div class="modal-body text-center">
+                @if ($data->data->category->size_chart !== null)
                 <img src="{{$data->data->category->size_chart->image}}" alt="size chart image" style="width:100%;">
+                @endif
             </div>
             <div class="modal-footer border-top-0">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
