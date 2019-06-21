@@ -6,7 +6,7 @@
                 <div class="carousel-item {{ $key == 0 ? 'active':'' }}" style="background-image: url('{{$banner['image']}}')">
                     <div class="carousel-caption">
                         <h3 class="display-4">{{$banner['title']}}</h3>
-                        @if(!empty($banner['url']))
+                        @if(!empty($banner['url']) && $banner['url'] !== '#')
                             <a class="btn btn-primary" href="http://{{ $banner['url'] }}">SELENGKAPNYA</a>
                         @endif
                     </div>
