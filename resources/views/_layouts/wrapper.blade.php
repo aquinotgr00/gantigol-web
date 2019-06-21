@@ -635,6 +635,15 @@
             @if (Request::is('checkout'))
             function placeCartItemsOnCheckout(data) {
                 data.map(item => {
+                    let qty = item.qty
+                    let stock = item.product_variant.quantity_on_hand
+                    let show = qty
+                    if (stock === 0) {
+                        show = '<b class="text-danger text-uppercase">Stok Habis</b>'
+                    }
+                    else if (stock - qty < 0) {
+                        show = '<b class="text-danger text-uppercase">Stok Limit</b>'
+                    }
                     $(
                         `<div id="checkout-item-${item.id}" class="checkout-list-items">` +
                             '<hr class="hr-light top-line">' +
@@ -657,11 +666,8 @@
                                         '</div>' +
                                         '<div>' +
                                             '<span class="judul-barang qty-cart">QTY  </span>' +
-                                            `<span>  ${item.qty}</span>` +
+                                            `<span class="checkout-qty-items" data-val="${stock-qty}"> ${show}</span>` +
                                         '</div>' +
-                                        // '<div class="quantity buttons_added">' +
-                                        //     `<input type="button" value="-" class="minus"><input type="number" step="1" min="1" max="" name="quantity" value="${item.qty}" title="Qty" class="input-text qty text" size="4" pattern="" inputmode=""><input type="button" value="+" class="plus">` +
-                                        // '</div>' +
                                     '</div>' +
                                 '</div>' +
                                 '<div class="col-1">' +
@@ -673,7 +679,6 @@
                                     `<div class="harga">Rp. ${formatRupiah(item.qty*item.price)}</div>` +
                                 '</div>' +
                                 '<div class="col-1">' +
-                                    // `<a href="#" class="far fa-trash-alt fa-sm barang simpleCart_remove" data-qty="${item.qty}" data-price="${item.price}" data-id="${item.id}"> </a>` +
                                     `<a href="#" class="far fa-trash-alt fa-sm barang deleteModal" data-toggle="modal" data-target="#deleteItemModal" data-qty="${item.qty}" data-price="${item.price}" data-id="${item.id}"> </a>` +
                                 '</div>' +
                             '</div>' +
@@ -684,6 +689,14 @@
             @endif
 
             function appendToCart(item) {
+                let qty = item.qty
+                let stock = item.product_variant.quantity_on_hand
+                if (stock === 0) {
+                    qty = '<b class="text-danger text-uppercase">Stok Habis</b>'
+                }
+                else if (stock - qty < 0) {
+                    qty = '<b class="text-danger text-uppercase">Stok Limit</b>'
+                }
                 $(
                     `<li id="cart-item-${item.id}" class="clearfix simpleCart_items">` +
                         `<img src="${item.product_variant.product.image}" style="width:25%;" />` +
@@ -701,7 +714,7 @@
                             '</div>' +
                             '<div class="item-price">' +
                                 '<span class="qty-cart">QTY  </span>' +
-                                `<span class="input-data">  ${item.qty}</span>` +
+                                `<span class="input-data"> ${qty}</span>` +
                             '</div>' +
                             '<div class="main-color-text">' +
                                 `<a href="#" class="simpleCart_remove" data-qty="${item.qty}" data-price="${item.price}" data-id="${item.id}"><i class="far fa-trash-alt fa-sm"></i></a>` +
@@ -712,6 +725,7 @@
             }
 
             function placeCartItems(data) {
+                console.log(data)
                 clearCartDisplay()
                 updateTotal(data.data.total)
                 data.data.get_items.map(item => {

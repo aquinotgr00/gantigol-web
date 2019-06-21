@@ -461,6 +461,15 @@
                 $('label[for=courier]').css('display', 'block')
                 return;
             }
+            let isLimit = false
+            $('.checkout-qty-items').map((key, item) => {
+                if (item.dataset.val < 0) {
+                    isLimit = true
+                }
+            })
+            if (isLimit) {
+                return;
+            }
             $('#shipping-form').submit()
             // window.location = '/thanks'
         })

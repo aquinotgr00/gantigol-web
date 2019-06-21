@@ -16,7 +16,7 @@ class CartController extends Controller
         $this->client = new Client([
             'base_uri' => env('API_URL'),
             'timeout' => '10',
-            // 'http_errors' => false,
+            'http_errors' => false,
         ]);
     }
 
@@ -268,7 +268,8 @@ class CartController extends Controller
         return response()->json($data);
     }
 
-    public function charge(Request $request) {
+    public function charge(Request $request)
+    {
         $api_url = config('services.midtrans.isProduction') ? 'https://app.midtrans.com/snap/v1/transactions' : 'https://app.sandbox.midtrans.com/snap/v1/transactions';
         $server_key = config('services.midtrans.serverKey');
 
