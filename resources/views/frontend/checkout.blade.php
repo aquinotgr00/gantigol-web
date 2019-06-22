@@ -539,8 +539,13 @@
                 postal_code: 'required',
             },
             submitHandler: function (evt) {
+                let url = '/api/carts/checkout'
+                @if (Request::is('checkout-preorder'))
+                    url = '/api/carts/checkout-preorder'
+                @endif
+                console.log(url)
                 $.ajax({
-                    url: '/api/carts/checkout',
+                    url: url,
                     type: 'POST',
                     data: {
                         session: localStorage.getItem('session'),

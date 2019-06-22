@@ -488,20 +488,12 @@
                 })
                 if (contained) {
                     let session = getBrowserSession()
-                    // $.ajax({
-                    //     url: '/api/carts/store-pre-order',
-                    //     type: 'POST',
-                    //     data: {
-                    //         items: items,
-                    //         session: session
-                    //     },
-                    //     success: res => {
-                    //         console.log(res)
-                    //     }
-                    // })
-                    // items.map(item => {
-                    //     storeItem(item.id, item.quantity, session)
-                    // })
+                    items.map(item => {
+                        storeItem(item.id, item.quantity, session)
+                    })
+                    setTimeout(() => {
+                        window.location = '/checkout-preorder'
+                    }, 3000)
                 }
             }
 
@@ -613,7 +605,7 @@
 
             function updateTotal(price) {
                 $('.simpleCart_total').html('Rp. ' + formatRupiah(price))
-                @if (Request::is('checkout'))
+                @if (Request::is('checkout') || Request::is('checkout-preorder'))
                     $('.total_price').html(price)
                     // $('.total_price_text').html(formatRupiah(price))
                     let courier = parseInt($('#courier_type').val())
@@ -634,57 +626,112 @@
 
             @if (Request::is('checkout'))
             function placeCartItemsOnCheckout(data) {
+                let regularTotal = 0
                 data.map(item => {
-                    let qty = item.qty
-                    let stock = item.product_variant.quantity_on_hand
-                    let show = qty
-                    if (stock === 0) {
-                        show = '<b class="text-danger text-uppercase">Stok Habis</b>'
+                    if (item.product_variant.product.pre_order === null) {
+                        regularTotal += item.subtotal
+                        let qty = item.qty
+                        let stock = item.product_variant.quantity_on_hand
+                        let show = qty
+                        if (stock === 0) {
+                            show = '<b class="text-danger text-uppercase">Stok Habis</b>'
+                        }
+                        else if (stock - qty < 0) {
+                            show = '<b class="text-danger text-uppercase">Stok Limit</b>'
+                        }
+                        $(
+                            `<div id="checkout-item-${item.id}" class="checkout-list-items">` +
+                                '<hr class="hr-light top-line">' +
+                                '<div class="row barang">' +
+                                    '<div class="col-7">' +
+                                        '<div style="float:left;width:25%;">' +
+                                            `<img class="outline" src="${item.product_variant.product.image}" style="width:100%;" />` +
+                                        '</div>' +
+                                        '<div class="detil-barang">' +
+                                            '<div>' +
+                                                `<span class="judul-barang">${item.product_variant.product.name}</span>` +
+                                            '</div>' +
+                                            '<div>' +
+                                                '<span class="judul-barang">HARGA  </span>' +
+                                                `<span> Rp ${formatRupiah(item.price)}</span>` +
+                                            '</div>' +
+                                            '<div>' +
+                                                '<span class="judul-barang size-cart">SIZE </span>' +
+                                                `<span> ${item.product_variant.variant}</span>` +
+                                            '</div>' +
+                                            '<div>' +
+                                                '<span class="judul-barang qty-cart">QTY  </span>' +
+                                                `<span class="checkout-qty-items" data-val="${stock-qty}"> ${show}</span>` +
+                                            '</div>' +
+                                        '</div>' +
+                                    '</div>' +
+                                    '<div class="col-1">' +
+                                        '<div>' +
+                                            '<div class="diskon">0%</div>' +
+                                        '</div>' +
+                                    '</div>' +
+                                    '<div class=" col-3">' +
+                                        `<div class="harga">Rp. ${formatRupiah(item.qty*item.price)}</div>` +
+                                    '</div>' +
+                                    '<div class="col-1">' +
+                                        `<a href="#" class="far fa-trash-alt fa-sm barang deleteModal" data-toggle="modal" data-target="#deleteItemModal" data-qty="${item.qty}" data-price="${item.price}" data-id="${item.id}"> </a>` +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>'
+                        ).appendTo('#checkout-item-list')
                     }
-                    else if (stock - qty < 0) {
-                        show = '<b class="text-danger text-uppercase">Stok Limit</b>'
-                    }
-                    $(
-                        `<div id="checkout-item-${item.id}" class="checkout-list-items">` +
-                            '<hr class="hr-light top-line">' +
-                            '<div class="row barang">' +
-                                '<div class="col-7">' +
-                                    '<div style="float:left;width:25%;">' +
-                                        `<img class="outline" src="${item.product_variant.product.image}" style="width:100%;" />` +
-                                    '</div>' +
-                                    '<div class="detil-barang">' +
-                                        '<div>' +
-                                            `<span class="judul-barang">${item.product_variant.product.name}</span>` +
-                                        '</div>' +
-                                        '<div>' +
-                                            '<span class="judul-barang">HARGA  </span>' +
-                                            `<span> Rp ${formatRupiah(item.price)}</span>` +
-                                        '</div>' +
-                                        '<div>' +
-                                            '<span class="judul-barang size-cart">SIZE </span>' +
-                                            `<span> ${item.product_variant.variant}</span>` +
-                                        '</div>' +
-                                        '<div>' +
-                                            '<span class="judul-barang qty-cart">QTY  </span>' +
-                                            `<span class="checkout-qty-items" data-val="${stock-qty}"> ${show}</span>` +
-                                        '</div>' +
-                                    '</div>' +
-                                '</div>' +
-                                '<div class="col-1">' +
-                                    '<div>' +
-                                        '<div class="diskon">0%</div>' +
-                                    '</div>' +
-                                '</div>' +
-                                '<div class=" col-3">' +
-                                    `<div class="harga">Rp. ${formatRupiah(item.qty*item.price)}</div>` +
-                                '</div>' +
-                                '<div class="col-1">' +
-                                    `<a href="#" class="far fa-trash-alt fa-sm barang deleteModal" data-toggle="modal" data-target="#deleteItemModal" data-qty="${item.qty}" data-price="${item.price}" data-id="${item.id}"> </a>` +
-                                '</div>' +
-                            '</div>' +
-                        '</div>'
-                    ).appendTo('#checkout-item-list')
                 })
+                updateTotal(regularTotal)
+            }
+            @elseif (Request::is('checkout-preorder'))
+            function placePreOrderItemsOnCheckout(data) {
+                let totalPreOrder = 0
+                data.map(item => {
+                    if (item.product_variant.product.pre_order !== null) {
+                        totalPreOrder += item.subtotal
+                        $(
+                            `<div id="checkout-item-${item.id}" class="checkout-list-items">` +
+                                '<hr class="hr-light top-line">' +
+                                '<div class="row barang">' +
+                                    '<div class="col-7">' +
+                                        '<div style="float:left;width:25%;">' +
+                                            `<img class="outline" src="${item.product_variant.product.image}" style="width:100%;" />` +
+                                        '</div>' +
+                                        '<div class="detil-barang">' +
+                                            '<div>' +
+                                                `<span class="judul-barang">${item.product_variant.product.name}</span>` +
+                                            '</div>' +
+                                            '<div>' +
+                                                '<span class="judul-barang">HARGA  </span>' +
+                                                `<span> Rp ${formatRupiah(item.price)}</span>` +
+                                            '</div>' +
+                                            '<div>' +
+                                                '<span class="judul-barang size-cart">SIZE </span>' +
+                                                `<span> ${item.product_variant.variant}</span>` +
+                                            '</div>' +
+                                            '<div>' +
+                                                '<span class="judul-barang qty-cart">QTY  </span>' +
+                                                `<span class="checkout-qty-items" data-val="${item.qty}"> ${item.qty}</span>` +
+                                            '</div>' +
+                                        '</div>' +
+                                    '</div>' +
+                                    '<div class="col-1">' +
+                                        '<div>' +
+                                            '<div class="diskon">0%</div>' +
+                                        '</div>' +
+                                    '</div>' +
+                                    '<div class=" col-3">' +
+                                        `<div class="harga">Rp. ${formatRupiah(item.qty*item.price)}</div>` +
+                                    '</div>' +
+                                    '<div class="col-1">' +
+                                        `<a href="#" class="far fa-trash-alt fa-sm barang deleteModal" data-toggle="modal" data-target="#deleteItemModal" data-qty="${item.qty}" data-price="${item.price}" data-id="${item.id}"> </a>` +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>'
+                        ).appendTo('#checkout-item-list')
+                    }
+                })
+                updateTotal(totalPreOrder)
             }
             @endif
 
@@ -734,6 +781,8 @@
                 hideEmptyEle(true)
                 @if (Request::is('checkout'))
                     placeCartItemsOnCheckout(data.data.get_items)
+                @elseif (Request::is('checkout-preorder'))
+                    placePreOrderItemsOnCheckout(data.data.get_items)
                 @endif
             }
             

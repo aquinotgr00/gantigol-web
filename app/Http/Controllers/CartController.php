@@ -91,6 +91,43 @@ class CartController extends Controller
         $response = json_decode($response->getBody());
         return response()->json($response);
     }
+    
+    public function postCheckoutPreorder(Request $request)
+    {
+        $shipping = [];
+        $preOrderItems = [];
+        $preOrderId = 0;
+        parse_str($request->shipping, $shipping);
+        // get cart items by session
+        $cartItems = $this->client->get('api-ecommerce/cart/999999?session='.$request->session);
+        $cartItems = json_decode($cartItems->getBody())->data->get_items;
+        // loop all the items and figure out which ones is pre order item
+        foreach ($cartItems as $item) {
+            if ($item->product_variant->product->pre_order !== null) {
+                $preOrderItems[] = $item;
+                $preOrderId = $item->product_variant->product->pre_order->id;
+            }
+        }
+        $response = $this->client->post('api-preorder/transaction', [
+            'headers' => [
+                'Content-Type' => 'application/x-www-form-urlencoded'
+            ],
+            'form_params' => [
+                'pre_order_id' => $preOrderId,
+                'name' => $shipping['name'],
+                'email' => $shipping['email'],
+                'phone' => $shipping['phone'],
+                'postal_code' => $shipping['postal_code'],
+                'address' => $shipping['address'],
+                'items' => $preOrderItems,
+                'subdistrict_id' => $shipping['subdistrict'],
+                'courier_name' => $shipping['shipment_name'],
+                'courier_fee' => $shipping['cost']
+            ]
+        ]);
+        $response = json_decode($response->getBody())->data;
+        return response()->json($response);
+    }
 
     public function getItems(Request $request, $id, $checked = false)
     {
