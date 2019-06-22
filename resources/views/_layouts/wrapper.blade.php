@@ -772,7 +772,6 @@
             }
 
             function placeCartItems(data) {
-                console.log(data)
                 clearCartDisplay()
                 updateTotal(data.data.total)
                 data.data.get_items.map(item => {
