@@ -104,6 +104,7 @@ class BlogController extends Controller
             ]
         ]);
         $posts = json_decode($posts->getBody());
+        // dd($posts);
         $categoryName = 'tags';
         return view('frontend.tags', compact('categoryName', 'posts'));
     }

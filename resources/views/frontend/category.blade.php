@@ -51,7 +51,7 @@
                                 </a>
                             </div>
                             <div class="card-footer">
-                                <small class="text-muted">Last updated 3 mins ago</small>
+                                <small class="text-muted">{!! date_format(new DateTime($post->publish_date),'d M')!!}</small>
                             </div>
                         </div>
                     </div>

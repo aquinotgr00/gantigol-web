@@ -67,22 +67,22 @@
     <div class="col">
         <h4 class="section-header_title">BERITA POPULER</h4>
         <hr>
-            @foreach ($sidePost['post'] as $key => $post)
-                @php $key++ @endphp
-                <div class="side_post">
-                    <a href="{{ route('blog.post', $post->id) }}">
-                        <div class="d-flex flex-row align-items-xl-center align-items-start justify-content-start">
-                            <div class="event_date d-flex flex-column align-items-center justify-content-center">
-                                <div class="event_day"><h3>{{$key}}<h3></div>
-                                <div class="event_month"></div>
-                            </div>
-                            <div class="side_post_content">
-                                <div class="side_post_title">{{$post->title}}</div>
-                            </div>
+        @foreach ($sidePost['post'] as $key => $post)
+            @php $key++ @endphp
+            <div class="side_post">
+                <a href="{{ route('blog.post', $post->id) }}">
+                    <div class="d-flex flex-row align-items-xl-center align-items-start justify-content-start">
+                        <div class="event_date d-flex flex-column align-items-center justify-content-center">
+                            <div class="event_day"><h3>{{$key}}<h3></div>
+                            <div class="event_month"></div>
                         </div>
-                    </a>
-                </div>
-            @endforeach
+                        <div class="side_post_content">
+                            <div class="side_post_title">{{$post->title}}</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        @endforeach
         <br>
 
         <!-- Today's Legend -->
@@ -93,7 +93,7 @@
                 @foreach ($sidePost['legends'] as $key => $value)
                 <img class="card-img-top" src="{{ $value->image }}" alt="Card image cap">
                 <div class="card-body">
-                    <h5 class="card-title">{!! date_format(new DateTime($value->publish_date),'d F')!!}</h5>
+                    <h5 class="card-title">{!! date_format(new DateTime($value->created_at),'d F')!!}</h5>
                     <p class="card-text">{{ substr(strip_tags(html_entity_decode($value->body)), 0, 500) }}</p>
                 </div>
                 @endforeach

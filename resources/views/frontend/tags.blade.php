@@ -8,15 +8,31 @@
 <div class="row">
     <div class="col-9"> 
          <div class="card-deck mt-0">
-            @foreach ($posts as $post)
+            @foreach ($posts->data as $key => $post)
+            @if (0 !== $key && 0 === ($key%3))
+                </div>
+                <div class="card-deck">
+            @endif
             <div class="col-md-4 px-0">
                 <div class="card">
-                    <a href="{{route('blog.post', $post->id)}}" style="height:165px;">
+                    <a href="{{route('blog.post', $post->id)}}" class="single-post-a-img">
                         <img class="card-img-top" src="{{ $post->image }}" alt="Card image cap" style="height:100%;">
                     </a>
                     <div class="card-body" style="height:230px;">
-                        <h5 class="card-title">{{$post->title}}</h5>
-                        <p class="card-text">{{substr(strip_tags($post->body), 0, 120)}}</p>
+                        <a href="{{route('blog.post', $post->id)}}" style="height:165px;">
+                            <h5 class="card-title">{{$post->title}}</h5>
+                            <p class="card-text">
+                                @php
+                                // strip tags to avoid breaking any html
+                                $string = strip_tags($post->body);
+                                // truncate string
+                                $stringCut = substr($string, 0, 130);
+                                $string = substr($stringCut, 0);
+                                $string .= '...';
+                                echo $string;
+                                @endphp
+                            </p>
+                        </a>
                     </div>
                     <div class="card-footer">
                         <small class="text-muted">{!! date_format(new DateTime($post->publish_date),'d M')!!}</small>
