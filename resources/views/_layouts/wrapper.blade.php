@@ -541,15 +541,6 @@
                     }
                 })
             }
-            function getCartIdBySession(session) {
-                $.ajax({
-                    url: '/api/carts/get-cart-id',
-                    type: 'POST',
-                    data: session,
-                    success: function (res) {
-                    }
-                })
-            }
             **/
 
             function storeItem(id, qty, session) {
