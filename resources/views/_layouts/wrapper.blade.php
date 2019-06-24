@@ -153,12 +153,14 @@
                         <nav class="dropdown mt-0">
                             <ul>
                                 <li>
+                                    <form action="{{ route('homepage.search') }}" method="post" id="searchFormMobile">@csrf
                                     <div class="input-group md-form form-sm form-2 pl-0">
-                                        <input class="form-control my-0 py-1 lime-border" type="text" placeholder="Search" aria-label="Search">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text lime lighten-2" id="basic-text1"><i class="fas fa-search text-grey" aria-hidden="true"></i></span>
+                                        <input class="form-control my-0 py-1 lime-border" type="text" name="term" placeholder="Search" aria-label="Search">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text lime lighten-2" id="searchImgBtnMobile"><i class="fas fa-search text-grey" aria-hidden="true"></i></span>
+                                        </div>
                                     </div>
-                                    </div>
+                                    </form>
                                 </li>
                                 <li>
                                     <a id="menu-toggle" class="main-page" href="#">WIKI BOLA</a>
@@ -199,34 +201,41 @@
         </div>
 
         <div id="hover-account" class="account-form">
-            <form method="POST" action=" login" accept-charset="UTF-8"><input name="_token" type="hidden" value="AmM5qI0KOisEwOYhUgN5rAWGIMWTaFeLP6mcSzh7">
-                <div class="youraccount">
-                    <label for="email" class="italics">Email Address :</label>
-                    <input class="italics" name="email" type="email" id="email">
-                    <label for="password" class="italics">Password :</label>
-                    <input name="password" type="password" value="" id="password">
-                </div>
-                <div class="youraccount">
-                    <a href=" password/reset" class="forgot-password-nav pull-right">Forgot your password?</a>
-                </div>
-                <input class="button brownbutton acc-login" style="border:none;" type="submit" value="LOGIN">
-                <a href=" register" class="button brownbutton acc-register">REGISTER</a>
-            </form>
+            @if (!Session::has('token'))
+                <form method="POST" action="/signin" accept-charset="UTF-8">@csrf
+                    <div class="youraccount">
+                        <label for="email" class="italics">Email Address :</label>
+                        <input class="italics" name="username" type="email" id="email">
+                        <label for="password" class="italics">Password :</label>
+                        <input name="password" type="password" value="" id="password">
+                    </div>
+                    <div class="youraccount">
+                        <a href="/reset" class="forgot-password-nav pull-right text-dark">Forgot your password?</a>
+                    </div>
+                    <input class="button brownbutton acc-login" style="border:none;" type="submit" value="LOGIN">
+                    <a href="/register" class="button brownbutton acc-register">REGISTER</a>
+                </form>
+            @elseif (Session::has('token'))
+                <h5 class="mb-1">Halo,</h5>
+                <h5 class="">{{ Session::get('username') }}</h5>
+                <a href="/user">setting</a><br>
+                <a href="/signout" id="signout-link">Logout</a>
+            @endif
         </div>
 
         <div id="hover-menu">
             <div class="hidden-lg hidden-md">
-                <h6><a href=" shop/Man">FORMASI</a></h6>
+                <h6><a href="{{route('blog.formasi')}}">FORMASI</a></h6>
                 
             </div>
             
             <div class="hidden-lg hidden-md">
-                <h6><a href=" shop/Woman">STATISTIK</a></h6>
+                <h6><a href="{{route('blog.statistik')}}">STATISTIK</a></h6>
                 
             </div>
             
             <div class="hidden-lg hidden-md">
-                <h6><a href=" shop/Kids">TAKTIK</a></h6>
+                <h6><a href="{{route('blog.taktik')}}">TAKTIK</a></h6>
                 
             </div>
             
@@ -234,18 +243,18 @@
 
         <div id="hover-cart">
             <div class="shopping-cart">
+                <span class="empty_card_wrapper text-dark empty_cart">Keranjang Anda Kosong</span>
                 <div class="shopping-cart-header">
                     <div class="shopping-cart-total">
                         <span class="lighter-text text-body"><h6 class="text-body">Total:</h6></span>
-                        <span class="main-color-text text-body"><h6 class="text-body">1.111.849 </h6></span>
-                        <span class="main-color-text text-body "><h6 class="text-body">Rp </h6></span>
+                        <span class="main-color-text text-body"><h6 class="text-body simpleCart_total">0 </h6></span>
                         <hr class="hr-cart">
                     </div>
                 </div>
                 <!--end shopping-cart-header -->
 
-                <ul class="shopping-cart-items">
-                    <li class="clearfix">
+                <ul id="mobile-cart-wrapper" class="shopping-cart-items">
+                    {{-- <li class="clearfix">
                         <img class="w-25" src="assets\images\produk\1a.jpg">
                         <div class="detil">
                             <div class="col">
@@ -267,10 +276,10 @@
                                 <a href="" class="far fa-trash-alt fa-sm"> </a>
                             </div>
                         </div>
-                    </li>
+                    </li> --}}
                 </ul>
 
-                <button type="submit" class="btn btn-dark col-12">BAYAR</button>
+                <a href="/checkout" class="btn btn-dark btn-block simpleCart_checkout bayar mt-5" style="display:none;">BAYAR</a>
             </div>
             <!--end shopping-cart -->
         </div>
@@ -408,6 +417,10 @@
             $('#searchImgBtn').click(evt => {
                 evt.preventDefault()
                 $('#searchForm').submit()
+            })
+            $('#searchImgBtnMobile').click(evt => {
+                evt.preventDefault()
+                $('#searchFormMobile').submit()
             })
 
             // when the signout button is clicked then clear all the cart
@@ -760,6 +773,7 @@
                         '</div>' +
                     '</li>'
                 ).appendTo('#cart-wrapper')
+                $('#mobile-cart-wrapper').append( $(`#cart-item-${item.id}`) ) 
             }
 
             function placeCartItems(data) {
@@ -768,6 +782,8 @@
                 data.data.get_items.map(item => {
                     appendToCart(item)
                 })
+                // $('#cart-wrapper').clone().appendTo("#mobile-cart-wrapper")
+                // $('#mobile_cart_items').html($('#main_cart_items').html())
                 hideEmptyEle(true)
                 @if (Request::is('checkout'))
                     placeCartItemsOnCheckout(data.data.get_items)

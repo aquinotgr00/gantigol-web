@@ -6,7 +6,7 @@
 
 @section('content')
 <div class="row">
-    <div class="col-9"> 
+    <div class="col-lg-9"> 
          <div class="card-deck mt-0">
             @foreach ($posts->data as $key => $post)
             @if (0 !== $key && 0 === ($key%3))

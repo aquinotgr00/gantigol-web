@@ -6,13 +6,13 @@
 
 @section('content')
 <div class="row">
-    <div class="col-9">
+    <div class="col-lg-9">
         @if ($data->highlight !== null)
             <div>
                 <a href="{{ route('blog.post', $data->highlight->id) }}" class="custom-card">
-                    <div class="card bg-dark text-white">
-                        <img class="card-img" src="{{ $data->highlight->image }}" alt="Card image">
-                        <div class="card-img-overlay" href="#">
+                    <div class="card bg-dark text-white post-highlight-wrapper" style="overflow:hidden">
+                        <img class="card-img" src="{{$data->highlight->image}}" alt="Card image" style="height:100%;">
+                        <div class="card-img-overlay highlight-image-overlay" href="#">
                             <h3 class="card-title judul">{{$data->highlight->title}}</h3>
                         </div>
                     </div>
@@ -30,7 +30,7 @@
                     @endif
                     <div class="col-md-4 px-0">
                         <div class="card">
-                            <a href="{{ route('blog.post', $post->id) }}" style="height:165px;">
+                            <a href="{{ route('blog.post', $post->id) }}" class="single-post-a-img">
                                 <img class="card-img-top" src="{{ $post->image }}" alt="Card image cap" style="height:100%;">
                             </a>
                             <div class="card-body" style="height:230px;">

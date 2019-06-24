@@ -15,7 +15,7 @@
 <div class="row mt-0">
     <div class="breadcrumb col-12 mb-0 pt-0">
         <div class="col-12">
-            <nav>
+            <nav class="w-sm-100">
                 <div class="nav nav-tabs " id="nav-tab" role="tablist">
                     <a class="nav-item nav-link active tabs" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">
                     <img class="mr-2 mt-1" src="{{ asset('images\icon\user.svg') }}">DATA PENGGUNA</a>
@@ -48,13 +48,13 @@
                         </div>
                     </div>
                     <div class="row mt-0">
-                        <div class="col-6">
+                        <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="exampleInputPassword1">EMAIL</label>
                                 <input type="email" name="email" class="form-control" disabled value="{{ $user->email }}">
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="exampleInputPassword1">TELEPON</label>
                                 <input type="number" name="phone" class="form-control"disabled value="{{ $user->phone }}"">
@@ -62,7 +62,7 @@
                         </div>
                     </div>
                     <div class="row mt-0">
-                        <div class="col-6">
+                        <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="exampleInputPassword1">TANGGAL LAHIR</label>
                                 <div class="form-group">
@@ -70,7 +70,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="exampleInputPassword1">JENIS KELAMIN</label>
                                 <div class="form-group">
@@ -92,14 +92,14 @@
                         </div>
                     </div>
                     <div class="row mt-0">
-                        <div class="col-6">
+                        <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="exampleInputPassword1">KECAMATAN</label>
                                 <input type="text" class="form-control" id="subdistrict_text" value="{{ $user->subdistrict }}">
                                 <input type="text" name="subdistrict" class="d-none" id="subdistrict_value" value="{{ $user->subdistrict }}">
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="exampleInputPassword1">KOTA</label>
                                 <input type="text" name="city" class="form-control" id="city" value="{{ $user->city }}">
@@ -107,13 +107,13 @@
                         </div>
                     </div>
                     <div class="row mt-0">
-                        <div class="col-6">
+                        <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="exampleInputPassword1">PROVINSI</label>
                                 <input type="text" name="province" class="form-control" id="province" value="{{ $user->province }}">
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="exampleInputPassword1">POS</label>
                                 <input type="text" name="postal_code" class="form-control" id="postal_code" value="{{ $user->postal_code }}">
@@ -143,7 +143,7 @@
                             </form>
                         </div>
                         <div class="col-9">
-                            <div class="col-6 mb-0 float-right ">
+                            <div class="col-lg-6 mb-0 float-right ">
                                 <div class="input-group">
                                     <input class="form-control my-0 py-1 lime-border" type="text" placeholder="Search" aria-label="Search">
                                     <div class="input-group-append">

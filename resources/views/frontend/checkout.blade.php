@@ -6,7 +6,7 @@
 
 @section('content')
 <div class="row">
-    <div class="col-3">
+    <div class="col-lg-3">
         <h4 class="section-header_title">DATA PENGIRIMAN</h4>
         <hr>
         <div class="bs-example">
@@ -144,7 +144,7 @@
             </div>
         </div>
     </div>
-    <div class="col-9">
+    <div class="col-lg-9">
         <h4 class="section-header_title">PRODUK PILIHAN</h4>
         <hr>
         <div class="row">

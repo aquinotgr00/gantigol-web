@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-9">
             <h4 class="section-header_title ">PRODUK TERSEDIA</h4></div>
-        <div class="col-3 ">
+        <div class="col-3">
             <div class="dropdown">
                 <div class="form-group">
                     <select name="sortBy" id="sortBy" class="gantigoal-select">
@@ -95,7 +95,7 @@
             </div>
 
             <!-- Product List -->
-            <div class="col-9" id="product-list">
+            <div class="col-lg-9" id="product-list">
 
                 <div class="card-deck list">
                     @if ($data !== null)

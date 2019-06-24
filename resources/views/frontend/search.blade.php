@@ -5,7 +5,7 @@
     <div class="row mt-0">
         <div class="breadcrumb col-12 mb-0">
             <div class="col-12">
-                <nav>
+                <nav class="w-sm-100">
                     <div class="nav nav-tabs " id="nav-tab" role="tablist">
                         <a class="nav-item "> PENCARIAN :</a>
                         <a class="nav-item nav-link active tabs" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">ARTIKEL</a>
@@ -36,12 +36,24 @@
                             @endif
                             <div class="col-md-3 px-0">
                                 <div class="card">
-                                    <a href="{{ route('blog.post', $item->searchable->id) }}">
-                                        <img class="card-img-top" src="{{ $item->searchable->image }}" alt="Card image cap">
+                                    <a href="{{ route('blog.post', $item->searchable->id) }}" class="single-post-a-img">
+                                        <img class="card-img-top" src="{{ $item->searchable->image }}" alt="Card image cap" style="height:100%;">
                                     </a>
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{$item->title}}</h5>
-                                        <p class="card-text">{{substr(strip_tags($item->searchable->body), 0, 140)}}</p>
+                                    <div class="card-body" style="height:230px;">
+                                        <a href="{{ route('blog.post', $item->searchable->id) }}" style="height:165px;">
+                                            <h5 class="card-title">{{$item->title}}</h5>
+                                            <p class="card-text">
+                                                @php
+                                                // strip tags to avoid breaking any html
+                                                $string = strip_tags($item->searchable->body);
+                                                // truncate string
+                                                $stringCut = substr($string, 0, 130);
+                                                $string = substr($stringCut, 0);
+                                                $string .= '...';
+                                                echo $string;
+                                                @endphp
+                                            </p>
+                                        </a>
                                     </div>
                                     <div class="card-footer">
                                         <small class="text-muted">{!! date_format(new DateTime($item->searchable->publish_date),'d M')!!}</small>

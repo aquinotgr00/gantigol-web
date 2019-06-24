@@ -6,7 +6,7 @@
 
 @section('content')
 <div class="row">
-    <div class="col-5">
+    <div class="col-lg-5">
         {{-- <img class="images-post" src="{{ $data->data->image }}"> --}}
         <ul class="lightSlider">
             {{-- @if (count($data->data->images) == 0) --}}
@@ -23,7 +23,7 @@
         </ul>
     </div>
 
-    <div class="col-7">
+    <div class="col-lg-7">
 
         <div class="col">
 
@@ -32,7 +32,7 @@
             @endif
 
             <div class="row">
-                <div class="col-9 simpleCart_shelfItem">
+                <div class="col-lg-9 simpleCart_shelfItem">
                     <input type="text" name="variant_id" id="variant_id" class="d-none"
                         @if ($data->data->variants[0]->variant == "ALL SIZE")
                             value="{{$data->data->variants[0]->id}}"

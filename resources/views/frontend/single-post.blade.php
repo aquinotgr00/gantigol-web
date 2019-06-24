@@ -26,7 +26,7 @@
 
 @section('content')
 <div class="row">
-    <div class="col-9"> 
+    <div class="col-lg-9"> 
         <!-- Title -->
         <h4 class="title">{{ $data->title }}</h4>
         <!-- Author -->
@@ -86,7 +86,7 @@
         {{-- Share button --}}
         <div>
             <div class="card-deck">
-                <div class="card line bagikan">
+                <div class="card line bagikan d-none d-sm-flex">
                     <hr class="card-img-top ">
                 </div>
                 <div class="card share-card">
@@ -101,7 +101,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card line bagikan">
+                <div class="card line bagikan d-none d-sm-flex">
                     <hr class="card-img-top ">
                 </div>
             </div>
@@ -181,16 +181,22 @@
         {{-- @if ($tagPosts != null && count($tagPosts) > 3) --}}
             <div class="controls-top control">
                 <div class="card-deck">
-                    <div class="card line" style="margin-top:3px;">
+                    <div class="card line d-none d-sm-flex" style="margin-top:3px;">
                         <hr class="card-img-top">
                     </div>
-                    <div class="card post-next">
-                        <a class="left" href="#multi-item-related" data-slide="prev"><i class="fas fa-chevron-left slide-arrow"></i></a>
+                    <div class="row mt-0">
+                        <div class="col-xs-6 latest-product-arrow-control arrow-control-left">
+                            <div class="card" style="margin-right:5px;">
+                                <a class="left" href="#multi-item-related" data-slide="prev"><i class="fas fa-chevron-left slide-arrow"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 latest-product-arrow-control arrow-control-right">
+                            <div class="card" style="margin-left:5px;">
+                                <a class="left" href="#multi-item-related" data-slide="next"><i class="fas fa-chevron-right slide-arrow"></i></a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card post-next">
-                        <a class="left" href="#multi-item-related" data-slide="next"><i class="fas fa-chevron-right slide-arrow"></i></a>
-                    </div>
-                    <div class="card line" style="margin-top:3px;">
+                    <div class="card line d-none d-sm-flex" style="margin-top:3px;">
                         <hr class="card-img-top">
                     </div>
                 </div>

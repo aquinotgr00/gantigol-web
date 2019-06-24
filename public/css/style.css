@@ -1216,6 +1216,15 @@ div.highlight-image-overlay {
   div.arrow-control-wrapper {
     margin-top: 0;
   }
+  div.my-lightslider .lSSlideWrapper {
+    height: unset;
+  }
+  nav.w-sm-100 { width: 100%; }
+  ul#mobile-cart-wrapper { list-style-type: none; }
+  ul#mobile-cart-wrapper .item-price,
+  ul#mobile-cart-wrapper .item-name,
+  ul#mobile-cart-wrapper .input-data { color: #000; }
+  li.simpleCart_items { margin-bottom: 10px; }
 }
 
 /* end of additional from aqn */
