@@ -31,42 +31,45 @@ class BlogController extends Controller
             $id = 15;
         }
         $response = $this->client->get('api/blogs/post/'.$id);
-        $data = json_decode($response->getBody())->blog;
+        $data = json_decode($response->getBody());
+        if (isset($data->blog)) {
+            $data = $data->blog;
+            $sameCategoryPosts = $this->client->get('api/blogs/post/category/'.$data->category_name.'/9');
+            $sameCategoryPosts = json_decode($sameCategoryPosts->getBody())->post->data;
 
-        $sameCategoryPosts = $this->client->get('api/blogs/post/category/'.$data->category_name.'/9');
-        $sameCategoryPosts = json_decode($sameCategoryPosts->getBody())->post->data;
+            $categoryName = $data->category_name;
 
-        $categoryName = $data->category_name;
+            $tags = [];
+            $tagPosts = null;
+            $tagProducts = null;
+            foreach ($data->tagged as $tag) {
+                array_push($tags, $tag->tag_name);
+            }
+            if (isset($tags[0])) {
+                $tagPosts = $this->client->get('api/blogs/post/tag/limit/9', [
+                    'headers' => [
+                        'Accept' => 'application/json'
+                    ],
+                    'query' => [
+                        'tag' => $tags[0]
+                    ]
+                ]);
+                $tagPosts = json_decode($tagPosts->getBody())->data;
+                $tagProducts = $this->client->get('api-product/items', [
+                    'headers' => [
+                        'Accept' => 'application/json'
+                    ],
+                    'query' => [
+                        'tags' => $tags[0],
+                        'limit' => 4
+                    ]
+                ]);
+                $tagProducts = json_decode($tagProducts->getBody());
+            }
 
-        $tags = [];
-        $tagPosts = null;
-        $tagProducts = null;
-        foreach ($data->tagged as $tag) {
-            array_push($tags, $tag->tag_name);
+            return view('frontend.single-post', compact('data', 'sameCategoryPosts', 'categoryName', 'tagPosts', 'tagProducts'));
         }
-        if (isset($tags[0])) {
-            $tagPosts = $this->client->get('api/blogs/post/tag/limit/9', [
-                'headers' => [
-                    'Accept' => 'application/json'
-                ],
-                'query' => [
-                    'tag' => $tags[0]
-                ]
-            ]);
-            $tagPosts = json_decode($tagPosts->getBody())->data;
-            $tagProducts = $this->client->get('api-product/items', [
-                'headers' => [
-                    'Accept' => 'application/json'
-                ],
-                'query' => [
-                    'tags' => $tags[0],
-                    'limit' => 4
-                ]
-            ]);
-            $tagProducts = json_decode($tagProducts->getBody());
-        }
-
-        return view('frontend.single-post', compact('data', 'sameCategoryPosts', 'categoryName', 'tagPosts', 'tagProducts'));
+        abort(404);
     }
 
     public function category($categoryName)
