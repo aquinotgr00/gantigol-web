@@ -35,29 +35,29 @@ class ProductController extends Controller
     {
         $response = $this->client->get('api-product/items/'. $id);
         $data = json_decode($response->getBody());
-        if (count($data->data) > 0) {
-            $tags = [];
-            $tagPosts = null;
-            $tagProducts = null;
-            $related = null;
-            if ($data->data->tagged != null) {
-                foreach ($data->data->tagged as $tag) {
-                    array_push($tags, $tag->tag_name);
-                }
-                $related_product = $this->client->get('api-product/items',[
-                        'headers' => [
-                            'Accept' => 'application/json'
-                        ],
-                        'query' => [
-                            'tags' => $tags[0],
-                            'limit' => 4
-                        ]
-                    ]);
-                $related = json_decode($related_product->getBody());
-            }
-            return view('frontend.product', compact('data','related'));
+        if ($data->data == []) {
+            abort(404);
         }
-        abort(404);
+        $tags = [];
+        $tagPosts = null;
+        $tagProducts = null;
+        $related = null;
+        if ($data->data->tagged != null) {
+            foreach ($data->data->tagged as $tag) {
+                array_push($tags, $tag->tag_name);
+            }
+            $related_product = $this->client->get('api-product/items',[
+                    'headers' => [
+                        'Accept' => 'application/json'
+                    ],
+                    'query' => [
+                        'tags' => $tags[0],
+                        'limit' => 4
+                    ]
+                ]);
+            $related = json_decode($related_product->getBody());
+        }
+        return view('frontend.product', compact('data','related'));
     }
 
     public function getNextPageProducts($page)

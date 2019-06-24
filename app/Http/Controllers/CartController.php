@@ -27,9 +27,12 @@ class CartController extends Controller
         return $data;
     }
 
-    public function getCourierCost(Request $request, $id, $courier)
+    public function getCourierCost(Request $request, $id, $courier, $weight)
     {
-        $response = $this->client->get('shipment/cost?o=501&d='.$id.'&w=100&c='.$courier);
+        if ($weight == 0) {
+            $weight = 10;
+        }
+        $response = $this->client->get('shipment/cost?o=5793&d='.$id.'&w='.$weight.'&c='.$courier);
         $response = json_decode($response->getBody());
         return response()->json($response->rajaongkir->results[0]->costs);
     }
@@ -67,7 +70,8 @@ class CartController extends Controller
                     'shipping_email' => $shipping['email'],
                     'shipping_address' => $shipping['address'],
                     'shipping_cost' => $shipping['cost'],
-                    'shipping_subdistrict_id' => $shipping['subdistrict'],
+                    'shipping_subdistrict_id' => $shipping['subdistrict_id'],
+                    'shipping_postal_code' => $shipping['postal_code'],
                     'shipment_name' => $shipping['shipment_name'],
                     'discount' => $shipping['discount'],
                 ]
@@ -81,10 +85,32 @@ class CartController extends Controller
                     'shipping_email' => $shipping['email'],
                     'shipping_address' => $shipping['address'],
                     'shipping_cost' => $shipping['cost'],
-                    'shipping_subdistrict_id' => $shipping['subdistrict'],
+                    'shipping_subdistrict_id' => $shipping['subdistrict_id'],
+                    'shipping_postal_code' => $shipping['postal_code'],
                     'shipment_name' => $shipping['shipment_name'],
                     'discount' => $shipping['discount'],
                     'user_id' => $shipping['user_id']
+                ]
+            ]);
+        }
+        if ($shipping['register_account'] == 'on') {
+            $shipping['username'] = preg_replace('/\s+/', '', strtolower($shipping['name']));
+            $shipping['password'] = 'default123';
+            $shipping['password_confirmation'] = 'default123';
+            $shipping['dob'] = '1990-01-01';
+            $shipping['gender'] = 'male';
+            $shipping['subdistrict'] = $shipping['subdistrict_text'];
+            $shipping['url_act'] = '/user';
+            $userSignup = $this->client->post('auth/signup', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                ],
+                'form_params' => $shipping
+            ]);
+            $this->client->post('auth/password/reset', [
+                'form_params' => [
+                    'email' => $shipping['email'],
+                    'url_act' => env('APP_URL').'/reset-password',
                 ]
             ]);
         }

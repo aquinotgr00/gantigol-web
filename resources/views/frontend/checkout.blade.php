@@ -94,7 +94,7 @@
 
                     <div class="form-group">
                         <label for="city">KECAMATAN</label>
-                        <input type="text" class="d-none" name="subdistrict" id="subdistrict_value">
+                        <input type="text" class="d-none" name="subdistrict_id" id="subdistrict_value">
                         <input type="text" class="form-control" name="subdistrict_text" id="subdistrict_text" placeholder="Kecamatan"
                                 @if(isset($user))
                                     value="{{ $user->subdistrict }}"
@@ -217,8 +217,6 @@
                                 <div class="form-group">
                                     <select class="form-control gantigoal-select" name="courier" id="courier">
                                         <option value="null">Pilih Kurir</option>
-                                        <option value="jne">JNE</option>
-                                        <option value="tiki">TIKI</option>
                                     </select>
                                     <label for="courier" generated="true" class="error invalid-feedback">This field is required.</label>
                                 </div>
@@ -227,6 +225,7 @@
                         <div class="col-4 kurir">
                             <div class="dropdown">
                                 <div class="form-group">
+                                    <input type="number" name="weight" id="weight" class="d-none">
                                     <select class="gantigoal-select" name="courier_type" id="courier_type" disabled>
                                         <option value=0>Jenis pengiriman</option>
                                     </select>
@@ -353,8 +352,9 @@
         });
 
         function getCourierCost(id, courier) {
+            let weight = $('#weight').val()
             $.ajax({
-                url: '/api/carts/courier-cost/'+ id + '/' + courier,
+                url: '/api/carts/courier-cost/'+ id + '/' + courier + '/' + weight,
                 type: 'GET',
                 success: res => {
                     console.log(res)
@@ -369,7 +369,12 @@
             let total = parseInt($('.total_price').html())
             let courier = parseInt($('#courier_type').val())
             let discount = $('#discount').val()
-            $('.total_price_text').html(formatRupiah(total + courier - discount))
+            let all = total + courier
+            if (all >= discount) {
+                $('.total_price_text').html(formatRupiah(total + courier - discount))
+            } else if (all < discount) {
+                $('.total_price_text').html(formatRupiah(0))
+            }
         }
 
         if ($('#subdistrict_text').val() != '' && $('#subdistrict_value').val() == '') {
@@ -412,6 +417,11 @@
             source: "/api/subdistrict",
             minLength: 3,
             select: function( event, ui ) {
+                console.log(ui)
+                $('#courier').empty().append(new Option('Pilih Kurir', 'null'))
+                ui.item.courier.map(courier => {
+                    $('#courier').append(new Option(courier, courier))
+                })
                 $('#subdistrict_value').val(ui.item.id)
                 $('#city').val(ui.item.city)
                 $('#city_id').val(ui.item.city_id)
@@ -428,8 +438,8 @@
                 $('label[for=courier]').css('display', 'none')
                 $('input[name=shipment_name]').val($('#courier').val())
                 let courier = $('#courier').val()
-                let city_id = $('#city_id').val()
-                getCourierCost(city_id, courier)
+                let subdistrict_id = $('#subdistrict_value').val()
+                getCourierCost(subdistrict_id, courier)
                 $('#courier_type').attr('disabled', false)
             }
         })

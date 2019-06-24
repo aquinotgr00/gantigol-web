@@ -35,7 +35,7 @@
                 <div class="accordion md-accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
 
                     <!-- Accordion card -->
-                    <div class="card card-category">
+                    {{-- <div class="card card-category">
 
                         <!-- Card header -->
                         <div class="card-header card-category" role="tab" id="headingOne1">
@@ -60,37 +60,44 @@
                             </div>
                         </div>
 
-                    </div>
+                    </div> --}}
                     <!-- Accordion card -->
 
-                    <!-- Accordion card -->
+                    <!-- category items -->
+                    @foreach ($categories as $key => $value)
                     <div class="card card-category">
 
                         <!-- Card header -->
-                        <div class="card-header card-category" role="tab" id="headingTwo2">
-                            <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapseTwo2" aria-expanded="false" aria-controls="collapseTwo2">
+                        <div class="card-header card-category" role="tab" id="heading-{{$key}}">
+                            <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapse-{{$key}}" aria-expanded="false" aria-controls="collapse-{{$key}}">
                                 <div>
                                     <p class="mb-0">
-                                        Bawahan<span class="category card-category"><i class="fas fa-angle-down rotate-icon"></i></span>
+                                        {{$key}}
+                                        @if (count($value) > 0)
+                                            <span class="category card-category"><i class="fas fa-angle-down rotate-icon"></i></span>
+                                        @endif
                                     </p>
-
                                 </div>
                             </a>
                         </div>
 
-                        <!-- Card body -->
-                        <div id="collapseTwo2" class="collapse" role="tabpanel" aria-labelledby="headingTwo2" data-parent="#accordionEx">
-                            <div class="card-body">
-                                <a href="">
-                                    <p class="mb-0">
-                                        Celana Pendek
-                                    </p>
-                                </a>
-                            </div>
-                        </div>
+                        <!-- Sub Category -->
+                        @if (count($value) > 0)
+                            @foreach ($value as $x => $sub)
+                                <div id="collapse-{{$key}}" class="collapse" role="tabpanel" aria-labelledby="heading-{{$key}}" data-parent="#accordionEx">
+                                    <div class="card-body">
+                                        <a href="">
+                                            <p class="mb-0">
+                                                {{$sub->name}}
+                                            </p>
+                                        </a>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @endif
 
                     </div>
-                    <!-- Accordion card -->
+                    @endforeach
                 </div>
             </div>
 

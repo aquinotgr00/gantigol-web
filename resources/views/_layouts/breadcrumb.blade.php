@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container gg-breadcrumb-wrapper">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/">HOME</a></li>

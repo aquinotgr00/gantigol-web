@@ -1192,6 +1192,7 @@ div.post-highlight-wrapper {
 div.highlight-image-overlay {
   box-shadow: inset 0px -90px 34px 0px rgba(0,0,0,0.6);
 }
+div.post a:hover { color: #000; }
 
 /* MOBILE RESPONSIVE */
 @media only screen and (max-width: 475px) {
@@ -1225,6 +1226,9 @@ div.highlight-image-overlay {
   ul#mobile-cart-wrapper .item-name,
   ul#mobile-cart-wrapper .input-data { color: #000; }
   li.simpleCart_items { margin-bottom: 10px; }
+  div.gg-breadcrumb-wrapper { margin-top: 50px; }
+  div.modal_size_chart { top: 12%; }
+  i.fa-trash-alt:before { color: #000; }
 }
 
 /* end of additional from aqn */

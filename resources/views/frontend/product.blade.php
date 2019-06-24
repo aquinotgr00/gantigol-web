@@ -7,6 +7,7 @@
 @section('content')
 <div class="row">
     <div class="col-lg-5">
+        <h2 class="headline-detail d-sm-block d-md-none item_name">{{ $data->data->name }}</h2>
         {{-- <img class="images-post" src="{{ $data->data->image }}"> --}}
         <ul class="lightSlider">
             {{-- @if (count($data->data->images) == 0) --}}
@@ -40,7 +41,7 @@
                         >
                     <span class="d-none">{{$data->data->price}}"></span>
                     <img style="display:none;" class="item_image" src="{{ $data->data->image }}">
-                    <h2 class="headline-detail item_name">{{ $data->data->name }}</h2>
+                    <h2 class="headline-detail d-none d-sm-flex item_name">{{ $data->data->name }}</h2>
                     <h4>Rp. <span>{{ \AppHelper::instance()->rupiah($data->data->price) }}</span></h4>
 
                     @if (null != $data->data->pre_order)
@@ -101,7 +102,7 @@
                                 PILIHAN PRODUK 
                             </h5>
                             <div class="form-group">
-                                <select class="form-control gantigoal-select col-8" id="product-list" name="product-list">
+                                <select class="form-control gantigoal-select col-lg-8" id="product-list" name="product-list">
                                     <option value="null">Pilih Produk</option>
                                     @foreach($data->data->variants as $item)
                                         <option data-max="{{$item->quantity_on_hand}}" value="{{$item->id}}">{{$item->variant}}</option>
@@ -120,7 +121,7 @@
                             </div>
                         </div>
                         <br>
-                        <button type="button" id="sizeChartBtn" data-toggle="modal" data-target="#size_chart_modal" class="btn btn-outline-dark promo-apply-btn col-8"
+                        <button type="button" id="sizeChartBtn" data-toggle="modal" data-target="#size_chart_modal" class="btn btn-outline-dark promo-apply-btn col-lg-8"
                             @if ($data->data->category->size_chart == null)
                                 disabled
                             @endif
@@ -130,7 +131,7 @@
                         <br>
                         <br>
 
-                        <button type="button" class="btn btn-dark col-8 bayar item_add" id="addToCart">
+                        <button type="button" class="btn btn-dark col-lg-8 bayar item_add" id="addToCart">
                             BAYAR
                         </button>
                     @endif
@@ -188,9 +189,9 @@
                 <img src="{{$data->data->category->size_chart->image}}" alt="size chart image" style="width:100%;">
                 @endif
             </div>
-            <div class="modal-footer border-top-0">
+            {{-- <div class="modal-footer border-top-0">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
+            </div> --}}
         </div>
     </div>
 </div>

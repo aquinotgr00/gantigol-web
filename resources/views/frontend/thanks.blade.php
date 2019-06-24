@@ -1,14 +1,7 @@
 @extends('_layouts.wrapper')
 
 @section('heading')
-<div class="container">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/">HOME</a></li>
-            <li class="breadcrumb-item active" aria-current="page">THANK YOU</li>
-        </ol>
-    </nav>
-</div>
+@include('_layouts.breadcrumb')
 @endsection
 
 @section('content')

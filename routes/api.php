@@ -13,5 +13,5 @@ Route::name('carts.')->prefix('carts')->group(function () {
     Route::post('apply-promo', 'CartController@applyPromo')->name('apply-promo');
     Route::post('checkout', 'CartController@postCheckout')->name('checkout');
     Route::post('checkout-preorder', 'CartController@postCheckoutPreorder')->name('checkout-preorder');
-    Route::get('courier-cost/{id}/{courier}', 'CartController@getCourierCost')->name('courier-cost');
+    Route::get('courier-cost/{id}/{courier}/{weight}', 'CartController@getCourierCost')->name('courier-cost');
 });

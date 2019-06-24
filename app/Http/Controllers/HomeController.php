@@ -52,7 +52,7 @@ class HomeController extends Controller
         $response = $this->client->post('auth/password/reset', [
             'form_params' => [
                 'email' => $request->email,
-                'url_act' => 'gantigoal.test/reset-password',
+                'url_act' => env('APP_URL').'/reset-password',
             ]
         ]);
         $data = json_decode($response->getBody());

@@ -186,14 +186,14 @@
                                 </li>
                             </ul>
                         </nav>
-                        <a id="account-toggle" href="#">
+                        {{-- <a id="account-toggle" href="#">
                             <img src="./Starcross_files/account-of-checkered-design.png" alt="Account toggle">
-                        </a>
+                        </a> --}}
 
-                        <a id="cart-toggle" href="#">
+                        {{-- <a id="cart-toggle" href="#">
                             <img src="./Starcross_files/shopping-cart-of-checkered-design.png" alt="Cart toggle">
                             <span id="cart-count" class="text-center hidden">1</span>
-                        </a>
+                        </a> --}}
 
                     </div>
                 </div>
@@ -455,8 +455,33 @@
                     }
                 })
             })
+            $('#mobile-cart-wrapper').on('click', '.simpleCart_remove', function(evt) {
+                evt.preventDefault()
+                const id = $(this).data('id')
+                const qty = $(this).data('qty')
+                const subtotal = $(this).data('price') * qty
+                $.ajax({
+                    url: '/api/carts/item-delete/' + id,
+                    type: 'POST',
+                    data: {
+                        id: localStorage.getItem('cart_id'),
+                        qty: qty,
+                        subtotal: subtotal
+                    },
+                    success: res => {
+                        updateTotal(res.total)
+                        if (res.amount_items == 0) {
+                            hideEmptyEle(false)
+                        }
+                        $(this).closest('.simpleCart_items').remove()
+                        @if (Request::is('checkout'))
+                            $(`#checkout-item-${id}`).remove()
+                        @endif
+                    }
+                })
+            })
             $('#deleteItemModal').on('click', '.simpleCart_remove', function(evt) {
-                // evt.preventDefault()
+                evt.preventDefault()
                 const id = $(this).data('id')
                 const qty = $(this).data('qty')
                 const subtotal = $(this).data('price') * qty
@@ -614,7 +639,14 @@
                     // $('.total_price_text').html(formatRupiah(price))
                     let courier = parseInt($('#courier_type').val())
                     let discount = $('#discount').val()
-                    $('.total_price_text').html(formatRupiah(price + courier - discount))
+                    let total = price + courier
+                    if (total >= discount) {
+                        console.log(total)
+                        $('.total_price_text').html(formatRupiah(price + courier - discount))
+                    } else if (total < discount) {
+                        console.log('true')
+                        $('.total_price_text').html(formatRupiah(0))
+                    }
                 @endif
             }
 
@@ -629,10 +661,20 @@
             }
 
             @if (Request::is('checkout'))
+            function updateWeight(weight) {
+                console.log($('#weight').val())
+                $('#weight').val((i, oldVal) => {
+                    return weight+oldVal
+                })
+                console.log($('#weight').val())
+            }
             function placeCartItemsOnCheckout(data) {
                 let regularTotal = 0
+                let weight = 0
                 data.map(item => {
                     if (item.product_variant.product.pre_order === null) {
+                        console.log(item)
+                        weight = weight + item.product_variant.product.weight
                         regularTotal += item.subtotal
                         let qty = item.qty
                         let stock = item.product_variant.quantity_on_hand
@@ -686,6 +728,7 @@
                     }
                 })
                 updateTotal(regularTotal)
+                updateWeight(weight)
             }
             @elseif (Request::is('checkout-preorder'))
             function placePreOrderItemsOnCheckout(data) {
@@ -773,7 +816,7 @@
                         '</div>' +
                     '</li>'
                 ).appendTo('#cart-wrapper')
-                $('#mobile-cart-wrapper').append( $(`#cart-item-${item.id}`) ) 
+                $(`#cart-item-${item.id}`).clone().appendTo("#mobile-cart-wrapper")
             }
 
             function placeCartItems(data) {
@@ -782,8 +825,6 @@
                 data.data.get_items.map(item => {
                     appendToCart(item)
                 })
-                // $('#cart-wrapper').clone().appendTo("#mobile-cart-wrapper")
-                // $('#mobile_cart_items').html($('#main_cart_items').html())
                 hideEmptyEle(true)
                 @if (Request::is('checkout'))
                     placeCartItemsOnCheckout(data.data.get_items)

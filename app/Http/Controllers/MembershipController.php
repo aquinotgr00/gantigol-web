@@ -211,6 +211,7 @@ class MembershipController extends Controller
             $data[$key]['city_id'] = $value->city->id;
             $data[$key]['province'] = $value->city->province->name;
             $data[$key]['postal_code'] = $value->city->postal_code;
+            $data[$key]['courier'] = $value->courier;
         }
         return response()->json($data);
     }
