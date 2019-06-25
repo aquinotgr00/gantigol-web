@@ -211,7 +211,7 @@
         <div class="card-deck">
             @if ($tagProducts != null)
                 @foreach ($tagProducts->data as $key => $value)
-                    <div class="card">
+                    <div class="card col-md-4 px-0">
                         <a href="{{ route('products.single-product', $value->id) }}">
                             <img class="card-img-top gambar" src="{{ $value->image }}">
                         </a>
