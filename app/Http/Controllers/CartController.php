@@ -30,6 +30,7 @@ class CartController extends Controller
         if ($weight == 0) {
             $weight = 10;
         }
+        //origin = city_id
         $response = $this->client->get('shipment/cost?o=419&d='.$id.'&w='.$weight.'&c='.$courier);
         $response = json_decode($response->getBody());
         return response()->json($response->rajaongkir->results[0]->costs);
