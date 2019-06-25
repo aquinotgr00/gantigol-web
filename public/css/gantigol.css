@@ -773,9 +773,9 @@ header {
     font-size: 32px
 }
 
-nav {
+/* nav {
     display: inline-block
-}
+} */
 
 nav ul {
     list-style-type: none;

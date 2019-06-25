@@ -1161,7 +1161,7 @@ i.slide-arrow {
   margin-top: 7px;
 }
 div.my-lightslider .lSSlideWrapper {
-  height: 503px;
+  height: 620px;
 }
 div.my-lightslider ul.lightSlider,
 div.my-lightslider li.lslide {
@@ -1190,9 +1190,12 @@ div.post-highlight-wrapper {
   height: 475px;
 }
 div.highlight-image-overlay {
-  box-shadow: inset 0px -90px 34px 0px rgba(0,0,0,0.6);
+  box-shadow: inset 0px -151px 72px 0px rgba(0,0,0,0.6);
 }
 div.post a:hover { color: #000; }
+img.images-post { width: unset; }
+ul.lSGallery a img { height: 81px!important; }
+div#product-list .card a img { height: 343px!important; }
 
 /* MOBILE RESPONSIVE */
 @media only screen and (max-width: 475px) {

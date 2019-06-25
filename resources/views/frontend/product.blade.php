@@ -12,7 +12,7 @@
         <ul class="lightSlider">
             {{-- @if (count($data->data->images) == 0) --}}
             <li data-thumb="{{ $data->data->image }}">
-                <img class="images-post" src="{{ $data->data->image }}" />
+                <img class="images-post" src="{{ $data->data->image }}" style="position:absolute;left:14%;"/>
             </li>
             @if (count($data->data->images) > 0)
                 @foreach ($data->data->images as $image)

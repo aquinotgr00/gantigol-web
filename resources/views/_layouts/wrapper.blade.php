@@ -802,7 +802,7 @@
                     qty = '<b class="text-danger text-uppercase">Stok Limit</b>'
                 }
                 $(
-                    `<li id="cart-item-${item.id}" class="clearfix simpleCart_items">` +
+                    `<li id="cart-item-${item.id}" class="clearfix simpleCart_items" style="margin-bottom:20px;">` +
                         `<img src="${item.product_variant.product.image}" style="width:25%;" />` +
                         '<div class="detil">' +
                             '<div class="col">' +
@@ -821,7 +821,7 @@
                                 `<span class="input-data"> ${qty}</span>` +
                             '</div>' +
                             '<div class="main-color-text">' +
-                                `<a href="#" class="simpleCart_remove" data-qty="${item.qty}" data-price="${item.price}" data-id="${item.id}"><i class="far fa-trash-alt fa-sm"></i></a>` +
+                                `<a href="#" class="simpleCart_remove" data-qty="${item.qty}" data-price="${item.price}" data-id="${item.id}"><i class="far fa-trash-alt fa-xs"></i></a>` +
                             '</div>' +
                         '</div>' +
                     '</li>'
