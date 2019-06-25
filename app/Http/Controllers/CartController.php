@@ -75,7 +75,7 @@ class CartController extends Controller
                     'discount' => $shipping['discount'],
                 ]
             ]);
-            if ($shipping['register_account'] == 'on') {
+            if (isset($shipping['register_account']) && $shipping['register_account'] == 'on') {
                 $shipping['username'] = preg_replace('/\s+/', '', strtolower($shipping['name']));
                 $shipping['password'] = 'default123';
                 $shipping['password_confirmation'] = 'default123';
