@@ -37,7 +37,7 @@ class HomeController extends Controller
 
     public function about()
     {
-        $banners = $this->client->get('api/banners/banner/home/3');
+        $banners = $this->client->get('api/banners/banner/about/1');
         $banners = json_decode($banners->getBody(), true);
 
         return view('frontend.about', compact('banners'));
