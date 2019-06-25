@@ -40,7 +40,7 @@
         <!--/.Slides-->
         <!--Product Controls-->
         <div class="controls-top">
-            <div class="card-deck arrow-control-wrapper">
+            <div class="card-deck arrow-control-wrapper mt-0">
                 <div class="card line" style="margin-top:3px;">
                     <hr class="card-img-top d-none d-sm-flex">
                 </div>

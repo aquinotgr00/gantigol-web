@@ -42,7 +42,7 @@
         <!-- Preview Image -->
         <div class="card">
             {{-- <img class="images-post" src="{{ $data->image ?? asset('images\post\1.jpg') }}" alt=""> --}}
-            <img class="images-post" src="{{ $data->image ?? 'https://imgplaceholder.com/928x469' }}" alt="">
+            <img class="images-post single-post-image" src="{{ $data->image ?? 'https://imgplaceholder.com/928x469' }}" alt="">
             <p class="source">{{$data->source_image ?? "GantiGol"}}</p>
         </div>
         <br>
@@ -93,7 +93,7 @@
                 </div>
                 <div class="card share-card">
                     <div class="body">
-                        <div class="share">
+                        <div class="share" style="z-index:9;">
                             <span class="share-btn"><button class="btn btn-dark" href="">BAGIKAN</button></span>
                             <nav>
                                 <a class="social" href="http://www.twitter.com/intent/tweet?url={{env('APP_URL')}}blog/post/{{$data->id}}" target="_blank"><i class="fa fa-twitter"></i></a>

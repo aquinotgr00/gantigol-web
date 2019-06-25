@@ -1196,6 +1196,7 @@ div.post a:hover { color: #000; }
 img.images-post { object-fit:contain; }
 ul.lSGallery a img { height: 81px!important; }
 div#product-list .card a img { height: 343px!important; }
+img.single-post-image { object-fit: cover; height: 465px; }
 
 /* MOBILE RESPONSIVE */
 @media only screen and (max-width: 475px) {
@@ -1232,6 +1233,7 @@ div#product-list .card a img { height: 343px!important; }
   div.gg-breadcrumb-wrapper { margin-top: 50px; }
   div.modal_size_chart { top: 12%; }
   i.fa-trash-alt:before { color: #000; }
+  img.single-post-image { height: unset; }
 }
 
 /* end of additional from aqn */
