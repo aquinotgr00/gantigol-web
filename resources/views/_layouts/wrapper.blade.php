@@ -641,10 +641,8 @@
                     let discount = $('#discount').val()
                     let total = price + courier
                     if (total >= discount) {
-                        console.log(total)
                         $('.total_price_text').html(formatRupiah(price + courier - discount))
                     } else if (total < discount) {
-                        console.log('true')
                         $('.total_price_text').html(formatRupiah(0))
                     }
                 @endif
@@ -673,7 +671,6 @@
                 let weight = 0
                 data.map(item => {
                     if (item.product_variant.product.pre_order === null) {
-                        console.log(item)
                         weight = weight + item.product_variant.product.weight
                         regularTotal += item.subtotal
                         let qty = item.qty
@@ -731,10 +728,20 @@
                 updateWeight(weight)
             }
             @elseif (Request::is('checkout-preorder'))
+            function updateWeight(weight) {
+                console.log($('#weight').val())
+                $('#weight').val((i, oldVal) => {
+                    return weight+oldVal
+                })
+                console.log($('#weight').val())
+            }
             function placePreOrderItemsOnCheckout(data) {
                 let totalPreOrder = 0
+                let weight = 0
                 data.map(item => {
                     if (item.product_variant.product.pre_order !== null) {
+                        console.log(item)
+                        weight = weight + item.product_variant.product.weight
                         totalPreOrder += item.subtotal
                         $(
                             `<div id="checkout-item-${item.id}" class="checkout-list-items">` +
@@ -779,12 +786,15 @@
                     }
                 })
                 updateTotal(totalPreOrder)
+                updateWeight(weight)
             }
             @endif
 
             function appendToCart(item) {
                 let qty = item.qty
                 let stock = item.product_variant.quantity_on_hand
+                console.log(qty)
+                console.log(stock)
                 if (stock === 0) {
                     qty = '<b class="text-danger text-uppercase">Stok Habis</b>'
                 }

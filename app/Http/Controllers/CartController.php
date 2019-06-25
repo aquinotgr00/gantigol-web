@@ -148,7 +148,7 @@ class CartController extends Controller
                 'postal_code' => $shipping['postal_code'],
                 'address' => $shipping['address'],
                 'items' => $preOrderItems,
-                'subdistrict_id' => $shipping['subdistrict'],
+                'subdistrict_id' => $shipping['subdistrict_id'],
                 'courier_name' => $shipping['shipment_name'],
                 'courier_fee' => $shipping['cost']
             ]
