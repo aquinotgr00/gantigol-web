@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="https://use.typekit.net/mfg8mxp.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
     <link type="text/css" rel="stylesheet" href="{{ asset('css/lightslider.css') }}">
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
     <script type="https://fonts.googleapis.com/css?family=Proxima+Nova"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.1.1/dist/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
