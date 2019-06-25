@@ -1193,7 +1193,7 @@ div.highlight-image-overlay {
   box-shadow: inset 0px -151px 72px 0px rgba(0,0,0,0.6);
 }
 div.post a:hover { color: #000; }
-img.images-post { width: unset; }
+img.images-post { object-fit:contain; }
 ul.lSGallery a img { height: 81px!important; }
 div#product-list .card a img { height: 343px!important; }
 
