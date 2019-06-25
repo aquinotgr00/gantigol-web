@@ -47,18 +47,12 @@ class BlogController extends Controller
             }
             if (isset($tags[0])) {
                 $tagPosts = $this->client->get('api/blogs/post/tag/limit/9', [
-                    'headers' => [
-                        'Accept' => 'application/json'
-                    ],
                     'query' => [
                         'tag' => $tags[0]
                     ]
                 ]);
                 $tagPosts = json_decode($tagPosts->getBody())->data;
                 $tagProducts = $this->client->get('api-product/items', [
-                    'headers' => [
-                        'Accept' => 'application/json'
-                    ],
                     'query' => [
                         'tags' => $tags[0],
                         'limit' => 4
@@ -99,9 +93,6 @@ class BlogController extends Controller
     public function tags($name)
     {
         $posts = $this->client->get('api/blogs/post/tag/limit/99', [
-            'headers' => [
-                'Accept' => 'application/json'
-            ],
             'query' => [
                 'tag' => $name
             ]

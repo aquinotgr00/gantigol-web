@@ -15,12 +15,6 @@
 
     // MIDTRANS ROUTES
     Route::post('/charge', 'CartController@charge')->name('checkout.charge');
-    Route::get('/confirm-payment/{token}', 'StoreController@confirmPayment')->name('confirm.payment');
-    Route::post('/confirm-payment', 'StoreController@storeProof')->name('store.payment.proof');
-    Route::post('/midtrans-finish', function(){
-        return redirect()->route('home');
-    })->name('midtrans.finish');
-    Route::post('/midtrans-notification/handler', 'Api\\TransactionController@notificationHandler')->name('midtrans.notification.handler');
 
 
     // ===================================================================================================================================

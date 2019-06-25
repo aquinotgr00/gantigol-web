@@ -7,8 +7,6 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use function GuzzleHttp\json_decode;
 
-use Illuminate\Support\Facades\URL;
-
 class CartController extends Controller
 {
     public function __construct()
@@ -32,7 +30,7 @@ class CartController extends Controller
         if ($weight == 0) {
             $weight = 10;
         }
-        $response = $this->client->get('shipment/cost?o=5793&d='.$id.'&w='.$weight.'&c='.$courier);
+        $response = $this->client->get('shipment/cost?o=419&d='.$id.'&w='.$weight.'&c='.$courier);
         $response = json_decode($response->getBody());
         return response()->json($response->rajaongkir->results[0]->costs);
     }
@@ -76,6 +74,27 @@ class CartController extends Controller
                     'discount' => $shipping['discount'],
                 ]
             ]);
+            if ($shipping['register_account'] == 'on') {
+                $shipping['username'] = preg_replace('/\s+/', '', strtolower($shipping['name']));
+                $shipping['password'] = 'default123';
+                $shipping['password_confirmation'] = 'default123';
+                $shipping['dob'] = '1990-01-01';
+                $shipping['gender'] = 'male';
+                $shipping['subdistrict'] = $shipping['subdistrict_text'];
+                $shipping['url_act'] = '/user';
+                $userSignup = $this->client->post('auth/signup', [
+                    'headers' => [
+                        'Accept' => 'application/json',
+                    ],
+                    'form_params' => $shipping
+                ]);
+                $this->client->post('auth/password/reset', [
+                    'form_params' => [
+                        'email' => $shipping['email'],
+                        'url_act' => env('APP_URL').'/reset-password',
+                    ]
+                ]);
+            }
         } else if ($shipping['user_id'] !== "") {
             $response = $this->client->post('api-ecommerce/cart-checkout', [
                 'form_params' => [
@@ -93,27 +112,6 @@ class CartController extends Controller
                 ]
             ]);
         }
-        if ($shipping['register_account'] == 'on') {
-            $shipping['username'] = preg_replace('/\s+/', '', strtolower($shipping['name']));
-            $shipping['password'] = 'default123';
-            $shipping['password_confirmation'] = 'default123';
-            $shipping['dob'] = '1990-01-01';
-            $shipping['gender'] = 'male';
-            $shipping['subdistrict'] = $shipping['subdistrict_text'];
-            $shipping['url_act'] = '/user';
-            $userSignup = $this->client->post('auth/signup', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                ],
-                'form_params' => $shipping
-            ]);
-            $this->client->post('auth/password/reset', [
-                'form_params' => [
-                    'email' => $shipping['email'],
-                    'url_act' => env('APP_URL').'/reset-password',
-                ]
-            ]);
-        }
         $response = json_decode($response->getBody());
         return response()->json($response);
     }
@@ -124,9 +122,11 @@ class CartController extends Controller
         $preOrderItems = [];
         $preOrderId = 0;
         parse_str($request->shipping, $shipping);
+
         // get cart items by session
         $cartItems = $this->client->get('api-ecommerce/cart/999999?session='.$request->session);
         $cartItems = json_decode($cartItems->getBody())->data->get_items;
+
         // loop all the items and figure out which ones is pre order item
         foreach ($cartItems as $item) {
             if ($item->product_variant->product->pre_order !== null) {
@@ -134,6 +134,7 @@ class CartController extends Controller
                 $preOrderId = $item->product_variant->product->pre_order->id;
             }
         }
+
         $response = $this->client->post('api-preorder/transaction', [
             'headers' => [
                 'Content-Type' => 'application/x-www-form-urlencoded'
@@ -183,20 +184,13 @@ class CartController extends Controller
                     'items[$key][product_id]' => $request->id,
                     'items[$key][qty]' => $item['quantity'],
                     'items[$key][price]' => $product->product->price,
-                    // 'items[$key][subtotal]' => $product->product->price * $item['quantity'],
                     'items[$key][subtotal]' => '6000000',
-                    // 'total' => $total
                     'total' => '6000000'
                 ]
             ]);
             $data = json_decode($response->getBody());
         }
         return response()->json($data);
-    }
-
-    public function getCartId(Request $request)
-    {
-        return $request->all();
     }
 
     public function deleteItem(Request $request, $id)
@@ -239,8 +233,6 @@ class CartController extends Controller
             $userId = $user->id;
         }
 
-        // $total = $request->price * $request->qty;
-        
         $response = $this->client->post('api-ecommerce/cart', [
             'form_params' => [
                 'session' => $request->session,
@@ -258,7 +250,6 @@ class CartController extends Controller
 
     public function checkoutPreOrder(Request $request)
     {
-        // return $request->all();
         $token = $request->session()->get('token');
         $username = $request->session()->get('username');
         $categoryName = 'Checkout';
@@ -271,7 +262,7 @@ class CartController extends Controller
                 $preOrderItems[] = $item;
             }
         }
-        // return response()->json($preOrderItems);
+
         if (!is_null($token) && !is_null($username)) {
             // get user by token
             $user = $this->client->get('api/user', [

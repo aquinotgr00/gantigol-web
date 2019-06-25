@@ -22,11 +22,6 @@ class MembershipController extends Controller
         ]);
     }
 
-    public function login()
-    {
-        return view('frontend.login');
-    }
-
     public function register()
     {
         return view('frontend.register');
@@ -160,7 +155,6 @@ class MembershipController extends Controller
         $response = $this->client->post('auth/signup', [
             'headers' => [
                 'Accept' => 'application/json',
-                // 'Content-Type' => 'application/json'
             ],
             'form_params' => $request->all()
         ]);

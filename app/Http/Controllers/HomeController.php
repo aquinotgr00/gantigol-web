@@ -61,12 +61,6 @@ class HomeController extends Controller
             return back()->with('error', 'Email tidak ditemukan.');
         }
 
-        $message = [
-            'heading' => '',
-            'body' => 'Kami telah mengirim link reset password ke email anda.'
-        ];
-
-        // session()->flash('message', 'flased');
         return redirect('/thanks')->with([
             'messages.heading' => '',
             'messages.body' => 'Silahkan mengikuti instruksi selanjutnya melalui email.'

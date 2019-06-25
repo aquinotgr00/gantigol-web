@@ -58,20 +58,20 @@
 
                     <div class="form-group">
                         <label for="exampleInputEmail1">NAMA</label>
-                        <input class="form-control" type="text" name="name" placeholder="Nama"
+                        <input type="text" name="name" placeholder="Nama" class="form-control"
                                 @if(isset($user))
+                                    readonly
                                     value="{{ $user->name }}"
-                                    disabled
                                 @endif>
                         <label for="name" generated="true" class="error invalid-feedback"></label>
                     </div>
 
                     <div class="form-group">
                         <label for="phone">PHONE</label>
-                        <input type="phone" class="form-control" name="phone" id="phone" placeholder="phone"
+                        <input type="phone" name="phone" id="phone" placeholder="phone" class="form-control"
                                 @if(isset($user))
+                                    readonly
                                     value="{{ $user->phone }}"
-                                    disabled
                                 @endif>
                         <label for="phone" generated="true" class="error invalid-feedback"></label>
                     </div>
@@ -81,14 +81,14 @@
                         <input type="email" class="form-control" name="email" id="email" placeholder="email"
                                 @if(isset($user))
                                     value="{{ $user->email }}"
-                                    disabled
+                                    readonly
                                 @endif>
                         <label for="email" generated="true" class="error invalid-feedback"></label>
                     </div>
 
                     <div class="form-group">
                         <label for="address">ALAMAT</label>
-                        <textarea class="form-control" name="address" id="address" rows="3"@if(isset($user)) disabled @endif>@if(isset($user)){{ $user->address }}@endif</textarea>
+                        <textarea class="form-control" name="address" id="address" rows="3"@if(isset($user)) readonly @endif>@if(isset($user)){{ $user->address }}@endif</textarea>
                         <label for="address" generated="true" class="error invalid-feedback"></label>
                     </div>
 
@@ -98,7 +98,7 @@
                         <input type="text" class="form-control" name="subdistrict_text" id="subdistrict_text" placeholder="Kecamatan"
                                 @if(isset($user))
                                     value="{{ $user->subdistrict }}"
-                                    disabled
+                                    readonly
                                 @endif>
                         <label for="subdistrict_text" generated="true" class="error invalid-feedback"></label>
                     </div>
@@ -109,7 +109,7 @@
                         <input type="text" class="form-control" name="city" id="city" placeholder="Kota"
                                 @if(isset($user))
                                     value="{{ $user->city }}"
-                                    disabled
+                                    readonly
                                 @endif>
                         <label for="city" generated="true" class="error invalid-feedback"></label>
                     </div>
@@ -119,7 +119,7 @@
                         <input type="text" class="form-control" name="province" id="province" placeholder="Provinsi"
                                 @if(isset($user))
                                     value="{{ $user->province }}"
-                                    disabled
+                                    readonly
                                 @endif>
                         <label for="province" generated="true" class="error invalid-feedback"></label>
                     </div>
@@ -129,7 +129,7 @@
                         <input type="number" class="form-control" name="postal_code" id="postal_code" placeholder="Kode Pos"
                                 @if(isset($user))
                                     value="{{ $user->postal_code }}"
-                                    disabled
+                                    readonly
                                 @endif>
                         <label for="postal_code" generated="true" class="error invalid-feedback"></label>
                     </div>
@@ -217,6 +217,10 @@
                                 <div class="form-group">
                                     <select class="form-control gantigoal-select" name="courier" id="courier">
                                         <option value="null">Pilih Kurir</option>
+                                        <option value="jne">JNE</option>
+                                        <option value="pos">POS Indonesia</option>
+                                        <option value="tiki">TIKI</option>
+                                        <option value="jnt">J&T</option>
                                     </select>
                                     <label for="courier" generated="true" class="error invalid-feedback">This field is required.</label>
                                 </div>
@@ -418,10 +422,10 @@
             minLength: 3,
             select: function( event, ui ) {
                 console.log(ui)
-                $('#courier').empty().append(new Option('Pilih Kurir', 'null'))
-                ui.item.courier.map(courier => {
-                    $('#courier').append(new Option(courier, courier))
-                })
+                // $('#courier').empty().append(new Option('Pilih Kurir', 'null'))
+                // ui.item.courier.map(courier => {
+                //     $('#courier').append(new Option(courier, courier))
+                // })
                 $('#subdistrict_value').val(ui.item.id)
                 $('#city').val(ui.item.city)
                 $('#city_id').val(ui.item.city_id)
@@ -445,14 +449,14 @@
         })
 
         $('#differentAddress').on('change', function() {
-            $('input[name=name]').prop('disabled', function(i, v) { return !v; })
-            $('input[name=phone]').prop('disabled', function(i, v) { return !v; })
-            $('input[name=email]').prop('disabled', function(i, v) { return !v; })
-            $('textarea[name=address]').prop('disabled', function(i, v) { return !v; })
-            $('input[name=province]').prop('disabled', function(i, v) { return !v; })
-            $('input[name=city]').prop('disabled', function(i, v) { return !v; })
-            $('input[name=subdistrict_text]').prop('disabled', function(i, v) { return !v; })
-            $('input[name=postal_code]').prop('disabled', function(i, v) { return !v; })
+            $('input[name=name]').prop('readonly', function(i, v) { return !v; })
+            $('input[name=phone]').prop('readonly', function(i, v) { return !v; })
+            $('input[name=email]').prop('readonly', function(i, v) { return !v; })
+            $('textarea[name=address]').prop('readonly', function(i, v) { return !v; })
+            $('input[name=province]').prop('readonly', function(i, v) { return !v; })
+            $('input[name=city]').prop('readonly', function(i, v) { return !v; })
+            $('input[name=subdistrict_text]').prop('readonly', function(i, v) { return !v; })
+            $('input[name=postal_code]').prop('readonly', function(i, v) { return !v; })
         })
 
         $('#courier_type').change(() => {
@@ -550,25 +554,23 @@
             },
             submitHandler: function (evt) {
                 let url = '/api/carts/checkout'
+                let shipping = $('#shipping-form').serialize()
+                console.log(shipping)
                 @if (Request::is('checkout-preorder'))
                     url = '/api/carts/checkout-preorder'
                 @endif
-                console.log(url)
                 $.ajax({
                     url: url,
                     type: 'POST',
                     data: {
                         session: localStorage.getItem('session'),
-                        shipping: $('#shipping-form').serialize(),
+                        shipping: shipping,
                     },
                     success: res => {
-                        console.log(res)
                         $.post('/charge',JSON.stringify(res), function(success) {
-                            console.log(success)
                             const charge = JSON.parse(success)
                             snap.pay(charge.token, {
                                 onSuccess: function(result){
-                                    console.log('success');
                                     // handlePaymentResponse(result);
                                     window.location = '/thanks';
                                 },
