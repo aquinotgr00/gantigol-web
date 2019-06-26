@@ -861,9 +861,18 @@
 
             $('#addToCart').click(() => {
                 let qty = parseInt($('input[name=quantity]').val())
-                let variant = parseInt($('#product-list').val())
+                let variant = $('#product-list').val()
                 let variantId = $('#variant_id').val()
-                if (qty <= $('input[name=quantity]').attr('max') && variant !== 'null' && qty !== 0) {
+                if (variant === 'null') {
+                    $('#product-list').addClass('is-invalid')
+                    return;
+                }
+                if (qty === 0) {
+                    $('#qty_input_wrapper').addClass('border border-danger')
+                    $('.qty-invalid-feedback').css('display', 'block')
+                    return;
+                }
+                if (qty <= $('input[name=quantity]').attr('max')) {
                     let session = getBrowserSession()
                     storeItem(variantId, qty, session)
                 }

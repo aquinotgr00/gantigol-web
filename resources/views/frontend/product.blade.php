@@ -108,17 +108,19 @@
                                         <option data-max="{{$item->quantity_on_hand}}" value="{{$item->id}}">{{$item->variant}}</option>
                                     @endforeach
                                 </select>
+                                <label for="name" generated="true" class="error invalid-feedback">Silahkan pilih variant Produk.</label>
                             </div>
                         @endif
                         <div class="row col-9 size">
-                            <div class="quantity buttons_added">
+                            <div id="qty_input_wrapper" class="quantity buttons_added">
                                 <span class="ukuran">QTY</span>
                                 @if ($data->data->variants[0]->variant != 'ALL SIZE')
-                                    <input type="button" value="-" class="minus"><input type="number" step="1" min="1" max="" name="quantity" value="1" title="Qty" class="input-text qty text" size="4" pattern="" inputmode=""><input type="button" value="+" class="plus">
+                                    <input type="button" value="-" class="minus"><input type="number" step="1" min="1" max="" name="quantity" value="1" title="Qty" class="input-text qty text" size="4" id="quantity"><input type="button" value="+" class="plus">
                                 @elseif ($data->data->variants[0]->variant == 'ALL SIZE')
-                                    <input type="button" value="-" class="minus"><input type="number" step="1" min="1" max="{{$data->data->variants[0]->quantity_on_hand}}" name="quantity" value="1" title="Qty" class="input-text qty text" size="4" pattern="" inputmode=""><input type="button" value="+" class="plus">
+                                    <input type="button" value="-" class="minus"><input type="number" step="1" min="1" max="{{$data->data->variants[0]->quantity_on_hand}}" name="quantity" value="1" title="Qty" class="input-text qty text" size="4" id="quantity"><input type="button" value="+" class="plus">
                                 @endif
                             </div>
+                            <label for="name" generated="true" class="error qty-invalid-feedback invalid-feedback">Jumlah tidak boleh 0.</label>
                         </div>
                         <br>
                         <button type="button" id="sizeChartBtn" data-toggle="modal" data-target="#size_chart_modal" class="btn btn-outline-dark promo-apply-btn col-lg-8"
@@ -207,6 +209,18 @@
         thumbMargin: 40,
         thumbItem: 5,
         addClass: 'my-lightslider',
-    });
+    })
+    $('#product-list').change(el => {
+        if ($(el.target).val() !== 'null') {
+            $(el.target).removeClass('is-invalid')
+        }
+    })
+    $('#quantity').change((el) => {
+        let qty = $(el.target).val()
+        if (qty > 0) {
+            $('#qty_input_wrapper').removeClass('border border-danger')
+            $('.qty-invalid-feedback').css('display', 'none')
+        }
+    })
 </script>
 @endsection
