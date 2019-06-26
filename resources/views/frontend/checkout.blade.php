@@ -14,6 +14,9 @@
                 <form action="/signin" id="checkout-login-form" class="form d-none" method="POST">@csrf
                     <input type="text" name="cart_session" id="cartSession" class="d-none" value="valuee">
                     <p><a href="#" class="checkout_login_btn"><u>Kembali</u></a></p>
+                    @if (session('error'))
+                        <span class="text-danger">{{ session('error') }}</span>
+                    @endif
                     <div class="form-group">
                         <label for="username">EMAIL</label>
                         <input type="email" name="username" class="form-control" id="username" placeholder="Email">
