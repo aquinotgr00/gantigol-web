@@ -84,8 +84,10 @@ class MembershipController extends Controller
             ]
         ]);
 
+        $categoryName = 'Setting';
+
         $user = json_decode($user->getBody());
-        return view('frontend.user', compact('user'));
+        return view('frontend.user', compact('user', 'categoryName'));
     }
 
     public function update(Request $request)
@@ -107,7 +109,7 @@ class MembershipController extends Controller
             ]
         ]);
         $response = json_decode($response->getBody());
-        return back();
+        return back()->with('success', 'Berhasil update data.');
     }
 
     public function signout(Request $request)

@@ -1,14 +1,7 @@
 @extends('_layouts.wrapper')
 
 @section('heading')
-<div class="container">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">HOME</a></li>
-            <li class="breadcrumb-item active" aria-current="page">SETTING</li>
-        </ol>
-    </nav>
-</div>
+@include('_layouts.breadcrumb')
 @endsection
 
 @section('content')
@@ -34,6 +27,9 @@
     <div class="col-12">
         <div class="tab-content " id="nav-tabContent">
             <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                @if (Session::has('success'))
+                <b>{{Session::get('success')}}</b><span></span>
+                @endif
                 <form action="{{ route('member.update') }}" method="post">@csrf
                     <div class="row">
                         <div class="col-12">

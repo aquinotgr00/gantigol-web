@@ -104,7 +104,7 @@
                             <p class="text-light mb-1">Halo,</p>
                             <h5 class="text-light">{{ Session::get('username') }}</h5>
                             <hr class="hr-cart">
-                            <a href="/user"><p class="text-light">setting</p></a>
+                            <a href="/user"><p class="text-light">Setting</p></a>
                             <a href="/signout" id="signout-link"><p class="text-light">Logout</p></a>
                         </div>
                     @endif
@@ -222,7 +222,7 @@
             @elseif (Session::has('token'))
                 <h5 class="mb-1">Halo,</h5>
                 <h5 class="">{{ Session::get('username') }}</h5>
-                <a href="/user">setting</a><br>
+                <a href="/user">Setting</a><br>
                 <a href="/signout" id="signout-link">Logout</a>
             @endif
         </div>
