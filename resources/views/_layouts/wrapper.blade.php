@@ -110,7 +110,10 @@
                     @endif
                 </li>
                 <li class="nav-item forgot dropdown dropdown-cart">
-                    <a href="#" role="button" aria-haspopup="true" aria-expanded="false"><img class="btn chart item_image" src="{{ asset('images\gantigol\chart.svg') }}"></a>
+                    <a href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                        <img class="btn chart item_image" src="{{ asset('images\gantigol\chart.svg') }}">
+                        <span id="cart-counter" class="cart_counter" style="display:none;">0</span>
+                    </a>
                     <div class="dropdown-menu dropdown-cart login cart">
                         <div class="form-group">
 
@@ -255,29 +258,6 @@
                 <!--end shopping-cart-header -->
 
                 <ul id="mobile-cart-wrapper" class="shopping-cart-items">
-                    {{-- <li class="clearfix">
-                        <img class="w-25" src="assets\images\produk\1a.jpg">
-                        <div class="detil">
-                            <div class="col">
-                                <span class="item-name text-body font-weight-bold">KAOS NIKE WALKING IN THE AIR</span>
-                            </div>
-                            <div class="item-price">
-                                <span class="text-body font">HARGA  </span>
-                                <span class="input-data text-body font"> Rp 1.111.849</span>
-                            </div>
-                            <div class="item-price">
-                                <span class="size-cart text-body font">SIZE </span>
-                                <span class="input-data text-body font"> XL</span>
-                            </div>
-                            <div class="item-price text-body ">
-                                <span class="qty-cart text-body font">QTY  </span>
-                                <span class="input-data text-body font">  1</span>
-                            </div>
-                            <div class="main-color-text">
-                                <a href="" class="far fa-trash-alt fa-sm"> </a>
-                            </div>
-                        </div>
-                    </li> --}}
                 </ul>
 
                 <a href="/checkout" class="btn btn-dark btn-block simpleCart_checkout bayar mt-5" style="display:none;">BAYAR</a>
@@ -848,8 +828,11 @@
                     },
                     success: function (res) {
                         if (res.data.get_items.length !== 0) {
+                            $('#cart-counter').css('display', 'block')
+                            $('#cart-counter').html(res.data.get_items.length)
                             placeCartItems(res)
                         } else if (res.data.get_items.length === 0) {
+                            $('#cart-counter').css('display', 'none')
                             if (localStorage.getItem('user_token') === null) {
                                 localStorage.removeItem('cart_id')
                                 localStorage.removeItem('session')

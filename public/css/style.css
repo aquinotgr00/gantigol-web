@@ -1201,6 +1201,19 @@ img.single-post-image { object-fit: cover; height: 465px; }
 .footer a:hover { color: #000; }
 a.email-link { font-size: 15px; }
 div#faq-page a { font-size: 15px; text-decoration: underline; }
+span.cart_counter {
+  position: absolute;
+  background: #e23737;
+  right: -3px;
+  font-size: 12px;
+  top: 28%;
+  border-radius: 50px;
+  padding: 0 5px;
+}
+div.dropdown-cart {
+  max-height: 681px;
+  overflow-y: scroll;
+}
 
 /* MOBILE RESPONSIVE */
 @media only screen and (max-width: 475px) {
