@@ -68,7 +68,7 @@
 
                     <div class="form-group">
                         <label for="phone">PHONE</label>
-                        <input type="phone" name="phone" id="phone" placeholder="phone" class="form-control"
+                        <input type="number" name="phone" id="phone" placeholder="phone" class="form-control"
                                 @if(isset($user))
                                     readonly
                                     value="{{ $user->phone }}"
@@ -244,7 +244,7 @@
                             Rp. <span class="courier_fee">0</span>
                         </div>
                         <div class="col-12">
-                            <div class="row">
+                            <div class="row mt-0">
                                 <div class="col-12">
                                     <hr class="hr-light top-line mt-2">
                                 </div>
@@ -261,7 +261,7 @@
                         </div>
                     </div>
                 </form>
-                <hr class="hr-light bottom-line">
+                <hr class="hr-light bottom-line" style="margin-top:1.5%;">
                 <div class="row">
                     <div class="col-8">
                         <div>
@@ -467,7 +467,7 @@
 
         $('.bayar').click(evt => {
             evt.preventDefault()
-            if (!$('#shipping-form').validate()) { // Not Valid
+            if (!$('#shipping-form').valid()) { // Not Valid
                 return;
             }
             if ($('#courier').val() === 'null' || $('#courier_type').val() === 'null') {
@@ -485,7 +485,6 @@
                 return;
             }
             $('#shipping-form').submit()
-            // window.location = '/thanks'
         })
 
         $('#promo-code-btn').click(() => {
