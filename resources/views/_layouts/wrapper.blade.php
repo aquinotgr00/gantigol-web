@@ -661,11 +661,9 @@
 
             @if (Request::is('checkout'))
             function updateWeight(weight) {
-                console.log($('#weight').val())
                 $('#weight').val((i, oldVal) => {
                     return weight+oldVal
                 })
-                console.log($('#weight').val())
             }
             function placeCartItemsOnCheckout(data) {
                 let regularTotal = 0
@@ -687,7 +685,7 @@
                             `<div id="checkout-item-${item.id}" class="checkout-list-items">` +
                                 '<hr class="hr-light top-line">' +
                                 '<div class="row barang">' +
-                                    '<div class="col-7">' +
+                                    '<div class="col-lg-7">' +
                                         '<div style="float:left;width:25%;">' +
                                             `<img class="outline" src="${item.product_variant.product.image}" style="width:100%;" />` +
                                         '</div>' +
@@ -709,15 +707,15 @@
                                             '</div>' +
                                         '</div>' +
                                     '</div>' +
-                                    '<div class="col-1">' +
+                                    '<div class="col-lg-1">' +
                                         '<div>' +
                                             '<div class="diskon">0%</div>' +
                                         '</div>' +
                                     '</div>' +
-                                    '<div class=" col-3">' +
+                                    '<div class=" col-lg-3">' +
                                         `<div class="harga">Rp. ${formatRupiah(item.qty*item.price)}</div>` +
                                     '</div>' +
-                                    '<div class="col-1">' +
+                                    '<div class="col-lg-1">' +
                                         `<a href="#" class="far fa-trash-alt fa-sm barang deleteModal" data-toggle="modal" data-target="#deleteItemModal" data-qty="${item.qty}" data-price="${item.price}" data-id="${item.id}"> </a>` +
                                     '</div>' +
                                 '</div>' +
@@ -730,25 +728,22 @@
             }
             @elseif (Request::is('checkout-preorder'))
             function updateWeight(weight) {
-                console.log($('#weight').val())
                 $('#weight').val((i, oldVal) => {
                     return weight+oldVal
                 })
-                console.log($('#weight').val())
             }
             function placePreOrderItemsOnCheckout(data) {
                 let totalPreOrder = 0
                 let weight = 0
                 data.map(item => {
                     if (item.product_variant.product.pre_order !== null) {
-                        console.log(item)
                         weight = weight + item.product_variant.product.weight
                         totalPreOrder += item.subtotal
                         $(
                             `<div id="checkout-item-${item.id}" class="checkout-list-items">` +
                                 '<hr class="hr-light top-line">' +
                                 '<div class="row barang">' +
-                                    '<div class="col-7">' +
+                                    '<div class="col-lg-7">' +
                                         '<div style="float:left;width:25%;">' +
                                             `<img class="outline" src="${item.product_variant.product.image}" style="width:100%;" />` +
                                         '</div>' +
@@ -770,15 +765,15 @@
                                             '</div>' +
                                         '</div>' +
                                     '</div>' +
-                                    '<div class="col-1">' +
+                                    '<div class="col-lg-1">' +
                                         '<div>' +
                                             '<div class="diskon">0%</div>' +
                                         '</div>' +
                                     '</div>' +
-                                    '<div class=" col-3">' +
+                                    '<div class=" col-lg-3">' +
                                         `<div class="harga">Rp. ${formatRupiah(item.qty*item.price)}</div>` +
                                     '</div>' +
-                                    '<div class="col-1">' +
+                                    '<div class="col-lg-1">' +
                                         `<a href="#" class="far fa-trash-alt fa-sm barang deleteModal" data-toggle="modal" data-target="#deleteItemModal" data-qty="${item.qty}" data-price="${item.price}" data-id="${item.id}"> </a>` +
                                     '</div>' +
                                 '</div>' +
@@ -794,8 +789,6 @@
             function appendToCart(item) {
                 let qty = item.qty
                 let stock = item.product_variant.quantity_on_hand
-                console.log(qty)
-                console.log(stock)
                 if (stock === 0) {
                     qty = '<b class="text-danger text-uppercase">Stok Habis</b>'
                 }

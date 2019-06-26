@@ -51,7 +51,9 @@ class CartController extends Controller
             ]);
 
             $user = json_decode($user->getBody());
-            return view('frontend.checkout', compact('user', 'categoryName'));
+            $userSubdistrict = $this->client->get('shipment/subdistrict?q='.$user->subdistrict);
+            $userSubdistrictId = json_decode($userSubdistrict->getBody())->data[0]->id;
+            return view('frontend.checkout', compact('user', 'categoryName', 'userSubdistrictId'));
         }
         return view('frontend.checkout', compact('categoryName'));
     }

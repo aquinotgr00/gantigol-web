@@ -94,7 +94,10 @@
 
                     <div class="form-group">
                         <label for="city">KECAMATAN</label>
-                        <input type="text" class="d-none" name="subdistrict_id" id="subdistrict_value">
+                        <input type="text" class="d-none" name="subdistrict_id" id="subdistrict_value"
+                                @if(isset($user))
+                                    value="{{ $userSubdistrictId }}"
+                                @endif>
                         <input type="text" class="form-control" name="subdistrict_text" id="subdistrict_text" placeholder="Kecamatan"
                                 @if(isset($user))
                                     value="{{ $user->subdistrict }}"
@@ -148,13 +151,13 @@
         <h4 class="section-header_title">PRODUK PILIHAN</h4>
         <hr>
         <div class="row">
-            <div class="col-7">
+            <div class="col-lg-7">
                 <label>PRODUK</label>
             </div>
-            <div class="col-1 ">
+            <div class="col-lg-1 ">
                 <label>DISKON</label>
             </div>
-            <div class="col-3">
+            <div class="col-lg-3">
                 <label>SUB-TOTAL</label>
             </div>
         </div>
@@ -344,15 +347,12 @@
         }
 
         $(document).on("click", ".deleteModal", function () {
-            var itemID = $(this).data('id');
-            var itemPrice = $(this).data('price');
-            var itemQty = $(this).data('qty');
-            $(".modal-footer #deleteButton").data('id', itemID);
-            $(".modal-footer #deleteButton").data('price', itemPrice);
-            $(".modal-footer #deleteButton").data('qty', itemQty);
-            console.log($(".modal-footer #deleteButton").data('qty'));
-            console.log($(".modal-footer #deleteButton").data('price'));
-            console.log($(".modal-footer #deleteButton").data('id'));
+            var itemID = $(this).data('id')
+            var itemPrice = $(this).data('price')
+            var itemQty = $(this).data('qty')
+            $(".modal-footer #deleteButton").data('id', itemID)
+            $(".modal-footer #deleteButton").data('price', itemPrice)
+            $(".modal-footer #deleteButton").data('qty', itemQty)
         });
 
         function getCourierCost(id, courier) {
@@ -361,7 +361,6 @@
                 url: '/api/carts/courier-cost/'+ id + '/' + courier + '/' + weight,
                 type: 'GET',
                 success: res => {
-                    console.log(res)
                     res.map(item => {
                         $('#courier_type').append(new Option(item.service, item.cost[0].value))
                     })
@@ -421,7 +420,6 @@
             source: "/api/subdistrict",
             minLength: 3,
             select: function( event, ui ) {
-                console.log(ui)
                 // $('#courier').empty().append(new Option('Pilih Kurir', 'null'))
                 // ui.item.courier.map(courier => {
                 //     $('#courier').append(new Option(courier, courier))
@@ -437,6 +435,8 @@
         $('#courier').change(() => {
             $('#courier_type').attr('disabled', true)
             $('#courier_type').empty().append(new Option("Jenis pengiriman", 0))
+            $('.courier_fee').html(formatRupiah($('#courier_type').val()))
+            updateTotalCheckout()
             if ($('#courier').val() !== 'null') {
                 $('#courier').removeClass('is-invalid')
                 $('label[for=courier]').css('display', 'none')
@@ -555,7 +555,6 @@
             submitHandler: function (evt) {
                 let url = '/api/carts/checkout'
                 let shipping = $('#shipping-form').serialize()
-                console.log(shipping)
                 @if (Request::is('checkout-preorder'))
                     url = '/api/carts/checkout-preorder'
                 @endif
