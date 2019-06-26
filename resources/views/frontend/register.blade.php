@@ -93,7 +93,7 @@
             <div class="col-lg-6">
                 <div class="form-group">
                     <label for="exampleInputPassword1">TANGGAL LAHIR</label>
-                    <input type="date" class="form-control" value="{{old('dob')}}" name="dob" id="dob" aria-describedby="helpId" placeholder="Date of birth">
+                    <input type="date" class="form-control" value="{{old('dob')}}" name="dob" id="dob" max="2001-01-02" aria-describedby="helpId" placeholder="Date of birth">
                     <label for="dob" generated="true" class="error invalid-feedback"></label>
                 </div>
             </div>
@@ -160,21 +160,37 @@
 
 @section('script')
 <script>
-    
      // add the custom rule here
     $.validator.addMethod("valueNotEquals", function(value, element, arg){
         return arg !== value;
-    }, "Value must not equal null.");
+    }, "Value must not equal null.")
     jQuery.validator.addMethod("nowhitespace", function(value, element) {
         return this.optional(element) || /^\S+$/i.test(value);
-    }, "No white space please");
+    }, "No white space please")
     jQuery.validator.addMethod("alphanumeric", function(value, element) {
         return this.optional(element) || /^\w+$/i.test(value);
-    }, "Letters, numbers, spaces or underscores only please");
+    }, "Letters, numbers, spaces or underscores only please")
     $.validator.addMethod( "phoneID", function( value, element ) {
         // return this.optional( element ) || /^\+?([ -]?\d+)+|\(\d+\)([ -]\d+)$/.test( value );
         return this.optional( element ) || /^((?:\+62|62)|0)[2|8]{1}[0-9]+$/g.test( value );
-    }, "Please specify a valid phone number." );
+    }, "Please specify a valid phone number." )
+    $.validator.addMethod("minAge", function(value, element, min) {
+        var today = new Date()
+        var birthDate = new Date(value)
+        var age = today.getFullYear() - birthDate.getFullYear()
+    
+        if (age > min+1) {
+            return true
+        }
+    
+        var m = today.getMonth() - birthDate.getMonth()
+    
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+            age--
+        }
+    
+        return age >= min
+    }, "Kamu belum cukup umur!")
     $(document).ready(function () {
         $( "#subdistrict_text" ).autocomplete({
             source: "/api/subdistrict",
@@ -213,7 +229,10 @@
                 gender: {
                     valueNotEquals: 'null'
                 },
-                dob: 'required',
+                dob: {
+                    required: true,
+                    minAge: 16
+                },
                 address: 'required',
                 subdistrict_text: 'required',
                 city: 'required',

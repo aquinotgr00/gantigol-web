@@ -173,7 +173,7 @@ class MembershipController extends Controller
             $signinBody = json_decode($signin->getBody(), true);
 
             if (422 === $statuscode && isset($signinBody['message'])) {
-                return redirect('/')->with('errors', $signinBody['message']);
+                return redirect()->back()->withInput($request->input())->with('errors', $signinBody['message']);
             }
 
             // get user by token
@@ -188,7 +188,7 @@ class MembershipController extends Controller
             $request->session()->put('token', $signinBody['access_token']);
             $request->session()->put('username', $user['username']);
 
-            return redirect()->intended('/');
+            return redirect()->intended('/')->with('success', 'Pendaftaran berhasil.');
         }
 
         return redirect()->back()->withInput($request->input())->with('errors', $body['errors']);
