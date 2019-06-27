@@ -325,12 +325,15 @@
 ></script>
 <script>
     $(document).ready(function () {
+        $.extend($.validator.messages, {
+            required: "Wajib diisi."
+        });
         $.validator.addMethod( "phoneID", function( value, element ) {
             return this.optional( element ) || /^((?:\+62|62)|0)[2|8]{1}[0-9]+$/g.test( value );
-        }, "Please specify a valid phone number." )
+        }, "Masukan nomor telepon yang valid." )
         $.validator.addMethod("valueNotEquals", function(value, element, arg){
             return arg !== value;
-        }, "Value must not equal null.");
+        }, "Wajib diisi.");
         /* Fungsi formatRupiah */
         function formatRupiah(angka){
             var number_string = angka.toString().replace(/[^,\d]/g, ''),
