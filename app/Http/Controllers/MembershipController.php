@@ -40,7 +40,7 @@ class MembershipController extends Controller
         $body = json_decode($response->getBody(), true);
 
         if (422 === $statuscode && isset($body['message'])) {
-            return redirect()->back()->with('error', $body['message']);
+            return redirect()->back()->with('error', __('auth.'.str_replace(' ', '_',$body['message'])));
         }
 
         // get user by token

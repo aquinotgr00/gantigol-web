@@ -15,5 +15,5 @@ return [
 
     'failed' => 'These credentials do not match our records.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
-
+    'Account_does_not_exist'=>'Akun tidak temukan.',
 ];
