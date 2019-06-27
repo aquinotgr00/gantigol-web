@@ -33,7 +33,7 @@
                         </div>
                     </div>
 
-                    <a class="link-text" href="#">
+                    <a class="link-text" href="{{Route('homepage.reset')}}">
                         <p>Lupa Password?</p>
                     </a>
                 </form>

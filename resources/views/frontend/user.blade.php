@@ -28,7 +28,7 @@
         <div class="tab-content " id="nav-tabContent">
             <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                 @if (Session::has('success'))
-                <b>{{Session::get('success')}}</b><span></span>
+                <b class="text-success">{{Session::get('success')}}</b><span></span>
                 @endif
                 <form action="{{ route('member.update') }}" method="post">@csrf
                     <div class="row">

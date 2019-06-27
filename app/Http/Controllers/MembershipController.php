@@ -109,7 +109,7 @@ class MembershipController extends Controller
             ]
         ]);
         $response = json_decode($response->getBody());
-        return back()->with('success', 'Berhasil update data.');
+        return back()->with('success', 'Data berhasil diubah.');
     }
 
     public function signout(Request $request)
