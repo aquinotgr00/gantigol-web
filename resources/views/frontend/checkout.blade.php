@@ -11,7 +11,7 @@
         <hr>
         <div class="bs-example">
             @if (!Session::has('token') && !isset($user))
-                <form action="/signin" id="checkout-login-form" class="form d-none" method="POST">@csrf
+                <form action="/signin" id="checkout-login-form" class="form  @if (session('error')) @else d-none @endif" method="POST">@csrf
                     <input type="text" name="cart_session" id="cartSession" class="d-none" value="valuee">
                     <p><a href="#" class="checkout_login_btn"><u>Kembali</u></a></p>
                     @if (session('error'))
@@ -39,7 +39,7 @@
                 </form>
             @endif
 
-            <div class="register_form_group">
+            <div class="register_form_group @if (session('error')) d-none @endif">
                 @if (!Session::has('token') && !isset($user))
                     <p>
                         Sudah punya akun?<a href="#" class="checkout_login_btn"><u class="ml-2">LOGIN</u></a>
