@@ -40,6 +40,12 @@
 @section('script')
 <script>
     $(document).ready(function () {
+        $.validator.addMethod("customemail", 
+            function(value, element) {
+                return  /^([a-zA-Z0-9_.\-+])+\@(([a-zA-Z0-9-])+.)+([a-zA-Z0-9]{2,4})+$/.test(value)
+            }, 
+            "Format email salah."
+        );
         $('#reset-form').validate({
             highlight: function(element, errorClass) {
                 $(element).addClass('is-invalid');
@@ -50,7 +56,8 @@
             rules: {
                 email: {
                     required: true,
-                    email: true
+                    email: true,
+                    customemail:true
                 }
             }
         })
