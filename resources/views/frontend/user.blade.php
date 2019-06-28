@@ -40,6 +40,7 @@
                             <div class="form-group">
                                 <label for="exampleInputPassword1">NAMA PENGGUNA</label>
                                 <input class="form-control" name="username" type="text" value="{{ $user->username }}" readonly>
+                                <label for="username" generated="true" class="error invalid-feedback"></label>
                             </div>
                         </div>
                     </div>
@@ -48,12 +49,14 @@
                             <div class="form-group">
                                 <label for="exampleInputPassword1">EMAIL</label>
                                 <input type="email" name="email" class="form-control" disabled value="{{ $user->email }}">
+                                <label for="email" generated="true" class="error invalid-feedback"></label>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="exampleInputPassword1">TELEPON</label>
-                                <input type="number" name="phone" class="form-control"disabled value="{{ $user->phone }}"">
+                                <input type="number" name="phone" class="form-control"disabled value="{{ $user->phone }}">
+                                <label for="phone" generated="true" class="error invalid-feedback"></label>
                             </div>
                         </div>
                     </div>
@@ -63,6 +66,7 @@
                                 <label for="exampleInputPassword1">TANGGAL LAHIR</label>
                                 <div class="form-group">
                                     <input type="date" name="dob" class="form-control" id="exampleInputPassword1" value="{{ $user->dob }}">
+                                    <label for="dob" generated="true" class="error invalid-feedback"></label>
                                 </div>
                             </div>
                         </div>
@@ -75,6 +79,7 @@
                                         <option value="male" @if ($user->gender == 'male') selected="selected" @endif>LAKI-LAKI</option>
                                         <option value="female" @if ($user->gender == 'female') selected="selected" @endif>PEREMPUAN</option>
                                     </select>
+                                    <label for="sel1" generated="true" class="error invalid-feedback"></label>
                                 </div>
                             </div>
                         </div>
@@ -84,6 +89,7 @@
                             <div class="form-group">
                                 <label for="exampleInputEmail1">ALAMAT</label>
                                 <input type="text" name="address" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{ $user->address }}">
+                                <label for="address" generated="true" class="error invalid-feedback"></label>
                             </div>
                         </div>
                     </div>
@@ -93,12 +99,14 @@
                                 <label for="exampleInputPassword1">KECAMATAN</label>
                                 <input type="text" class="form-control" id="subdistrict_text" value="{{ $user->subdistrict }}">
                                 <input type="text" name="subdistrict" class="d-none" id="subdistrict_value" value="{{ $user->subdistrict }}">
+                                <label for="subdistrict_text" generated="true" class="error invalid-feedback"></label>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="exampleInputPassword1">KOTA</label>
                                 <input type="text" name="city" class="form-control" id="city" value="{{ $user->city }}">
+                                <label for="city" generated="true" class="error invalid-feedback"></label>
                             </div>
                         </div>
                     </div>
@@ -107,12 +115,14 @@
                             <div class="form-group">
                                 <label for="exampleInputPassword1">PROVINSI</label>
                                 <input type="text" name="province" class="form-control" id="province" value="{{ $user->province }}">
+                                <label for="province" generated="true" class="error invalid-feedback"></label>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="exampleInputPassword1">POS</label>
                                 <input type="text" name="postal_code" class="form-control" id="postal_code" value="{{ $user->postal_code }}">
+                                <label for="postal_code" generated="true" class="error invalid-feedback"></label>
                             </div>
                         </div>
                         <div class="col-12">
