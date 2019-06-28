@@ -60,6 +60,24 @@ class ProductController extends Controller
         return view('frontend.product', compact('data','related'));
     }
 
+    public function getProducts(Request $request)
+    {
+        $response = $this->client->get('api-product/items');
+        $products = json_decode($response->getBody());
+
+        $term = $request->data['term'];
+        if ($term === 'asc' || $term === 'desc') {
+            $response = $this->client->get('api-product/items?price='.$term);
+            $products = json_decode($response->getBody());
+        } else if ($term === 'latest') {
+            $response = $this->client->get('api-product/items-latest');
+            $products = json_decode($response->getBody());
+        }
+
+        $view = view('frontend.product-ajax',compact('products'))->render();
+        return response()->json(['html'=>$view]);
+    }
+
     public function getNextPageProducts($page)
     {
         $response = $this->client->get('api-product/items?page='.$page);

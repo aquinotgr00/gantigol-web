@@ -12,10 +12,10 @@
             <div class="dropdown">
                 <div class="form-group">
                     <select name="sortBy" id="sortBy" class="gantigoal-select">
-                        <option>Sort By</option>
-                        <option>Latest</option>
-                        <option>Lowest Price First</option>
-                        <option>Highest Price First</option>
+                        <option value="null">Sort By</option>
+                        <option value="latest">Latest</option>
+                        <option value="asc">Lowest Price First</option>
+                        <option value="desc">Highest Price First</option>
                     </select>
                 </div>
             </div>
@@ -150,6 +150,20 @@
 
 <script>
     $(document).ready(function () {
+        $('#sortBy').change(el => {
+            $.get('api/products/index', {
+                data: {
+                    term: $(el.target).val()
+                },
+                beforeSend: () => {
+                    $('.ajax-load').show()
+                }
+            }).done(res => {
+                $('.ajax-load').hide()
+                $('#product-list').empty()
+                $('#product-list').append(res.html)
+            })
+        })
         // let height = $(window).height()
         // let productHeight = 1200
         // let lazyLoaded = 1
@@ -162,35 +176,35 @@
         var page = 1;
         $(window).scroll(function() {
             if($(window).scrollTop() + $(window).height() >= $(document).height()) {
-                page++;
-                loadMoreData(page);
+                page++
+                loadMoreData(page)
             }
-        });
+        })
 
         function loadMoreData(page){
             $.ajax(
                 {
                     url: 'products/page/' + page,
-                    type: "get",
+                    type: 'get',
                     beforeSend: function()
                     {
-                        $('.ajax-load').show();
+                        $('.ajax-load').show()
                     }
                 })
                 .done(function(data)
                 {
                     if(data.html == " "){
-                        $('.ajax-load').html("<p class='text-center nomore-products'>No more products found.</p>");
+                        $('.ajax-load').html("<p class='text-center nomore-products'>Tidak ada produk lagi.</p>")
                         return;
                     }
-                    $('.ajax-load').hide();
-                    $("#product-list").append(data.html);
+                    $('.ajax-load').hide()
+                    $('#product-list').append(data.html)
                 })
                 .fail(function(jqXHR, ajaxOptions, thrownError)
                 {
-                    alert('server not responding...');
+                    alert('server not responding...')
                 }
-            );
+            )
         }
     })
 </script>
