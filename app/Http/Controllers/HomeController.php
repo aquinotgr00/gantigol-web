@@ -137,7 +137,7 @@ class HomeController extends Controller
         return view('frontend.info', compact('categoryName'));
     }
     
-    public function thanks()
+    public function thanks(Request $request)
     {   
         $categoryName = null;
         if ($request->session()->has('group')) {
