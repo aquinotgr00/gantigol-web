@@ -211,8 +211,24 @@ class CartController extends Controller
 
     public function applyPromo(Request $request)
     {
-        $response = $this->client->get('api/promos/promo/'.$request->promo);
-        $response = json_decode($response->getBody());
+        $promo = $this->client->get('api/promos/promo/'.$request->promo, [
+            'headers' => [
+                'Accept' => 'application/json'
+            ]
+        ]);
+        $promo = json_decode($promo->getBody());
+        $response = [
+            'message' => 'invalid promo',
+            'reward' => 0,
+            'min_payment' => 0
+        ];
+        if (isset($promo->reward)) {
+            $response = [
+                'message' => 'success',
+                'reward' => $promo->reward,
+                'min_payment' => $promo->data[0]
+            ];
+        }
         return response()->json($response);
     }
 

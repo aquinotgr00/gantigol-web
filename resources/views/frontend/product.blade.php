@@ -81,6 +81,7 @@
                                     @endif
                                 @endforeach
                             </div>
+                            <label for="preorder" generated="true" class="error invalid-feedback">Silahkan pilih varian produk.</label>
                             <br>
                             <button type="button" id="sizeChartBtn" data-toggle="modal" data-target="#size_chart_modal" class="btn btn-outline-dark col-8"
                                 @if ($data->data->category->size_chart == null)
@@ -108,7 +109,7 @@
                                         <option data-max="{{$item->quantity_on_hand}}" value="{{$item->id}}">{{$item->variant}}</option>
                                     @endforeach
                                 </select>
-                                <label for="name" generated="true" class="error invalid-feedback">Silahkan pilih variant Produk.</label>
+                                <label for="name" generated="true" class="error invalid-feedback">Silahkan pilih varian produk.</label>
                             </div>
                         @endif
                         <div class="row col-9 size">
@@ -120,7 +121,7 @@
                                     <input type="button" value="-" class="minus"><input type="number" step="1" min="1" max="{{$data->data->variants[0]->quantity_on_hand}}" name="quantity" value="1" title="Qty" class="input-text qty text" size="4" id="quantity"><input type="button" value="+" class="plus">
                                 @endif
                             </div>
-                            <label for="name" generated="true" class="error qty-invalid-feedback invalid-feedback">Jumlah tidak boleh 0.</label>
+                            <label for="name" generated="true" class="error qty-invalid-feedback invalid-feedback">Quantity tidak boleh kosong.</label>
                         </div>
                         <br>
                         <button type="button" id="sizeChartBtn" data-toggle="modal" data-target="#size_chart_modal" class="btn btn-outline-dark promo-apply-btn col-lg-8"

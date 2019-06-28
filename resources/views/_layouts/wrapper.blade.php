@@ -430,6 +430,9 @@
                             hideEmptyEle(false)
                         }
                         $(this).closest('.simpleCart_items').remove()
+                        // update cart counter
+                        let count = parseInt($('#cart-counter').html())
+                        $('#cart-counter').html(count-1)
                         @if (Request::is('checkout'))
                             $(`#checkout-item-${id}`).remove()
                         @endif
@@ -505,14 +508,19 @@
                         items.push(itemObj)
                     }
                 })
+                if (!contained) {
+                    $('label[for=preorder]').css('display', 'block')
+                    return;
+                }
                 if (contained) {
+                    $('label[for=preorder]').css('display', 'none')
                     let session = getBrowserSession()
                     items.map(item => {
                         storeItem(item.id, item.quantity, session)
                     })
                     setTimeout(() => {
                         window.location = '/checkout-preorder'
-                    }, 3000)
+                    }, 2000)
                 }
             }
 
@@ -636,6 +644,7 @@
                 } else if (!hide) {
                     $('.empty_cart').css('display', 'block')
                     $('.simpleCart_checkout').css('display', 'none')
+                    $('#cart-counter').css('display', 'none')
                 }
             }
 

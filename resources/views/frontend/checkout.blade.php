@@ -11,7 +11,7 @@
         <hr>
         <div class="bs-example">
             @if (!Session::has('token') && !isset($user))
-                <form action="/signin" id="checkout-login-form" class="form  @if (session('error')) @else d-none @endif" method="POST">@csrf
+                <form action="/signin" id="checkout-login-form" class="form @if (session('error')) @else d-none @endif" method="POST">@csrf
                     <input type="text" name="cart_session" id="cartSession" class="d-none" value="valuee">
                     <p><a href="#" class="checkout_login_btn"><u>Kembali</u></a></p>
                     @if (session('error'))
@@ -228,7 +228,7 @@
                                         <option value="tiki">TIKI</option>
                                         <option value="jnt">J&T</option>
                                     </select>
-                                    <label for="courier" generated="true" class="error invalid-feedback">This field is required.</label>
+                                    <label for="courier" generated="true" class="error invalid-feedback">Wajib diisi.</label>
                                 </div>
                             </div>
                         </div>
@@ -405,6 +405,10 @@
             $('#checkout-login-form').toggleClass('d-none')
             $('.register_form_group').toggleClass('d-none')
         })
+        @if(session()->has('error'))
+            $('#checkout-login-form').removeClass('d-none')
+            $('.register_form_group').addClass('d-none')
+        @endif
 
         $('#checkout-login-form').validate({
             highlight: function(element, errorClass) {
@@ -498,14 +502,10 @@
             let reward = 0
             if ($('#promo-code').val() === '') {
                 $('#promo-code').addClass('is-invalid')
-                $('.promo-error').addClass('d-block')
+                $('.promo-error').html('Silahkan Masukan Kode Promo')
                 return;
             }
             if (!promoApplied && $('#promo-code').val() !== '') {
-                $('#promo-code').removeClass('is-invalid')
-                $('.promo-error').removeClass('d-block')
-                $('#promo-code-btn').html('BATALKAN')
-                $('#promo-code').attr('disabled', true)
                 let promo = $('input[name=promo-code]').val()
                 $.ajax({
                     url: '/api/carts/apply-promo',
@@ -514,6 +514,20 @@
                         promo: promo
                     },
                     success: res => {
+                        if (res.message == 'invalid promo') {
+                            $('#promo-code').addClass('is-invalid')
+                            $('.promo-error').html('Promo yang anda masukan tidak valid.')
+                            return;
+                        }
+                        else if (beforeDiscount < res.min_payment) {
+                            $('#promo-code').addClass('is-invalid')
+                            $('.promo-error').html('Anda belum memenuhi syarat promo ini.')
+                            return;
+                        }
+                        $('#promo-code').removeClass('is-invalid')
+                        $('.promo-error').removeClass('d-block')
+                        $('#promo-code-btn').html('BATALKAN')
+                        $('#promo-code').attr('disabled', true)
                         reward = res.reward
                         $('#discount').val(reward)
                         $('.discount_text').html(formatRupiah(reward))
