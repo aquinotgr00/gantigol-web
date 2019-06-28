@@ -76,6 +76,7 @@ class HomeController extends Controller
         $request->validate([
             'email' => 'required|email',
         ]);
+        return $request->email;
         $response = $this->client->post('auth/password/change', [
             'form_params' => $request->all()
         ]);
