@@ -70,7 +70,7 @@ class ProductController extends Controller
             $response = $this->client->get('api-product/items?price='.$term);
             $products = json_decode($response->getBody());
         } else if ($term === 'latest') {
-            $response = $this->client->get('api-product/items-latest');
+            $response = $this->client->get('api-product/items-latest?limit=999');
             $products = json_decode($response->getBody());
         }
 

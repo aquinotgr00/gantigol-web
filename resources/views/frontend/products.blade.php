@@ -156,11 +156,11 @@
                     term: $(el.target).val()
                 },
                 beforeSend: () => {
+                    $('#product-list').empty()
                     $('.ajax-load').show()
                 }
             }).done(res => {
                 $('.ajax-load').hide()
-                $('#product-list').empty()
                 $('#product-list').append(res.html)
             })
         })
