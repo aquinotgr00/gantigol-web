@@ -19,7 +19,7 @@
                     @endif
                     <div class="form-group">
                         <label for="username">EMAIL</label>
-                        <input type="email" name="username" class="form-control" id="username" placeholder="Email">
+                        <input type="email" name="username" class="form-control" id="username" placeholder="EMAIL">
                         <label for="username" generated="true" class="error invalid-feedback"></label>
                     </div>
                     <div class="form-group">
@@ -70,8 +70,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="phone">PHONE</label>
-                        <input type="number" name="phone" id="phone" placeholder="phone" class="form-control"
+                        <label for="phone">TELEPON</label>
+                        <input type="number" name="phone" id="phone" placeholder="Telepon" class="form-control"
                                 @if(isset($user))
                                     readonly
                                     value="{{ $user->phone }}"
@@ -80,8 +80,8 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" class="form-control" name="email" id="email" placeholder="email"
+                        <label for="email">EMAIL</label>
+                        <input type="email" class="form-control" name="email" id="email" placeholder="Email"
                                 @if(isset($user))
                                     value="{{ $user->email }}"
                                     readonly

@@ -479,6 +479,9 @@
                     },
                     success: res => {
                         updateTotal(res.total)
+                        // update cart counter
+                        let count = parseInt($('#cart-counter').html())
+                        $('#cart-counter').html(count-1)
                         if (res.amount_items == 0) {
                             hideEmptyEle(false)
                         }
