@@ -2,6 +2,7 @@
 
     Route::get('/', 'HomeController@index')->middleware('sidebar')->name('homepage');
     Route::post('search', 'HomeController@search')->name('homepage.search');
+    Route::get('search', function () { return redirect('/'); });
     Route::get('thanks', 'HomeController@thanks')->name('homepage.thanks');
     Route::get('reset', 'HomeController@reset')->name('homepage.reset');
     Route::post('reset', 'HomeController@postReset')->name('homepage.post-reset');

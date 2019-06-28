@@ -15,6 +15,9 @@ class CartController extends Controller
             'base_uri' => env('API_URL'),
             'timeout' => '10',
             'http_errors' => false,
+            'headers' => [
+                'Accept' => 'application/json'
+            ]
         ]);
     }
 
