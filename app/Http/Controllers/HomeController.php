@@ -62,6 +62,7 @@ class HomeController extends Controller
         }
 
         return redirect('/thanks')->with([
+            'group'=>'Reset',
             'messages.heading' => '',
             'messages.body' => 'Silahkan mengikuti instruksi selanjutnya melalui email.'
         ]);
@@ -137,8 +138,13 @@ class HomeController extends Controller
     }
     
     public function thanks()
-    {
-        return view('frontend.thanks')->with([
+    {   
+        $categoryName = null;
+        if ($request->session()->has('group')) {
+        $categoryName = $request->session()->get('group');
+        }
+        
+        return view('frontend.thanks',compact('categoryName'))->with([
             'messages.heading' => 'TELAH MELAKUKAN PEMESANAN!',
             'messages.body' => 'this is body'
         ]);
