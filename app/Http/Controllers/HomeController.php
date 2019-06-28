@@ -58,8 +58,10 @@ class HomeController extends Controller
                 'url_act' => env('APP_URL').'/reset-password',
             ]
         ]);
-        $data = json_decode($response->getBody());
-        
+        $statuscode = $response->getStatusCode();
+        if (422 === $statuscode ) {
+                return redirect('/')->with('error', "Format email tidak benar.");
+            }
         if (isset($data->data->message)) {
             return back()->with('error', 'Email tidak ditemukan.');
         }
