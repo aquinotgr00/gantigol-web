@@ -12,19 +12,19 @@
         <div class="bs-example">
             @if (!Session::has('token') && !isset($user))
                 <form action="/signin" id="checkout-login-form" class="form @if (session('error')) @else d-none @endif" method="POST">@csrf
-                    <input type="text" name="cart_session" id="cartSession" class="d-none" value="valuee">
+                    <input type="text" name="cart_session" class="d-none" value="valuee">
                     <p><a href="#" class="checkout_login_btn"><u>Kembali</u></a></p>
                     @if (session('error'))
                         <span class="text-danger">{{ session('error') }}</span>
                     @endif
                     <div class="form-group">
                         <label for="username">EMAIL</label>
-                        <input type="email" name="username" class="form-control" id="username" placeholder="EMAIL">
+                        <input type="email" name="username" class="form-control" id="username_checkout" placeholder="EMAIL">
                         <label for="username" generated="true" class="error invalid-feedback"></label>
                     </div>
                     <div class="form-group">
                         <label for="password">PASSWORD</label>
-                        <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+                        <input type="password" name="password" class="form-control" id="password_checkout" placeholder="Password">
                         <label for="password" generated="true" class="error invalid-feedback"></label>
                     </div>
                     <div class="form-group">
@@ -81,7 +81,7 @@
                     
                     <div class="form-group">
                         <label for="email">EMAIL</label>
-                        <input type="email" class="form-control" name="email" id="email" placeholder="Email"
+                        <input type="email" class="form-control" name="email" id="email_guest" placeholder="Email"
                                 @if(isset($user))
                                     value="{{ $user->email }}"
                                     readonly
@@ -326,8 +326,8 @@
 <script>
     $(document).ready(function () {
         $.extend($.validator.messages, {
-            required: "Wajib diisi."
-        });
+            required: 'Wajib diisi.'
+        })
         $.validator.addMethod( "phoneID", function( value, element ) {
             return this.optional( element ) || /^((?:\+62|62)|0)[2|8]{1}[0-9]+$/g.test( value );
         }, "Masukan nomor telepon yang valid." )

@@ -209,9 +209,9 @@
                 <form method="POST" action="/signin" accept-charset="UTF-8">@csrf
                     <div class="youraccount">
                         <label for="email" class="italics">Email Address :</label>
-                        <input class="italics" name="username" type="email" id="email">
+                        <input class="italics" name="username" type="email">
                         <label for="password" class="italics">Password :</label>
-                        <input name="password" type="password" value="" id="password">
+                        <input name="password" type="password">
                     </div>
                     <div class="youraccount">
                         <a href="/reset" class="forgot-password-nav pull-right text-dark">Forgot your password?</a>
