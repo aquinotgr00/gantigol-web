@@ -60,7 +60,7 @@ class HomeController extends Controller
         ]);
         $statuscode = $response->getStatusCode();
         if (422 === $statuscode ) {
-                return redirect('/')->with('error', "Format email tidak benar.");
+                return back()->with('error', "Format email tidak benar.");
             }
         if (isset($data->data->message)) {
             return back()->with('error', 'Email tidak ditemukan.');
