@@ -73,6 +73,9 @@ class HomeController extends Controller
     }
     public function postResetForm(Request $request)
     {
+        $request->validate([
+            'email' => 'required|email',
+        ]);
         $response = $this->client->post('auth/password/change', [
             'form_params' => $request->all()
         ]);
