@@ -30,7 +30,7 @@
                 @if (Session::has('success'))
                 <b class="text-success">{{Session::get('success')}}</b><span></span>
                 @endif
-                <form action="{{ route('member.update') }}" method="post">@csrf
+                <form action="{{ route('member.update') }}" id="update-form" method="post">@csrf
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group">
@@ -40,6 +40,7 @@
                             <div class="form-group">
                                 <label for="exampleInputPassword1">NAMA PENGGUNA</label>
                                 <input class="form-control" name="username" type="text" value="{{ $user->username }}" readonly>
+                                <label for="username" generated="true" class="error invalid-feedback"></label>
                             </div>
                         </div>
                     </div>
@@ -48,12 +49,14 @@
                             <div class="form-group">
                                 <label for="exampleInputPassword1">EMAIL</label>
                                 <input type="email" name="email" class="form-control" disabled value="{{ $user->email }}">
+                                <label for="email" generated="true" class="error invalid-feedback"></label>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="exampleInputPassword1">TELEPON</label>
-                                <input type="number" name="phone" class="form-control"disabled value="{{ $user->phone }}"">
+                                <input type="number" name="phone" class="form-control"disabled value="{{ $user->phone }}">
+                                <label for="phone" generated="true" class="error invalid-feedback"></label>
                             </div>
                         </div>
                     </div>
@@ -63,6 +66,7 @@
                                 <label for="exampleInputPassword1">TANGGAL LAHIR</label>
                                 <div class="form-group">
                                     <input type="date" name="dob" class="form-control" id="exampleInputPassword1" value="{{ $user->dob }}">
+                                    <label for="dob" generated="true" class="error invalid-feedback"></label>
                                 </div>
                             </div>
                         </div>
@@ -75,6 +79,7 @@
                                         <option value="male" @if ($user->gender == 'male') selected="selected" @endif>LAKI-LAKI</option>
                                         <option value="female" @if ($user->gender == 'female') selected="selected" @endif>PEREMPUAN</option>
                                     </select>
+                                    <label for="sel1" generated="true" class="error invalid-feedback"></label>
                                 </div>
                             </div>
                         </div>
@@ -84,6 +89,7 @@
                             <div class="form-group">
                                 <label for="exampleInputEmail1">ALAMAT</label>
                                 <input type="text" name="address" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{ $user->address }}">
+                                <label for="address" generated="true" class="error invalid-feedback"></label>
                             </div>
                         </div>
                     </div>
@@ -93,12 +99,14 @@
                                 <label for="exampleInputPassword1">KECAMATAN</label>
                                 <input type="text" class="form-control" id="subdistrict_text" value="{{ $user->subdistrict }}">
                                 <input type="text" name="subdistrict" class="d-none" id="subdistrict_value" value="{{ $user->subdistrict }}">
+                                <label for="subdistrict_text" generated="true" class="error invalid-feedback"></label>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="exampleInputPassword1">KOTA</label>
                                 <input type="text" name="city" class="form-control" id="city" value="{{ $user->city }}">
+                                <label for="city" generated="true" class="error invalid-feedback"></label>
                             </div>
                         </div>
                     </div>
@@ -107,12 +115,14 @@
                             <div class="form-group">
                                 <label for="exampleInputPassword1">PROVINSI</label>
                                 <input type="text" name="province" class="form-control" id="province" value="{{ $user->province }}">
+                                <label for="province" generated="true" class="error invalid-feedback"></label>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="exampleInputPassword1">POS</label>
                                 <input type="text" name="postal_code" class="form-control" id="postal_code" value="{{ $user->postal_code }}">
+                                <label for="postal_code" generated="true" class="error invalid-feedback"></label>
                             </div>
                         </div>
                         <div class="col-12">
@@ -205,6 +215,40 @@
 
 @section('script')
 <script>
+    $.extend($.validator.messages, {
+            required: "Wajib diisi."
+        });
+     // add the custom rule here
+    $.validator.addMethod("valueNotEquals", function(value, element, arg){
+        return arg !== value;
+    }, "Wajib diisi.")
+    jQuery.validator.addMethod("nowhitespace", function(value, element) {
+        return this.optional(element) || /^\S+$/i.test(value);
+    }, "Tidak boleh ada spasi")
+    jQuery.validator.addMethod("alphanumeric", function(value, element) {
+        return this.optional(element) || /^\w+$/i.test(value);
+    }, "Hanya boleh huruf, angka, spasi atau underscore.")
+    $.validator.addMethod( "phoneID", function( value, element ) {
+        // return this.optional( element ) || /^\+?([ -]?\d+)+|\(\d+\)([ -]\d+)$/.test( value );
+        return this.optional( element ) || /^((?:\+62|62)|0)[2|8]{1}[0-9]+$/g.test( value );
+    }, "Masukan nomor telepon yang valid" )
+    $.validator.addMethod("minAge", function(value, element, min) {
+        var today = new Date()
+        var birthDate = new Date(value)
+        var age = today.getFullYear() - birthDate.getFullYear()
+    
+        if (age > min+1) {
+            return true
+        }
+    
+        var m = today.getMonth() - birthDate.getMonth()
+    
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+            age--
+        }
+    
+        return age >= min
+    }, "Kamu belum cukup umur!")
     $(document).ready(function () {
         $( "#subdistrict_text" ).autocomplete({
             source: "/api/subdistrict",
@@ -214,6 +258,44 @@
                 $('#city').val(ui.item.city)
                 $('#province').val(ui.item.province)
                 $('#postal_code').val(ui.item.postal_code)
+            }
+        });
+
+        $('#update-form').validate({
+            highlight: function(element, errorClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function(element, errorClass) {
+                $(element).removeClass('is-invalid');
+            },
+            rules: {
+                name: 'required',
+                username: {
+                    required: true,
+                    alphanumeric: true,
+                    nowhitespace: true
+                },
+                email: {
+                    required: true,
+                    email: true
+                },
+                phone: {
+                    required: true,
+                    minlength: 10,
+                    phoneID: true
+                },
+                gender: {
+                    valueNotEquals: 'null'
+                },
+                dob: {
+                    required: true,
+                    minAge: 16
+                },
+                address: 'required',
+                subdistrict_text: 'required',
+                city: 'required',
+                province: 'required',
+                postal_code: 'required',
             }
         });
     })

@@ -48,20 +48,26 @@ class HomeController extends Controller
         return view('frontend.reset-password');
     }
     public function postReset(Request $request)
-    {
+    {   
+        $request->validate([
+            'email' => 'required|email',
+        ]);
         $response = $this->client->post('auth/password/reset', [
             'form_params' => [
                 'email' => $request->email,
                 'url_act' => env('APP_URL').'/reset-password',
             ]
         ]);
-        $data = json_decode($response->getBody());
-        
+        $statuscode = $response->getStatusCode();
+        if (422 == $statuscode ) {
+                return back()->with('error', "Format email tidak benar.");
+            }
         if (isset($data->data->message)) {
             return back()->with('error', 'Email tidak ditemukan.');
         }
 
         return redirect('/thanks')->with([
+            'group'=>'Reset',
             'messages.heading' => '',
             'messages.body' => 'Silahkan mengikuti instruksi selanjutnya melalui email.'
         ]);
@@ -136,9 +142,14 @@ class HomeController extends Controller
         return view('frontend.info', compact('categoryName'));
     }
     
-    public function thanks()
-    {
-        return view('frontend.thanks')->with([
+    public function thanks(Request $request)
+    {   
+        $categoryName = null;
+        if ($request->session()->has('group')) {
+        $categoryName = $request->session()->get('group');
+        }
+        
+        return view('frontend.thanks',compact('categoryName'))->with([
             'messages.heading' => 'TELAH MELAKUKAN PEMESANAN!',
             'messages.body' => 'this is body'
         ]);

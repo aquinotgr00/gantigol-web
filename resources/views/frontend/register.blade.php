@@ -160,20 +160,23 @@
 
 @section('script')
 <script>
+    $.extend($.validator.messages, {
+            required: "Wajib diisi."
+        });
      // add the custom rule here
     $.validator.addMethod("valueNotEquals", function(value, element, arg){
         return arg !== value;
-    }, "Value must not equal null.")
+    }, "Wajib diisi.")
     jQuery.validator.addMethod("nowhitespace", function(value, element) {
         return this.optional(element) || /^\S+$/i.test(value);
-    }, "No white space please")
+    }, "Tidak boleh ada spasi")
     jQuery.validator.addMethod("alphanumeric", function(value, element) {
         return this.optional(element) || /^\w+$/i.test(value);
-    }, "Letters, numbers, spaces or underscores only please")
+    }, "Hanya boleh huruf, angka, spasi atau underscore.")
     $.validator.addMethod( "phoneID", function( value, element ) {
         // return this.optional( element ) || /^\+?([ -]?\d+)+|\(\d+\)([ -]\d+)$/.test( value );
         return this.optional( element ) || /^((?:\+62|62)|0)[2|8]{1}[0-9]+$/g.test( value );
-    }, "Please specify a valid phone number." )
+    }, "Masukan nomor telepon yang valid" )
     $.validator.addMethod("minAge", function(value, element, min) {
         var today = new Date()
         var birthDate = new Date(value)
