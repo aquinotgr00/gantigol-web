@@ -162,15 +162,15 @@ class CartController extends Controller
         return response()->json($response);
     }
 
-    public function getItems(Request $request, $id, $checked = false)
+    public function getItems(Request $request, $id)
     {
         $url = 'api-ecommerce/cart/'. $id . '?session='. $request->session;
-        // if ($checked) {
-        //     $url = 'api-ecommerce/cart-checked/'. $id;
-        // }
         $response = $this->client->get($url);
         $data = json_decode($response->getBody());
-        return response()->json($data);
+        if ($data->data->session === $request->session) {
+            return response()->json($data);
+        }
+        return abort(404);
     }
 
     public function update(Request $request, $id)
