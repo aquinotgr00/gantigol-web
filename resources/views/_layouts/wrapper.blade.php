@@ -677,13 +677,13 @@
                             `<div id="checkout-item-${item.id}" class="checkout-list-items">` +
                                 '<hr class="hr-light top-line">' +
                                 '<div class="row barang">' +
-                                    '<div class="col-lg-7">' +
-                                        '<div style="float:left;width:25%;">' +
+                                    '<div class="col-lg-7 col-4">' +
+                                        '<div class="checkout_img_wrapper">' +
                                             `<img class="outline" src="${item.product_variant.product.image}" style="width:100%;" />` +
                                         '</div>' +
                                         '<div class="detil-barang">' +
                                             '<div>' +
-                                                `<span class="judul-barang">${item.product_variant.product.name}</span>` +
+                                                `<span class="judul-barang d-none d-sm-flex">${item.product_variant.product.name}</span>` +
                                             '</div>' +
                                             '<div>' +
                                                 '<span class="judul-barang">HARGA  </span>' +
@@ -699,15 +699,15 @@
                                             '</div>' +
                                         '</div>' +
                                     '</div>' +
-                                    '<div class="col-lg-1">' +
+                                    '<div class="col-lg-1 col-2">' +
                                         '<div>' +
                                             '<div class="diskon">0%</div>' +
                                         '</div>' +
                                     '</div>' +
-                                    '<div class=" col-lg-3">' +
+                                    '<div class="col-lg-3 col-4">' +
                                         `<div class="harga">Rp. ${formatRupiah(item.qty*item.price)}</div>` +
                                     '</div>' +
-                                    '<div class="col-lg-1">' +
+                                    '<div class="col-1">' +
                                         `<a href="#" class="far fa-trash-alt fa-sm barang deleteModal" data-toggle="modal" data-target="#deleteItemModal" data-qty="${item.qty}" data-price="${item.price}" data-id="${item.id}"> </a>` +
                                     '</div>' +
                                 '</div>' +

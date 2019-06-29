@@ -1214,6 +1214,10 @@ div.dropdown-cart {
   max-height: 681px;
   overflow-y: scroll;
 }
+div.checkout_img_wrapper {
+  float: left;
+  width: 25%;
+}
 
 /* MOBILE RESPONSIVE */
 @media only screen and (max-width: 475px) {
@@ -1251,6 +1255,11 @@ div.dropdown-cart {
   div.modal_size_chart { top: 12%; }
   i.fa-trash-alt:before { color: #000; }
   img.single-post-image { height: unset; }
+  div.checkout_img_wrapper {
+    width: 100%;
+  }
+  div.diskon, div.harga { margin-left: 0; }
+  a.barang::before { margin-top: 82px; }
 }
 
 /* end of additional from aqn */

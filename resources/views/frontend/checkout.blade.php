@@ -154,13 +154,13 @@
         <h4 class="section-header_title">PRODUK PILIHAN</h4>
         <hr>
         <div class="row">
-            <div class="col-lg-7">
+            <div class="col-lg-7 col-4">
                 <label>PRODUK</label>
             </div>
-            <div class="col-lg-1 ">
+            <div class="col-lg-1 col-2">
                 <label>DISKON</label>
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-3 col-4">
                 <label>SUB-TOTAL</label>
             </div>
         </div>
@@ -171,8 +171,8 @@
                     <div id="checkout-item-${item.id}" class="checkout-list-items">
                         <hr class="hr-light top-line">
                         <div class="row barang">
-                            <div class="col-7">
-                                <div style="float:left;width:25%;">
+                            <div class="col-lg-7 col-4">
+                                <div class="checkout_img_wrapper">
                                     <img class="outline" src="{{$value->data->image}}" style="width:100%;" />
                                 </div>
                                 <div class="detil-barang">
@@ -193,12 +193,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-1">
+                            <div class="col-lg-1 col-2">
                                 <div>
                                     <div class="diskon">0%</div>
                                 </div>
                             </div>
-                            <div class=" col-3">
+                            <div class="col-lg-3 col-4">
                                 <div class="harga">Rp. 0</div>
                             </div>
                             <div class="col-1">
@@ -216,54 +216,52 @@
             <div class="col-12">
                 <label>KURIR</label>
                 <hr class="hr-light top-line">
-                <form action="#" method="post" id="courier-form">
-                    <div class="row">
-                        <div class="col-4 kurir">
-                            <div class="dropdown">
-                                <div class="form-group">
-                                    <select class="form-control gantigoal-select" name="courier" id="courier">
-                                        <option value="null">Pilih Kurir</option>
-                                        <option value="jne">JNE</option>
-                                        <option value="pos">POS Indonesia</option>
-                                        <option value="tiki">TIKI</option>
-                                        <option value="jnt">J&T</option>
-                                    </select>
-                                    <label for="courier" generated="true" class="error invalid-feedback">Wajib diisi.</label>
-                                </div>
+                <div class="row">
+                    <div class="col-lg-4 kurir">
+                        <div class="dropdown">
+                            <div class="form-group">
+                                <select class="form-control gantigoal-select" name="courier" id="courier">
+                                    <option value="null">Pilih Kurir</option>
+                                    <option value="jne">JNE</option>
+                                    <option value="pos">POS Indonesia</option>
+                                    <option value="tiki">TIKI</option>
+                                    <option value="jnt">J&T</option>
+                                </select>
+                                <label for="courier" generated="true" class="error invalid-feedback">Wajib diisi.</label>
                             </div>
-                        </div>
-                        <div class="col-4 kurir">
-                            <div class="dropdown">
-                                <div class="form-group">
-                                    <input type="number" name="weight" id="weight" class="d-none">
-                                    <select class="gantigoal-select" name="courier_type" id="courier_type" disabled>
-                                        <option value=0>Jenis pengiriman</option>
-                                    </select>
-                                    <label for="courier_type" generated="true" class="error invalid-feedback"></label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            Rp. <span class="courier_fee">0</span>
-                        </div>
-                        <div class="col-12">
-                            <div class="row mt-0">
-                                <div class="col-12">
-                                    <hr class="hr-light top-line mt-2">
-                                </div>
-                                <div class=" col-4">
-                                    <div class="form-group">
-                                        <input class="form-control" id="promo-code" name="promo-code" type="text" placeholder="Masukkan Kode Kupon" >
-                                        <label for="promo-code" class="error invalid-feedback promo-error">Silahkan Masukan Kode Promo</label>
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <button type="button" id="promo-code-btn" class="btn btn-outline-dark promo-apply-btn col-12">GUNAKAN</button>
-                                </div>
-                            </div>     
                         </div>
                     </div>
-                </form>
+                    <div class="col-lg-4 kurir">
+                        <div class="dropdown">
+                            <div class="form-group">
+                                <input type="number" name="weight" id="weight" class="d-none">
+                                <select class="gantigoal-select" name="courier_type" id="courier_type" disabled>
+                                    <option value=0>Jenis pengiriman</option>
+                                </select>
+                                <label for="courier_type" generated="true" class="error invalid-feedback"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        Rp. <span class="courier_fee">0</span>
+                    </div>
+                    <div class="col-12">
+                        <div class="row mt-0">
+                            <div class="col-12">
+                                <hr class="hr-light top-line mt-2">
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <input class="form-control" id="promo-code" name="promo-code" type="text" placeholder="Masukkan Kode Kupon" >
+                                    <label for="promo-code" class="error invalid-feedback promo-error">Silahkan Masukan Kode Promo</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <button type="button" id="promo-code-btn" class="btn btn-outline-dark promo-apply-btn col-12">GUNAKAN</button>
+                            </div>
+                        </div>     
+                    </div>
+                </div>
                 <hr class="hr-light bottom-line" style="margin-top:1.5%;">
                 <div class="row">
                     <div class="col-8">
