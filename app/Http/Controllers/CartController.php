@@ -65,6 +65,16 @@ class CartController extends Controller
     {
         $shipping = [];
         parse_str($request->shipping, $shipping);
+        $discount = 0;
+        if ($shipping['promo'] !== '') {
+            $promo = $this->client->get('api/promos/promo/'.$shipping['promo'], [
+                'headers' => [
+                    'Accept' => 'application/json'
+                ]
+            ]);
+            $promo = json_decode($promo->getBody());
+            $discount = $promo->reward;
+        }
         if ($shipping['user_id'] == "") {
             $response = $this->client->post('api-ecommerce/cart-checkout', [
                 'form_params' => [
@@ -77,7 +87,7 @@ class CartController extends Controller
                     'shipping_subdistrict_id' => $shipping['subdistrict_id'],
                     'shipping_postal_code' => $shipping['postal_code'],
                     'shipment_name' => $shipping['shipment_name'],
-                    'discount' => $shipping['discount'],
+                    'discount' => $discount,
                 ]
             ]);
             if (isset($shipping['register_account']) && $shipping['register_account'] == 'on') {
@@ -113,7 +123,7 @@ class CartController extends Controller
                     'shipping_subdistrict_id' => $shipping['subdistrict_id'],
                     'shipping_postal_code' => $shipping['postal_code'],
                     'shipment_name' => $shipping['shipment_name'],
-                    'discount' => $shipping['discount'],
+                    'discount' => $discount,
                     'user_id' => $shipping['user_id']
                 ]
             ]);

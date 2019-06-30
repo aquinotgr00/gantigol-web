@@ -58,6 +58,7 @@
                     <input type="number" name="cost" id="shipping_cost" class="d-none">
                     <input type="text" name="shipment_name" id="shipment_name" class="d-none">
                     <input type="number" name="discount" id="discount" class="d-none" value="0">
+                    <input type="text" name="promo" class="d-none">
 
                     <div class="form-group">
                         <label for="exampleInputEmail1">NAMA</label>
@@ -505,6 +506,7 @@
             }
             if (!promoApplied && $('#promo-code').val() !== '') {
                 let promo = $('input[name=promo-code]').val()
+                $('input[name=promo]').val(promo)
                 $.ajax({
                     url: '/api/carts/apply-promo',
                     type: 'POST',
@@ -540,6 +542,7 @@
                 $('.discount_text').html(0)
                 $('#promo-code-btn').html('GUNAKAN')
                 $('#discount').val(0)
+                $('input[name=promo]').val('')
                 updateTotalCheckout()
                 promoApplied = false
             }
