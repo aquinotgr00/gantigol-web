@@ -536,43 +536,6 @@
                 return currentSession
             }
 
-            /**
-            function putItemToCart(items) {
-                const cartId = localStorage.getItem('cart_id')
-                $.ajax({
-                    url: '/api/carts/update/' + cartId,
-                    type: 'POST',
-                    data: {
-                        id: '{{ \Request::segment(3) }}',
-                        items: items,
-                    },
-                    success: function (res) {
-                        placeCartItems(res)
-                    }
-                })
-            }
-            function postItemToCart(items, session) {
-                $.ajax({
-                    url: '/api/carts/store',
-                    type: 'POST',
-                    data: {
-                        id: '{{ \Request::segment(3) }}',
-                        items: items,
-                        user_token: localStorage.getItem('user_token'),
-                        session: session
-                    },
-                    success: function (res) {
-                        if (localStorage.getItem('cart_id') === null) {
-                            localStorage.setItem('cart_id', res.data.id)
-                        }
-                        $('.dropdown-cart').toggleClass('show')
-                        putSessionWithLogin()
-                        getCartItems(res.data.id)
-                    }
-                })
-            }
-            **/
-
             function storeItem(id, qty, session) {
                 $.ajax({
                     url: '/api/carts/store',
