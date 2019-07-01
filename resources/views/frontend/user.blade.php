@@ -172,38 +172,50 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row mb-0">10000001</th>
-                            <td>16 Agustus 2019</td>
-                            <td>PROSES</td>
-                            <td >Rp. 180.000</td>
-                            <td><button type="button" class="btn btn-outline-dark col-8 float-right">DETAIL</button></td>
-                        </tr>
-                        <tr>
-                            <th scope="row mb-0">10000002</th>
-                            <td>16 Agustus 2019</td>
-                            <td>TERKIRIM</td>
-                            <td >Rp. 180.000</td>
-                            <td><button type="button" class="btn btn-outline-dark col-8 float-right">DETAIL</button></td>
-                        </tr>
-                        <tr>
-                            <th scope="row mb-0">10000003</th>
-                            <td>16 Agustus 2019</td>
-                            <td>TERKIRIM</td>
-                            <td >Rp. 180.000</td>
-                            <td><button class="btn btn-outline-dark col-8 float-right" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">DETAIL</button>
-                            </td>
-                        </tr>
-                        <tr  class="collapse" id="collapseExample">
-                            <td class="expand-table align-bottom">
-                                <img src="{{ asset('images\produk\tabel.png') }}">
-                                <span class="ml-3 mt-4 float-left">BAJU BOLA CHELSEA </span>
-                            </td>
-                            <td class="expand-table">SIZE:XL</td>
-                            <td class="expand-table">QTY:1</td>
-                            <td class="expand-table">Rp. 180.000</td>
-                            <td class="expand-table"></td>
-                        </tr>
+                        @foreach ($history->regular as $order)
+                            <tr>
+                                <th scope="row mb-0">{{$order->invoice_id}}</th>
+                                <td>{!! date_format(new DateTime($order->created_at),'d M')!!}</td>
+                                <td>{{$order->invoice_status}}</td>
+                                <td >Rp. {{ \AppHelper::instance()->rupiah($order->total_amount) }}</td>
+                                <td><button class="btn btn-outline-dark col-8 float-right" type="button" data-toggle="collapse" data-target="#collapse-{{$order->id}}" aria-expanded="false" aria-controls="collapse-{{$order->id}}">DETAIL</button>
+                                </td>
+                            </tr>
+                            @foreach ($order->items as $item)
+                            <tr class="collapse" id="collapse-{{$order->id}}">
+                                <td class="expand-table align-bottom">
+                                    <img src="{{ $item->product_variant->image }}">
+                                    <span class="ml-3 mt-4 float-left">{{$item->product_variant->name}} </span>
+                                </td>
+                                <td class="expand-table">SIZE:{{$item->product_variant->variant}}</td>
+                                <td class="expand-table">QTY:{{$item->qty}}</td>
+                                <td class="expand-table">Rp. {{ \AppHelper::instance()->rupiah($item->price) }}</td>
+                                <td class="expand-table"></td>
+                            </tr>
+                            @endforeach
+                        @endforeach
+                        @foreach ($history->preorder as $order)
+                            <tr>
+                                <th scope="row mb-0">PREORDER: {{$order->invoice}}</th>
+                                <td>{!! date_format(new DateTime($order->created_at),'d M')!!}</td>
+                                <td>{{$order->status}}</td>
+                                <td >Rp. {{ \AppHelper::instance()->rupiah($order->amount) }}</td>
+                                <td><button class="btn btn-outline-dark col-8 float-right" type="button" data-toggle="collapse" data-target="#preorder-{{$order->id}}" aria-expanded="false" aria-controls="preorder-{{$order->id}}">DETAIL</button>
+                                </td>
+                            </tr>
+                            @foreach ($order->orders as $item)
+                                <tr class="collapse" id="preorder-{{$order->id}}">
+                                    <td class="expand-table align-bottom">
+                                        <img src="{{ $item->product_variant->image }}">
+                                        <span class="ml-3 mt-4 float-left">{{$item->product_variant->name}} </span>
+                                    </td>
+                                    <td class="expand-table">SIZE:{{$item->model}}</td>
+                                    <td class="expand-table">QTY:{{$item->qty}}</td>
+                                    <td class="expand-table">Rp. {{ \AppHelper::instance()->rupiah($item->price) }}</td>
+                                    <td class="expand-table"></td>
+                                </tr>
+                            @endforeach
+                        @endforeach
                     </tbody>
                 </table>
             </div>

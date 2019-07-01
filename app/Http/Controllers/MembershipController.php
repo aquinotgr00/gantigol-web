@@ -87,7 +87,10 @@ class MembershipController extends Controller
         $categoryName = 'Setting';
 
         $user = json_decode($user->getBody());
-        return view('frontend.user', compact('user', 'categoryName'));
+
+        $history = $this->client->get('api-ecommerce/order/by-user/'. $user->id);
+        $history = json_decode($history->getBody()->getContents())->data;
+        return view('frontend.user', compact('user', 'history', 'categoryName'));
     }
 
     public function update(Request $request)
