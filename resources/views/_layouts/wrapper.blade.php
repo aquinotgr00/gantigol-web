@@ -625,9 +625,9 @@
                 let weight = 0
                 data.map(item => {
                     if (item.product_variant.product.pre_order === null) {
-                        weight = weight + item.product_variant.product.weight
-                        regularTotal += item.subtotal
                         let qty = item.qty
+                        weight = weight + ( item.product_variant.product.weight * qty )
+                        regularTotal += item.subtotal
                         let stock = item.product_variant.quantity_on_hand
                         let show = qty
                         if (stock === 0) {
