@@ -206,7 +206,7 @@
                             @foreach ($order->orders as $item)
                                 <tr class="collapse" id="preorder-{{$order->id}}">
                                     <td class="expand-table align-bottom">
-                                        <img src="{{ $item->product_variant->image }}">
+                                        <img src="{{ $item->product_variant->product->image }}">
                                         <span class="ml-3 mt-4 float-left">{{$item->product_variant->name}} </span>
                                     </td>
                                     <td class="expand-table">SIZE:{{$item->model}}</td>
