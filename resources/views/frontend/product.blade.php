@@ -28,7 +28,7 @@
 
         <div class="col">
 
-            @if (null != $data->data->pre_order)
+            @if (!is_null($data->data->pre_order))
             <hr class="hr-produk">
             @endif
 
@@ -44,7 +44,7 @@
                     <h2 class="headline-detail d-none d-sm-flex item_name">{{ $data->data->name }}</h2>
                     <h4>Rp. <span>{{ \AppHelper::instance()->rupiah($data->data->price) }}</span></h4>
 
-                    @if (null != $data->data->pre_order)
+                    @if (!is_null($data->data->pre_order))
                         <h5>
                             Tanggal Berakhir
                         </h5>
@@ -62,17 +62,24 @@
                         </p>
                     </div>
                     <br>
-
-                    @if (null != $data->data->pre_order)
-                        @if ($data->data->variants[0]->variant != 'ALL SIZE')
+                    @if (!is_null($data->data->pre_order))
+                    @if ($data->data->variants[0]->variant != 'ALL SIZE')
                             <h5>
                                 PILIH UKURAN
                             </h5>
+                    @else
+                        <h5>
+                            JUMLAH BARANG
+                        </h5>
+                    @endif
                             <div class="row col-9 size">
                                 @foreach ($data->data->variants as $key => $item)
                                     @php $key++ @endphp
                                     <div class="quantity buttons_added @if ($key%2 != 0) kiri @endif">
+
+                                @if ($data->data->variants[0]->variant != 'ALL SIZE')
                                         <span class="ukuran"> {{$item->variant}}</span>
+                                @endif
                                         <input type="button" value="-" class="minus"><input type="number" data-id="{{$item->id}}" step="1" min="0" max="" name="items[{{$item->id}}]" value="0" title="Quantity" class="input-text qty text" size="4"><input type="button" value="+" class="plus">
                                     </div>
                                     @if ($key%2 == 0 && $key != count($data->data->variants))
@@ -83,6 +90,7 @@
                             </div>
                             <label for="preorder" generated="true" class="error invalid-feedback">Silahkan pilih varian produk.</label>
                             <br>
+                            @if ($data->data->variants[0]->variant != 'ALL SIZE')
                             <button type="button" id="sizeChartBtn" data-toggle="modal" data-target="#size_chart_modal" class="btn btn-outline-dark col-8"
                                 @if ($data->data->category->size_chart == null)
                                     disabled
@@ -90,14 +98,14 @@
                                 >
                                 LIHAT TABEL UKURAN
                             </button>
+                            @endif
                             <br>
                             <br>
 
                             <button type="button" class="btn btn-dark col-8 bayar item_add" id="preOrder">
                                 BAYAR
                             </button>
-                        @endif
-                    @elseif (null == $data->data->pre_order)
+                    @elseif (is_null($data->data->pre_order))
                         @if ($data->data->variants[0]->variant != 'ALL SIZE')
                             <h5>
                                 PILIHAN PRODUK 
