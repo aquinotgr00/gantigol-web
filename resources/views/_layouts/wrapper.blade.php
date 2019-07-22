@@ -692,7 +692,7 @@
                 let weight = 0
                 data.map(item => {
                     if (item.product_variant.product.pre_order !== null) {
-                        weight = weight + item.product_variant.product.weight
+                        weight = weight + (item.product_variant.product.weight*item.qty)
                         totalPreOrder += item.subtotal
                         $(
                             `<div id="checkout-item-${item.id}" class="checkout-list-items">` +

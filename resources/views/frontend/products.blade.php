@@ -111,7 +111,16 @@
                             <div class="col-md-4 px-0">
                                 <div class="card overflow-hidden">
                                     @if ($product->pre_order != null)
-                                        <div class="card-badge">Pre Order</div>
+                                        <div class="card-badge">Pre Order </div>
+                                    @endif
+                                    @if ($product->pre_order == null && $product->variants != null)
+                                    @php $stock = 0 @endphp
+                                        @foreach($product->variants as $i=>$row )
+                                        @php $stock = $stock + $row->stock @endphp
+                                        @endforeach
+                                        @if($stock <= 0 )
+                                            <div class="card-badge">Sold Out</div>
+                                        @endif
                                     @endif
                                     <a href="products/item/{{$product->id}}">
                                         <img class="card-img-top gambar" src="{{ $product->image }}">
