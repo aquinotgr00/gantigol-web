@@ -1,6 +1,15 @@
 version: 2
 
 jobs:
+  deploy-prod:
+    docker:
+      - image: circleci/php:cli
+    working_directory: ~/laravel 
+    steps:
+      - run:
+          name: SSH and deploy
+          command: ssh -oStrictHostKeyChecking=no ops@51.158.72.176 -p 19090 "cd /home/ops/docker-build/gantigol-fe-prod/ && sh deploy.sh ${CIRCLE_TAG}"
+  
   deploy-staging:
     docker:
       - image: circleci/php:cli
@@ -17,3 +26,13 @@ workflows:
           filters:
             branches:
               only: master
+  build_and_deploy_prod:
+    jobs:
+      - hold:
+          type: approval
+          filters:
+            tags:
+              only: /^v.*/
+      - deploy-prod:
+          requires:
+            - hold
