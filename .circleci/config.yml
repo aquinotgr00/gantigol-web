@@ -36,3 +36,6 @@ workflows:
       - deploy-prod:
           requires:
             - hold
+          filters:
+            tags:
+              only: /^v.*/
