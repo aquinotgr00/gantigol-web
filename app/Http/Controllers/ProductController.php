@@ -60,11 +60,11 @@ class ProductController extends Controller
         return view('frontend.product', compact('data','related'));
     }
 
-    public function getProducts(Request $request)
+    public function getProducts(Request $request, $category=null)
     {
         $response = $this->client->get('api-product/items');
         $products = json_decode($response->getBody());
-
+        if($request->has('data')){
         $term = $request->data['term'];
         if ($term === 'asc' || $term === 'desc') {
             $response = $this->client->get('api-product/items?price='.$term);
@@ -73,19 +73,41 @@ class ProductController extends Controller
             $response = $this->client->get('api-product/items-latest?limit=999');
             $products = json_decode($response->getBody());
         }
+       }
+        if($request->has('category') && !empty($request->category)){
+           
+            if($request->has('data')){
+            $term = $request->data['term'];
+            if ($term === 'asc' || $term === 'desc') {
+            $response = $this->client->get('api-product/items/category/'.$request->category.'?price='.$term);
+            } else if ($term === 'latest') {
+                $response = $this->client->get('api-product/items/category/'.$request->category.'?latest=desc');
+            } else{
+                 $response = $this->client->get('api-product/items/category/'.$request->category);
+            }
+            $products = json_decode($response->getBody());
 
-        $view = view('frontend.product-ajax',compact('products'))->render();
-        return response()->json(['html'=>$view]);
+            }
+        }
+        $view = view('frontend.product-ajax',compact('products','category'))->render();
+        return response()->json(['html'=>$view,'nextPage'=>$products->next_page_url,'currentPage'=>$products->current_page]);
     }
 
-    public function getNextPageProducts($page)
+    public function getNextPageProducts(Request $request,$page, $category=null)
     {
-        $response = $this->client->get('api-product/items?page='.$page);
+        if($request->has('nextPage')){
+            $response = $this->client->get( str_replace(env('API_URL'),'',$request->nextPage)); 
+        }else{
+            $response = $this->client->get('api-product/items?page='.$page);   
+        }
+        
         $products = json_decode($response->getBody());
-
-        if ($page <= $products->last_page) {
-            $view = view('frontend.product-ajax',compact('products'))->render();
-            return response()->json(['html'=>$view]);
+        if($request->has('category')){
+            $category = $request->category;
+        }
+        if ($products->current_page <= $products->last_page) {
+            $view = view('frontend.product-ajax',compact('products','category'))->render();
+            return response()->json(['html'=>$view,'nextPage'=>$products->next_page_url,'currentPage'=>$products->current_page]);
         }
 
         return response()->json(['html'=>' ']);

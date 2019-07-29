@@ -86,8 +86,8 @@
                             @foreach ($value as $x => $sub)
                                 <div id="collapse-{{$key}}" class="collapse" role="tabpanel" aria-labelledby="heading-{{$key}}" data-parent="#accordionEx">
                                     <div class="card-body">
-                                        <a href="">
-                                            <p class="mb-0">
+                                        <a href="#{{$sub->id}}" class="fiter-category-product" data-category="{{$sub->id}}">
+                                            <p class="mb-0 ">
                                                 {{$sub->name}}
                                             </p>
                                         </a>
@@ -104,11 +104,11 @@
             <!-- Product List -->
             <div class="col-lg-9" id="product-list">
 
-                <div class="card-deck list">
+                <div class="card-deck list" id="sort-deck">
                     @if ($data !== null)
                         @foreach ($data->data as $key => $product)
                             @php $key++ @endphp
-                            <div class="col-md-4 px-0">
+                            <div class="col-md-4 px-0 item-sort" data-price="{{$product->price}}" data-order="{{$product->created_at}}">
                                 <div class="card overflow-hidden">
                                     @if ($product->pre_order != null)
                                         <div class="card-badge">Pre Order </div>
@@ -147,7 +147,7 @@
     <div class="row mt-0">
         <div class="col-md-3"></div>
         <div class="col-md-9 ajax-load card-deck mt-0" style="display:none;">
-            <img class="mx-auto d-block mt-3" style="height: 100px;" src="{{ asset('images\loading\1.gif') }}">
+            <img class="mx-auto d-block mt-3 next-page" style="height: 100px;" src="{{ asset('images\loading\1.gif') }}" data-path="{{$data->next_page_url}}" data-page="{{$data->current_page}}">
         </div>
     </div>
 @endsection
@@ -159,11 +159,18 @@
 
 <script>
     $(document).ready(function () {
+        var nextpage="null"
         $('#sortBy').change(el => {
+            var hash =window.location.hash;
+            var category = null
+            if(hash !=""){
+                category = document.URL.substr(document.URL.indexOf('#')+1);
+            }
             $.get('api/products/index', {
                 data: {
-                    term: $(el.target).val()
+                    term: $(el.target).val(),
                 },
+                category:category,
                 beforeSend: () => {
                     $('#product-list').empty()
                     $('.ajax-load').show()
@@ -171,6 +178,23 @@
             }).done(res => {
                 $('.ajax-load').hide()
                 $('#product-list').append(res.html)
+                $('.next-page').data('path',res.nextPage)
+                $('.next-page').data('page',res.currentPage)
+                htmlSorted($(el.target).val())
+            })
+        })
+        $('.fiter-category-product').on( "click",function(){
+            $.get('api/products/index', {
+                category:$(this).data("category"),
+                beforeSend: () => {
+                    $('#product-list').empty()
+                    $('.ajax-load').show()
+                }
+            }).done(res => {
+                $('.ajax-load').hide()
+                $('#product-list').append(res.html)
+                $('.next-page').data('path',res.nextPage)
+                $('.next-page').data('page',res.currentPage)
             })
         })
         // let height = $(window).height()
@@ -185,16 +209,21 @@
         var page = 1;
         $(window).scroll(function() {
             if($(window).scrollTop() + $(window).height() >= $(document).height()) {
-                page++
+            page = $('.next-page').data('page')
+            if($('.next-page').data('path') !=null){
                 loadMoreData(page)
+            }
             }
         })
 
         function loadMoreData(page){
+            loadNextPage= $('.next-page').data('path')
             $.ajax(
                 {
                     url: 'products/page/' + page,
                     type: 'get',
+                    async:false,
+                    data:{'nextPage':loadNextPage},
                     beforeSend: function()
                     {
                         $('.ajax-load').show()
@@ -202,19 +231,69 @@
                 })
                 .done(function(data)
                 {
-                    if(data.html == " "){
+                    if(data.html == " " ){
                         $('.ajax-load').html("<p class='text-center nomore-products'>Tidak ada produk lagi.</p>")
-                        return;
+                    return;
+                    }
+                    if($('.next-page').data('page') >= data.currentPage){
+                     return;
                     }
                     $('.ajax-load').hide()
                     $('#product-list').append(data.html)
+                    $('.next-page').data('path',data.nextPage)
+                    $('.next-page').data('page',data.currentPage)
+                   
                 })
                 .fail(function(jqXHR, ajaxOptions, thrownError)
                 {
                     alert('server not responding...')
                 }
             )
+
         }
+
+ 
+        function htmlSorted(order){
+            var sorted_items="";
+            var sortHtml="";
+
+              getSorted = function(selector, attrName, order) {
+                  return $(
+                    $(selector).toArray().sort(function(a, b){
+                        var aVal = parseInt(a.getAttribute(attrName)),
+                            bVal = parseInt(b.getAttribute(attrName));
+                            if(sort == 'desc'){
+                                return bVal -  aVal;
+                            }
+                        return aVal - bVal;
+                    })
+                  );
+              };
+            sorting=null;
+            sort = 'asc'
+            if(order=="latest"){
+                sorting = 'data-order' 
+                sort="desc"
+            }
+            if(order=="asc" || order=="desc"){
+                sorting = 'data-price' 
+                if(order ="desc"){
+                    sort= 'desc'
+                }
+            }
+            if(sorting != null){
+                console.log('sorted')
+            sorted_items = getSorted('.item-sort', sorting, sort).clone();
+             $('#product-list').html( ' <div class="card-deck list" id="sort-deck"></div>' );
+            $.each( sorted_items, function( key, value ) {
+                console.log(value)
+              $('#sort-deck').append(value)
+            });
+
+            // $('#product-list').html( ' <div class="card-deck list" id="sort-deck"></div>' );
+            }
+        }
+
     })
 </script>
 @endsection

@@ -14,4 +14,13 @@ class AppHelper
         $rupiah = number_format($price,0,',','.');
         return $rupiah;
     }
+    // public function categoryFilter($categoryId,$category=null){
+    // 	$state=null;
+    // 		if(!empty($category)){
+    // 			if($categoryId != $category){
+    // 				$state = '';
+    // 			}
+    // 		}
+    // 	return $state;
+    // }
 }
