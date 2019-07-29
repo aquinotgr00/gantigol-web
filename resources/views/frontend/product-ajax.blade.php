@@ -14,7 +14,7 @@
                     <a href="#">
                         <h5 class="card-title">{{ $product->name }}</h5>
                     </a>
-                    <p class="card-text">Rp. {{ $product->price }}</p>
+                    <p class="card-text">Rp. {{ \AppHelper::instance()->rupiah($product->price) }}</p>
                 </div>
             </div>
         </div>
