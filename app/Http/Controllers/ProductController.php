@@ -77,17 +77,16 @@ class ProductController extends Controller
         if($request->has('category') && !empty($request->category)){
            
             if($request->has('data')){
-            $term = $request->data['term'];
-            if ($term === 'asc' || $term === 'desc') {
-            $response = $this->client->get('api-product/items/category/'.$request->category.'?price='.$term);
-            } else if ($term === 'latest') {
-                $response = $this->client->get('api-product/items/category/'.$request->category.'?latest=desc');
-            } else{
-                 $response = $this->client->get('api-product/items/category/'.$request->category);
-            }
+                $term = $request->data['term'];
+                if ($term === 'asc' || $term === 'desc') {
+                $response = $this->client->get('api-product/items/category/'.$request->category.'?price='.$term);
+                } else if ($term === 'latest') {
+                    $response = $this->client->get('api-product/items/category/'.$request->category.'?latest=desc');
+                } 
+            }else{
+                     $response = $this->client->get('api-product/items/category/'.$request->category);
+                }
             $products = json_decode($response->getBody());
-
-            }
         }
         $view = view('frontend.product-ajax',compact('products','category'))->render();
         return response()->json(['html'=>$view,'nextPage'=>$products->next_page_url,'currentPage'=>$products->current_page]);
