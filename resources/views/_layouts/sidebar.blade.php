@@ -111,17 +111,17 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card line col-4">
-                        <a href="#">
+                        <a target="_blank" href="https://www.facebook.com/gantigol">
                             <img border="0" alt="W3Schools" src="{{ asset('images\ikuti\1.svg') }}">
                         </a>
                     </div>
                     <div class="card line col-4">
-                        <a href="#">
+                        <a target="_blank" href="https://twitter.com/gantigol">
                             <img border="0" alt="W3Schools" src="{{ asset('images\ikuti\2.svg') }}" >
                         </a>
                     </div>
                     <div class="card line col-4">
-                        <a href="#">
+                        <a target="_blank" href="https://www.instagram.com/gantigol">
                             <img border="0" alt="W3Schools" src="{{ asset('images\ikuti\3.svg') }}">
                         </a>
                     </div>
