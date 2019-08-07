@@ -5559,7 +5559,12 @@ input[type=checkbox]:checked+label:before {
         width: 360px
     }
 }
-
+@media(max-width:420px) {
+   .post iframe{
+    width: auto;
+    height: auto;
+   }
+}
 .slick-next,
 .slick-prev {
     width: 50px;
