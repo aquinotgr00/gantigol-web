@@ -206,16 +206,18 @@
         //         console.log('load the damn thing')
         //     }
         // })
-        var page = 1;
-        $(window).scroll(function() {
-            if($(window).scrollTop() + $(window).height() >= $(document).height()) {
-            page = $('.next-page').data('page')
-            if($('.next-page').data('path') !=null){
-                loadMoreData(page)
-            }
-            }
-        })
-
+        if($('.card-deck').length>3){
+        
+            var page = 1;
+            $(window).scroll(function() {
+                if($(window).scrollTop() + $(window).height() >= $(document).height()) {
+                page = $('.next-page').data('page')
+                if($('.next-page').data('path') !=null){
+                    loadMoreData(page)
+                }
+                }
+            })
+        }
         function loadMoreData(page){
             loadNextPage= $('.next-page').data('path')
             $.ajax(
