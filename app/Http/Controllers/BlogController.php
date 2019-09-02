@@ -22,16 +22,21 @@ class BlogController extends Controller
     }
     
     public function post(Request $request, $id = null)
-    {
+    {   
         if ($request->is('blog/formasi')) {
-            $id = 7;
+            $categoryPost = 'FORMASI';
         } else if ($request->is('blog/statistik')) {
-            $id = 14;
+            $categoryPost = 'STATISTIK';
         } else if ($request->is('blog/taktik')) {
-            $id = 15;
+            $categoryPost = 'TAKTIK';
+        }
+        if($id ==null){
+             $responseCategory = $this->client->get('api/blogs/post/category/'.$categoryPost.'/1');
+             $postCategory = json_decode($responseCategory->getBody());
+            $id=$postCategory->post->data[0]->id;
         }
         $response = $this->client->get('api/blogs/post/'.$id);
-        $data = json_decode($response->getBody());
+         $data = json_decode($response->getBody());
         if (isset($data->blog)) {
             $data = $data->blog;
             $sameCategoryPosts = $this->client->get('api/blogs/post/category/'.$data->category_name.'/9');
