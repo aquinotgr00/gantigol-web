@@ -58,7 +58,7 @@
         
             <b>Customer service:</b> <br />
             Phone: +62 129 209 291<br />
-            E-mail: <a class="email-link" href="mailto:support@mysite.com">support@gantigol.com</a><br />
+            E-mail: <a class="email-link" href="mailto:support@mysite.com">support@<a href="http://gantigol.com">gantigol.com</a></a><br />
 
             <br /><br />
 
@@ -67,7 +67,7 @@
             Jl. Imogiri Timur no 192-194, RT 31 RW 11, Giwangan, <br />
             Umbulharjo, Yogyakarta<br />
             Phone: +62 145 000 101<br />
-            E-mail: <a class="email-link" href="mailto:usa@mysite.com">kami@gantigol.com</a><br />
+            E-mail: <a class="email-link" href="mailto:usa@mysite.com">kami@<a href="http://gantigol.com">gantigol.com</a></a><br />
 
             <br /><br />
 
@@ -75,7 +75,7 @@
             Jl. Kemang Timur No.21, </b><br />
             Jakarta Selatan<br />
             Phone: +62 52 129 209 291<br />
-            E-mail: <a class="email-link" href="mailto:hk@mysite.com">admin@gantigol.com</a><br />
+            E-mail: <a class="email-link" href="mailto:hk@mysite.com">admin@<a href="http://gantigol.com">gantigol.com</a></a><br />
 
         @elseif (Request::segment(1) == 'faq')
         <div id="faq-page">
@@ -157,8 +157,8 @@
             <p>
                 <h4>Terms & Condition</h4></p>
             <p><b>Transaksi dan Konfirmasi Tagihan</b>
-                <br> Produk yang dibeli melalui gantigol.com akan berstatus diketahui ketika pembeli menerima email konfirmasi tagihan dari gantigolsepakbola@gmail.com berupa daftar produk yang dibeli, kuantitas dan total harga yang harus anda bayar termasuk ongkos kirim. Pembayaran atas tagihan pembeli dapat dilakukan melalui transfer rekening bank, kartu kredit atau paypal yang ada di halaman checkout page gantigol.com.
-                <br> Jumlah yang harus dibayar adalah sebesar yang tertera di total tagihan dan admin gantigol.com tidak akan memproses pengiriman sebelum ada konfirmasi pembayaran dari bank dan/atau payment gateway.
+                <br> Produk yang dibeli melalui <a href="http://gantigol.com">gantigol.com</a> akan berstatus diketahui ketika pembeli menerima email konfirmasi tagihan dari gantigolsepakbola@gmail.com berupa daftar produk yang dibeli, kuantitas dan total harga yang harus anda bayar termasuk ongkos kirim. Pembayaran atas tagihan pembeli dapat dilakukan melalui transfer rekening bank, kartu kredit atau paypal yang ada di halaman checkout page <a href="http://gantigol.com">gantigol.com</a>.
+                <br> Jumlah yang harus dibayar adalah sebesar yang tertera di total tagihan dan admin <a href="http://gantigol.com">gantigol.com</a> tidak akan memproses pengiriman sebelum ada konfirmasi pembayaran dari bank dan/atau payment gateway.
 Semua informasi lebih lanjut dapat langsung ditanyakan ke staf kami melalui email ke gantigolsepakbola@gmail.com.
             </p>
             <p>
@@ -168,35 +168,35 @@ Semua informasi lebih lanjut dapat langsung ditanyakan ke staf kami melalui emai
             <p>
                 <b>Pembayaran melalui transfer bank</b>
                 <br>  
-                Pembayaran atas konfirmasi tagihan dapat dilakukan melalui transfer rekening bank yang ada di halaman checkout page gantigol.com dan pastikan pembeli mengklik link konfirmasi pembayaran yang ada di email konfirmasi tagihan dan mengisi datanya.
-                Setelah melakukan pembayaran melalui transfer bank, pembeli harus melakukan konfirmasi dengan mengisi data konfirmasi pembayaran melalui link yang tersedia di email konfirmasi tagihan, yang secara otomatis memberi notifikasi kepada admin gantigol.com telah terjadi pembayaran atas nomor tagihan tertentu.
+                Pembayaran atas konfirmasi tagihan dapat dilakukan melalui transfer rekening bank yang ada di halaman checkout page <a href="http://gantigol.com">gantigol.com</a> dan pastikan pembeli mengklik link konfirmasi pembayaran yang ada di email konfirmasi tagihan dan mengisi datanya.
+                Setelah melakukan pembayaran melalui transfer bank, pembeli harus melakukan konfirmasi dengan mengisi data konfirmasi pembayaran melalui link yang tersedia di email konfirmasi tagihan, yang secara otomatis memberi notifikasi kepada admin <a href="http://gantigol.com">gantigol.com</a> telah terjadi pembayaran atas nomor tagihan tertentu.
             </p>
             <p>
                 <br> <b>Pembayaran dengan kartu kredit Visa / Master Card </b>
-                <br> Pembayaran dengan kartu kredit Visa / Master Card mengikuti prosedur yang diberikan oleh payment gateway yang kita tunjuk, pembeli akan dihubungkan ke halaman pembayaran kartu kredit jika pembeli memilih pembayaran dengan kartu kredit di checkout page gantigol.com. Dengan sendirinya, pembeli tunduk pada prosedur dan aturan yang ditetapkan oleh payment gateway.
+                <br> Pembayaran dengan kartu kredit Visa / Master Card mengikuti prosedur yang diberikan oleh payment gateway yang kita tunjuk, pembeli akan dihubungkan ke halaman pembayaran kartu kredit jika pembeli memilih pembayaran dengan kartu kredit di checkout page <a href="http://gantigol.com">gantigol.com</a>. Dengan sendirinya, pembeli tunduk pada prosedur dan aturan yang ditetapkan oleh payment gateway.
             </p>
             <p>
                 <br> <b>Pengiriman</b>
-                <br>  Dalam 1 x 24 jam setelah admin gantigol.com menerima dan memeriksa ulang konfirmasi pembayaran dari bank dan/atau payment gateway, akan melakukan proses pengemasan dan pengiriman produk yang dibeli.
+                <br>  Dalam 1 x 24 jam setelah admin <a href="http://gantigol.com">gantigol.com</a> menerima dan memeriksa ulang konfirmasi pembayaran dari bank dan/atau payment gateway, akan melakukan proses pengemasan dan pengiriman produk yang dibeli.
                     Pengiriman dilayani pada hari Senin sampai Sabtu, jika konfirmasi diterima pada hari Sabtu setelah pukul 13:00 WIB, maka pengiriman dilakukan pada hari Senin setelahnya.
-                <br> Biaya pengiriman dikenakan sepenuhnya pada pembeli. Mekanisme biaya dan layanan pengiriman diserahkan sepenuhnya pada jasa kurir yang ditunjuk oleh gantigol.com untuk melakukan pengiriman.
+                <br> Biaya pengiriman dikenakan sepenuhnya pada pembeli. Mekanisme biaya dan layanan pengiriman diserahkan sepenuhnya pada jasa kurir yang ditunjuk oleh <a href="http://gantigol.com">gantigol.com</a> untuk melakukan pengiriman.
                 <br> Dengan sendirinya, pembeli tunduk pada prosedur dan aturan yang ditetapkan oleh jasa kurir yang digunakan.
                 Jasa kurir yang digunakan adalah JNE OKE Service untuk pengiriman dalam wilayah Indonesia.
             </p>
             <p>
                 <br><b>Sangkalan dan Penolakan</b>
-                <br> gantigol.com berhak menolak dan tidak memproses pesanan jika tidak ada konfirmasi pembayaran dari bank dan/atau payment gateway yang ditunjuk.
-                <br> gantigol.com tidak bertanggungjawab atas kesalahan masukan data pribadi dan alamat pada halaman checkout yang mengakibatkan pengiriman tidak sampai ke alamat pembeli.
-                <br> gantigol.com tidak bertanggungjawab atas kerusakan barang yang diakibatkan oleh jasa pengiriman. Pembeli sebaiknya melakukan pemeriksaan atas kemasan pada saat barang diterima.
-                <br> gantigol.com tidak bertanggungjawab atas kesalahan dan pembayaran, dan segala penyalahgunaan dan kejahatan sistem pembayaran apapun. Dan jika terjadi hal yang sedimikian, akan diproses dengan hukum yang berlaku di Republik Indonesia.
+                <br> <a href="http://gantigol.com">gantigol.com</a> berhak menolak dan tidak memproses pesanan jika tidak ada konfirmasi pembayaran dari bank dan/atau payment gateway yang ditunjuk.
+                <br> <a href="http://gantigol.com">gantigol.com</a> tidak bertanggungjawab atas kesalahan masukan data pribadi dan alamat pada halaman checkout yang mengakibatkan pengiriman tidak sampai ke alamat pembeli.
+                <br> <a href="http://gantigol.com">gantigol.com</a> tidak bertanggungjawab atas kerusakan barang yang diakibatkan oleh jasa pengiriman. Pembeli sebaiknya melakukan pemeriksaan atas kemasan pada saat barang diterima.
+                <br> <a href="http://gantigol.com">gantigol.com</a> tidak bertanggungjawab atas kesalahan dan pembayaran, dan segala penyalahgunaan dan kejahatan sistem pembayaran apapun. Dan jika terjadi hal yang sedimikian, akan diproses dengan hukum yang berlaku di Republik Indonesia.
             </p>
             <p>
                 <br><b>Privacy Policy</b>
             </p>
             <p>
                 <b>Privasi dan Keamanan</b>
-                <br> gantigol.com menjamin keamanan dan kerahasiaan data pribadi yang digunakan untuk pembelian di gantigol.com, dan tidak akan digunakan untuk keperluan yang lain.
-                <br> Segala sesuatu tantang syarat dan ketentuan ini dapat berubah sewaktu-waktu, dan admin gantigol.com dianggap sudah melakukan pemberitahuan jika sudah terunggah di gantigol.com.
+                <br> <a href="http://gantigol.com">gantigol.com</a> menjamin keamanan dan kerahasiaan data pribadi yang digunakan untuk pembelian di <a href="http://gantigol.com">gantigol.com</a>, dan tidak akan digunakan untuk keperluan yang lain.
+                <br> Segala sesuatu tantang syarat dan ketentuan ini dapat berubah sewaktu-waktu, dan admin <a href="http://gantigol.com">gantigol.com</a> dianggap sudah melakukan pemberitahuan jika sudah terunggah di <a href="http://gantigol.com">gantigol.com</a>.
             </p>
         </div>
         @endif
