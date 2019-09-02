@@ -742,10 +742,14 @@
             @endif
 
             function appendToCart(item) {
+                if(item.product_variant.product.pre_order === null)
+                {
+                   
                 let qty = item.qty
                 let stock = item.product_variant.quantity_on_hand
                 if (stock === 0) {
                     qty = '<b class="text-danger text-uppercase">Stok Habis</b>'
+
                 }
                 else if (stock - qty < 0) {
                     qty = '<b class="text-danger text-uppercase">Stok Limit</b>'
@@ -776,6 +780,7 @@
                     '</li>'
                 ).appendTo('#cart-wrapper')
                 $(`#cart-item-${item.id}`).clone().appendTo("#mobile-cart-wrapper")
+            }
             }
 
             function placeCartItems(data) {

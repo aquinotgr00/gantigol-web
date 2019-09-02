@@ -237,7 +237,7 @@
                             <div class="form-group">
                                 <input type="number" name="weight" id="weight" class="d-none">
                                 <select class="gantigoal-select" name="courier_type" id="courier_type" disabled>
-                                    <option value=0>Jenis pengiriman</option>
+                                    <option value=0 id="#findoptiontype">Jenis pengiriman</option>
                                 </select>
                                 <label for="courier_type" generated="true" class="error invalid-feedback"></label>
                             </div>
@@ -290,7 +290,7 @@
                         </div>
                     </div>
                 </div>
-                <button class="btn btn-dark col-12 bayar">BAYAR</button>
+                <button class="btn btn-dark col-12 bayar" disabled>BAYAR</button>
             </div>
         </div>
     </div>
@@ -366,6 +366,7 @@
                 url: '/api/carts/courier-cost/'+ id + '/' + courier + '/' + weight,
                 type: 'GET',
                 success: res => {
+                    $('#courier_type').empty().append(new Option("Jenis pengiriman", 0))
                     res.map(item => {
                         $('#courier_type').append(new Option(item.service, item.cost[0].value))
                     })
@@ -383,6 +384,7 @@
             } else if (all < discount) {
                 $('.total_price_text').html(formatRupiah(0))
             }
+
         }
 
         if ($('#subdistrict_text').val() != '' && $('#subdistrict_value').val() == '') {
@@ -443,7 +445,8 @@
 
         $('#courier').change(() => {
             $('#courier_type').attr('disabled', true)
-            $('#courier_type').empty().append(new Option("Jenis pengiriman", 0))
+            $('#findoptiontype').html('loading courier')
+             $('#courier_type').empty().append(new Option("Loading ...", 0))
             $('.courier_fee').html(formatRupiah($('#courier_type').val()))
             updateTotalCheckout()
             if ($('#courier').val() !== 'null') {
@@ -454,6 +457,10 @@
                 let subdistrict_id = $('#subdistrict_value').val()
                 getCourierCost(subdistrict_id, courier)
                 $('#courier_type').attr('disabled', false)
+            }
+            if ($('#courier').val() === "null") {
+                $('#courier_type').empty().append(new Option("Jenis pengiriman", 0))
+                $('.bayar').attr('disabled', true)
             }
         })
 
@@ -469,19 +476,26 @@
         })
 
         $('#courier_type').change(() => {
+            $('.bayar').attr('disabled', true)
+            if ($('#courier_type').val() >0) {
+                $('.bayar').attr('disabled', false)
+            }
             $('.courier_fee').html(formatRupiah($('#courier_type').val()))
             $('input[name=cost]').val($('#courier_type').val())
             updateTotalCheckout()
         })
 
         $('.bayar').click(evt => {
+            $('.bayar').attr('disabled', true)
             evt.preventDefault()
             if (!$('#shipping-form').valid()) { // Not Valid
+                $('.bayar').attr('disabled', false)
                 return;
             }
             if ($('#courier').val() === 'null' || $('#courier_type').val() === 'null') {
                 $('#courier').addClass('is-invalid');
                 $('label[for=courier]').css('display', 'block')
+                $('.bayar').attr('disabled', false)
                 return;
             }
             let isLimit = false
@@ -491,8 +505,10 @@
                 }
             })
             if (isLimit) {
+                $('.bayar').attr('disabled', false)
                 return;
             }
+
             $('#shipping-form').submit()
         })
 
