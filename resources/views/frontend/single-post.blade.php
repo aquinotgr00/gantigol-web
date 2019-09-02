@@ -230,3 +230,15 @@
     @include('_layouts.sidebar')
 </div>
 @endsection
+@section('script')
+<script type="text/javascript">
+if($(".instagram-media").length) {
+    var tag = document.createElement('script');
+    tag.src = "//www.instagram.com/embed.js";
+    tag.defer = true;
+    tag.async = true;
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+}
+</script>
+@endsection
