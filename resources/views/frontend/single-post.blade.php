@@ -9,7 +9,7 @@
     <meta name="twitter:image:src" content="{{ $data->image ?? asset('images\post\1.jpg') }}" >
 
     <!-- facebook -->
-    <meta property="og:url" content="{{env('APP_URL')}}blog/post/{{$data->id}}" />
+    <meta property="og:url" content="{{env('APP_URL')}}/blog/post/{{$data->id}}" />
     <meta property="og:type" content="article" />
     <meta property="og:title" content="{{ $data->title }}" />
     <meta property="og:image" content="{{ $data->image ?? asset('images\post\1.jpg') }}" />
