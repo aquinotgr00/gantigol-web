@@ -160,6 +160,7 @@
 <script>
     $(document).ready(function () {
         var nextpage="null"
+        var loadProduct =""
         $('#sortBy').change(el => {
             var hash =window.location.hash;
             var category = null
@@ -206,7 +207,7 @@
         //         console.log('load the damn thing')
         //     }
         // })
-        if($('.card-deck').length>3){
+        if(loadProduct ==""){
         
             var page = 1;
             $(window).scroll(function() {
@@ -248,7 +249,7 @@
                 })
                 .fail(function(jqXHR, ajaxOptions, thrownError)
                 {
-                    alert('server not responding...')
+                    loadProduct = "failed"
                 }
             )
 
