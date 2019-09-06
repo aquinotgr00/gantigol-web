@@ -237,7 +237,7 @@
             </div>
             
             <div class="hidden-lg hidden-md">
-                <h6><a href="{{route('blog.statistik')}}">STATISTIK</a></h6>
+                <h6><a href="{{route('blog.glosarium')}}">STATISTIK</a></h6>
                 
             </div>
             
