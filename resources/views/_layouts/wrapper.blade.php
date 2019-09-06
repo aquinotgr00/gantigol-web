@@ -33,15 +33,18 @@
         <div class="container">
             <ul class="nav navbar-nav pull-sm-left ">
                 <li class="nav-item wiki">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">WIKI BOLA</a>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">WIKI</a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="{{route('blog.formasi')}}">FORMASI</a>
-                        <a class="dropdown-item" href="{{route('blog.statistik')}}">STATISTIK</a>
+                        <a class="dropdown-item" href="{{route('blog.statistik')}}">GLOSARIUM</a>
                         <a class="dropdown-item" href="{{route('blog.taktik')}}">TAKTIK</a>
+                        <a class="dropdown-item" href="{{route('blog.formasi')}}">FORMASI</a>
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('blog.category', 'game') }}">GAME</a>
+                    <a class="nav-link" href="{{ route('blog.category', 'laga') }}">LAGA</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('blog.category', 'klub') }}">KLUB</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('blog.category', 'tokoh') }}">TOKOH</a>

@@ -25,8 +25,8 @@ class BlogController extends Controller
     {   
         if ($request->is('blog/formasi')) {
             $categoryPost = 'FORMASI';
-        } else if ($request->is('blog/statistik')) {
-            $categoryPost = 'STATISTIK';
+        } else if ($request->is('blog/glosarium')) {
+            $categoryPost = 'GLOSARIUM';
         } else if ($request->is('blog/taktik')) {
             $categoryPost = 'TAKTIK';
         }

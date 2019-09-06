@@ -20,13 +20,13 @@ class HomeController extends Controller
 
     public function index()
     {
-        $bola = $this->client->get('api/blogs/post/category/bola/3');
+        $bola = $this->client->get('api/blogs/post/category/laga/3');
         $bola = json_decode($bola->getBody());
 
         $klub = $this->client->get('api/blogs/post/category/klub/3');
         $klub = json_decode($klub->getBody());
 
-        $man = $this->client->get('api/blogs/post/category/man/3');
+        $man = $this->client->get('api/blogs/post/category/tokoh/3');
         $man = json_decode($man->getBody());
 
         $banners = $this->client->get('api/banners/banner/home/3');
